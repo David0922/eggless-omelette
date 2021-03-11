@@ -1,0 +1,30 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# vagrantfile api/syntax version
+# don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+$VM_NAME = 'devbox'
+
+Vagrant.configure("2") do |config|
+  config.vm.define "#{$VM_NAME}" do |devbox|
+    # ubuntu 20.04 LTS
+    devbox.vm.box = "ubuntu/focal64"
+
+    devbox.vm.network "private_network", type: "dhcp"
+    # devbox.vm.network "forwarded_port", guest: 8080, host: 8080
+
+    devbox.vm.hostname = "runtime"
+
+    # share folder with guest vm
+    # devbox.vm.synced_folder "/david/tmp/vagrant", "/tmp"
+
+    devbox.vm.provider "virtualbox" do |v|
+      v.cpus = 4
+      v.memory = 4096
+    end
+
+    devbox.vm.network "public_network", bridge: "enp7s0"
+  end
+end
