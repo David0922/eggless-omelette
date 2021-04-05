@@ -25,6 +25,10 @@ Vagrant.configure("2") do |config|
       v.memory = 4096
     end
 
+    devbox.vm.synced_folder "/david/projects", "/david/projects", type: "nfs"
+    devbox.vm.synced_folder "/david/settings", "/david/settings", type: "nfs"
+    devbox.vm.synced_folder "/david/tmp", "/david/tmp", type: "nfs"
+
     devbox.vm.network "public_network", bridge: "enp7s0"
   end
 end
