@@ -1,4 +1,6 @@
 .vagrant
 .vscode
+dist
+node_modules
 output-*
 packer_cache
