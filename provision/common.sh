@@ -21,9 +21,9 @@ alias k=microk8s.kubectl
 alias kubectl=microk8s.kubectl
 alias k-all='microk8s.kubectl get all --all-namespaces'
 
-alias tmux='tmux -f /david/settings/tmux.conf'
-alias tma='tmux a -t'
-alias tmn='tmux new -s'
+# alias tmux='tmux -f /david/settings/tmux.conf'
+# alias tma='tmux a -t'
+# alias tmn='tmux new -s'
 
 if [ "$PWD" = "$HOME" ] || [ "$PWD" = "$HOME/david" ]; then
   cd /david

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# usage: sh -c "$(curl -fsSL https://raw.github.com/david0922/hello-world/master/provision/provision-dev-server.sh)"
+# usage: bash -c "$(curl -fsSL https://raw.github.com/david0922/hello-world/master/provision/provision-dev-server.sh)"
 
 set -e -x
 
@@ -12,7 +12,7 @@ UPDATE='sudo apt-get update -qq'
 DAVID=/david
 BIN=$DAVID/bin
 
-mkdir -p $DAVID
+sudo mkdir -p $DAVID
 sudo chown $USER $DAVID
 
 mkdir -p \
@@ -23,7 +23,7 @@ mkdir -p \
 
 cd $DAVID/downloads
 
-wget https://raw.github.com/david0922/hello-world/master/provision/common.sh $DAVID/settings
+wget https://raw.github.com/david0922/hello-world/master/provision/common.sh -O $DAVID/settings/common.sh
 
 $UPDATE
 sudo apt-get upgrade -y
@@ -174,12 +174,6 @@ sudo ufw allow 5432
 sudo systemctl enable postgresql.service
 sudo systemctl restart postgresql.service
 
-# zsh
-
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-sed -i 's/ZSH_THEME="\(.*\)"/ZSH_THEME="eastwood"/' ~/.zshrc
-printf 'source /david/settings/common.sh' >> ~/.zshrc
-
 # clean up
 
 $UPDATE
@@ -190,3 +184,4 @@ sudo apt-get -y autoclean
 sudo apt-get -y autoremove
 
 echo 'done!'
+echo 'manually configure: zsh'

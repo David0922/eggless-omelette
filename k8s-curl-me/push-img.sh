@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# microk8s local registry
 REGISTRY='localhost:32000'
 
 docker build -t curl-me .
