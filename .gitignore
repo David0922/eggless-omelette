@@ -3,4 +3,5 @@
 dist
 node_modules
 output-*
+package-lock.json
 packer_cache
