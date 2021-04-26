@@ -1,0 +1,12 @@
+{
+  "name": "vanilla-ts",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "rm -rf ./js && npx tsc",
+    "start": "busybox httpd -f -h . -p 0.0.0.0:8080 -v"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  }
+}
