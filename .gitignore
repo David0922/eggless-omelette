@@ -1,6 +1,8 @@
 .vagrant
 .vscode
+db.config
 dist
+go.sum
 node_modules
 output-*
 package-lock.json
