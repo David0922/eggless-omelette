@@ -8,3 +8,4 @@ output-*
 package-lock.json
 packer_cache
 vanilla-ts/js
+yarn.lock

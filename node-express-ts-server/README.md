@@ -3,17 +3,18 @@
 ```bash
 cd PROJ_DIR
 
-npm init -y
-npx tsc --init
+yarn init -y
 
-npm install express
+yarn add express
 
-npm install -D \
+yarn add --dev \
   @types/express \
   @types/node \
   nodemon \
   ts-node \
   typescript
+
+npx tsc --init
 ```
 
 #### tsconfig.json
