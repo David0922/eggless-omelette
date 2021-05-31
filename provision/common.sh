@@ -8,6 +8,7 @@ alias cls=clear
 alias cpp='g++ -Wall -Wextra -Werror -std=c++20 -pedantic'
 alias diff=colordiff
 alias grep='grep --color=always'
+alias json=jq
 alias less='less -r'
 alias ll='ls -aFhl --color=always'
 alias lsl='ls -aFhl --color=always | less -r'
@@ -21,9 +22,12 @@ alias k=microk8s.kubectl
 alias kubectl=microk8s.kubectl
 alias k-all='microk8s.kubectl get all --all-namespaces'
 
-# alias tmux='tmux -f /david/settings/tmux.conf'
-# alias tma='tmux a -t'
-# alias tmn='tmux new -s'
+alias tmux='tmux -f /david/settings/tmux.conf'
+alias tma='tmux a -t'
+alias tmn='tmux new -s'
+
+# alias vagrant-destroy='vagrant destroy -f'
+# alias vagrant-status='vagrant global-status --prune'
 
 if [ "$PWD" = "$HOME" ] || [ "$PWD" = "$HOME/david" ]; then
   cd /david
@@ -50,3 +54,5 @@ export PATH=$PATH:$BIN/rbenv/bin
 export PATH=$PATH:$BIN/rbenv/plugins/ruby-build/bin
 
 eval "$(rbenv init -)"
+
+alias rb=irb

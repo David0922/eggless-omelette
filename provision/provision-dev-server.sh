@@ -12,23 +12,41 @@ UPDATE='sudo apt-get update -qq'
 DAVID=/david
 BIN=$DAVID/bin
 
-sudo mkdir -p $DAVID
+sudo rm -rf $DAVID $BIN $DAVID/downloads $DAVID/settings $DAVID/tmp || true
+
+sudo mkdir $DAVID
 sudo chown $USER $DAVID
 
-mkdir -p \
+mkdir \
   $BIN \
   $DAVID/downloads \
   $DAVID/settings \
   $DAVID/tmp
 
+export PATH=$PATH:$BIN
+
 cd $DAVID/downloads
 
 wget https://raw.github.com/david0922/hello-world/master/provision/common.sh -O $DAVID/settings/common.sh
 
-$UPDATE
-sudo apt-get upgrade -y
+wget https://raw.github.com/david0922/hello-world/master/provision/tmux.conf -O $DAVID/settings/tmux.conf
 
-$INSTALL
+printf "source $DAVID/settings/common.sh" | tee -a $HOME/.bashrc
+
+$UPDATE
+sudo apt-get upgrade -qq
+
+# enable ssh password authentication
+
+sudo sed -i 's/.*AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config
+sudo sed -i 's/.*GatewayPorts.*/GatewayPorts yes/' /etc/ssh/sshd_config
+sudo sed -i 's/.*PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sudo sed -i 's/.*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+sudo systemctl reload sshd
+
+# set root pw
+printf "0000\n0000\n" | sudo passwd root
 
 # essentials
 
@@ -37,19 +55,50 @@ $INSTALL \
   busybox \
   colordiff \
   curl \
+  ethtool \
   git \
+  hping3 \
   htop \
+  iproute2 \
+  iputils-ping \
+  jq \
   make \
   net-tools \
+  openjdk-11-jdk \
   python3-pip \
   python3.8 \
   screenfetch \
+  sshfs \
   tmux \
   tree \
   vim \
   virtualenv \
   wget \
   zsh
+
+# clang & llvm
+
+# https://apt.llvm.org/
+
+$INSTALL gnupg lsb-release software-properties-common
+
+$UPDATE
+
+wget https://apt.llvm.org/llvm.sh
+chmod +x llvm.sh
+sudo ./llvm.sh 12
+
+$INSTALL clang-format-12
+
+sudo mv /usr/bin/readelf /usr/bin/readelf_old || true
+
+sudo rm -rf /usr/bin/clang /usr/bin/clang++ /usr/bin/llc /usr/bin/readelf /usr/bin/clang-format || true
+
+sudo ln -s /usr/bin/clang-12 /usr/bin/clang
+sudo ln -s /usr/bin/clang++-12 /usr/bin/clang++
+sudo ln -s /usr/lib/llvm-12/bin/llc /usr/bin/llc
+sudo ln -s /usr/lib/llvm-12/bin/llvm-readelf /usr/bin/readelf
+sudo ln -s /usr/bin/clang-format-12 /usr/bin/clang-format
 
 # docker
 
@@ -71,13 +120,45 @@ $INSTALL docker-ce docker-ce-cli containerd.io
 sudo groupadd docker || true
 sudo usermod -aG docker $USER
 
+# ebpf
+
+if false; then
+  $INSTALL \
+    bpfcc-tools \
+    build-essential \
+    gcc-multilib \
+    libelf-dev \
+    linux-headers-$(uname -r) \
+    strace
+
+  git clone --depth 1 git://kernel.ubuntu.com/ubuntu/ubuntu-focal.git
+
+  sudo mv ubuntu-focal /kernel-src
+
+  cd /kernel-src/tools/lib/bpf
+  make && make install prefix=/usr/local
+fi
+
+# gcloud
+
+# https://cloud.google.com/sdk/docs/downloads-interactive
+# requires python
+
+curl https://sdk.cloud.google.com > install.sh
+bash install.sh --disable-prompts --install-dir=$BIN
+
+ln -s $BIN/google-cloud-sdk/bin/gcloud $BIN/gcloud
+
+# gcloud -q components install kubectl
+# ln -s $BIN/google-cloud-sdk/bin/kubectl $BIN/kubectl
+
 # git
 
 git config --global color.ui true
 
 # go
 
-GO_VER=1.16.2
+GO_VER=1.16.4
 OS=linux
 ARCH=amd64
 GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
@@ -85,11 +166,24 @@ GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 curl -O https://dl.google.com/go/$GO_TAR
 tar --no-same-owner -xzf $GO_TAR -C $BIN
 
+# microk8s
+
+sudo snap install microk8s --classic
+
+sudo usermod -aG microk8s $USER
+sudo chown -f -R $USER ~/.kube || true
+
+sudo microk8s stop
+
 # nodejs
 
-curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -
-
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 $INSTALL nodejs
+
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+$UPDATE
+$INSTALL yarn
 
 # python
 
@@ -134,54 +228,58 @@ rbenv rehash
 
 # MongoDB
 
-$INSTALL gnupg
+if false; then
+  $INSTALL gnupg
 
-wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+  wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
-$UPDATE
+  $UPDATE
 
-$INSTALL mongodb-org
+  $INSTALL mongodb-org
 
-sudo systemctl start mongod
+  sudo systemctl start mongod
 
-sudo sed -i 's/bindIp: "\(.*\)"/bindIp: "0.0.0.0"/' /etc/mongod.conf
+  sudo sed -i 's/bindIp: "\(.*\)"/bindIp: "0.0.0.0"/' /etc/mongod.conf
 
-sudo ufw allow 27017
+  sudo ufw allow 27017
 
-sudo systemctl enable mongod
-sudo systemctl restart mongod
+  sudo systemctl enable mongod
+  sudo systemctl restart mongod
+fi
 
 # PostgreSQL
 
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+if false; then
+  sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
-$UPDATE
+  $UPDATE
 
-$INSTALL postgresql-13
+  $INSTALL postgresql-13
 
-printf "listen_addresses = '*'" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
+  printf "listen_addresses = '*'" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
 
-printf "ALTER USER postgres with encrypted password '0000';\n\\q" | sudo -u postgres psql
+  printf "ALTER USER postgres with encrypted password '0000';\n\\q" | sudo -u postgres psql
 
-printf 'host all all 0.0.0.0/0 md5' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
+  printf 'host all all 0.0.0.0/0 md5' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
 
-sudo ufw allow 5432
+  sudo ufw allow 5432
 
-sudo systemctl enable postgresql.service
-sudo systemctl restart postgresql.service
+  sudo systemctl enable postgresql.service
+  sudo systemctl restart postgresql.service
+fi
 
 # clean up
 
 $UPDATE
-sudo apt-get -y upgrade
+sudo apt-get upgrade -qq
 
-sudo apt-get -y clean
-sudo apt-get -y autoclean
-sudo apt-get -y autoremove
+sudo apt-get clean -qq
+sudo apt-get autoclean -qq
+sudo apt-get autoremove -qq
 
 echo 'done!'
-echo 'manually configure: zsh'
+echo 'manually configure: git rsa, zsh'
