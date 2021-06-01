@@ -65,9 +65,11 @@ $INSTALL \
   make \
   net-tools \
   openjdk-11-jdk \
+  openssl \
   python3-pip \
   python3.8 \
   screenfetch \
+  sipcalc \
   sshfs \
   tmux \
   tree \
