@@ -53,6 +53,6 @@ spec:
     # nodePort:   a static port assigned on each node
     # port:       port exposed internally in the ClusterIP
     # targetPort: the container port to send requests to
-    - nodePort: 30001
-      port: 3002
+    - nodePort: 30001 # curl HOST_IP:nodePort
+      port: 3000 # curl CLUSTER_IP:port
       targetPort: 8080

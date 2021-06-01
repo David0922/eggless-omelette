@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e -x
+
 # microk8s local registry
 REGISTRY='localhost:32000'
 
