@@ -228,49 +228,47 @@ rbenv rehash
 
 # MongoDB
 
-if false; then
-  $INSTALL gnupg
+$INSTALL gnupg
 
-  wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 
-  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
-  $UPDATE
+$UPDATE
 
-  $INSTALL mongodb-org
+$INSTALL mongodb-org
 
-  sudo systemctl start mongod
+sudo systemctl start mongod
 
-  sudo sed -i 's/bindIp: "\(.*\)"/bindIp: "0.0.0.0"/' /etc/mongod.conf
+sudo sed -i 's/bindIp: "\(.*\)"/bindIp: "0.0.0.0"/' /etc/mongod.conf
 
-  sudo ufw allow 27017
+sudo ufw allow 27017
 
-  sudo systemctl enable mongod
-  sudo systemctl restart mongod
-fi
+# sudo systemctl enable mongod
+# sudo systemctl restart mongod
+sudo systemctl stop mongod
 
 # PostgreSQL
 
-if false; then
-  sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
-  $UPDATE
+$UPDATE
 
-  $INSTALL postgresql-13
+$INSTALL postgresql-13
 
-  printf "listen_addresses = '*'" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
+printf "listen_addresses = '*'" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
 
-  printf "ALTER USER postgres with encrypted password '0000';\n\\q" | sudo -u postgres psql
+printf "ALTER USER postgres with encrypted password '0000';\n\\q" | sudo -u postgres psql
 
-  printf 'host all all 0.0.0.0/0 md5' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
+printf 'host all all 0.0.0.0/0 md5' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
 
-  sudo ufw allow 5432
+sudo ufw allow 5432
 
-  sudo systemctl enable postgresql.service
-  sudo systemctl restart postgresql.service
-fi
+# sudo systemctl enable postgresql.service
+# sudo systemctl restart postgresql.service
+sudo systemctl stop postgresql.service
 
 # clean up
 
