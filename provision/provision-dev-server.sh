@@ -249,6 +249,7 @@ sudo ufw allow 27017
 # sudo systemctl enable mongod
 # sudo systemctl restart mongod
 sudo systemctl stop mongod
+sudo systemctl disable mongod
 
 # PostgreSQL
 
@@ -271,6 +272,7 @@ sudo ufw allow 5432
 # sudo systemctl enable postgresql.service
 # sudo systemctl restart postgresql.service
 sudo systemctl stop postgresql.service
+sudo systemctl disable postgresql.service
 
 # clean up
 
