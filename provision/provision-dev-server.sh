@@ -48,6 +48,14 @@ sudo systemctl reload sshd
 # set root pw
 printf "0000\n0000\n" | sudo passwd root
 
+# ufw firewall
+
+sudo ufw --force enable
+
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw allow ssh
+
 # essentials
 
 $INSTALL \
@@ -251,6 +259,13 @@ sudo ufw allow 27017
 sudo systemctl stop mongod
 sudo systemctl disable mongod
 
+# nginx
+
+$INSTALL nginx
+
+sudo systemctl stop nginx
+sudo systemctl disable nginx
+
 # PostgreSQL
 
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -275,6 +290,8 @@ sudo systemctl stop postgresql.service
 sudo systemctl disable postgresql.service
 
 # clean up
+
+sudo ufw status
 
 $UPDATE
 sudo apt-get upgrade -qq
