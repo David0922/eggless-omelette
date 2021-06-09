@@ -195,8 +195,6 @@ source $DAVID/py3.8_env/bin/activate
 
 pip install \
   beautifulsoup4 \
-  certbot \
-  certbot-nginx \
   diagrams \
   flask \
   flask-cors \
@@ -209,8 +207,6 @@ pip install \
   selenium \
   webdriver-manager \
   yapf
-
-sudo ln -s $DAVID/py3.8_env/bin/certbot /usr/bin/certbot
 
 # ruby
 
