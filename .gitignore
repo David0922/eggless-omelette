@@ -3,9 +3,11 @@
 db.config
 dist
 go.sum
+log
 node_modules
 output-*
 package-lock.json
 packer_cache
+tmp
 vanilla-ts/js
 yarn.lock
