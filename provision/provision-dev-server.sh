@@ -9,29 +9,29 @@ export DEBIAN_FRONTEND=noninteractive
 INSTALL='sudo apt-get install -qq'
 UPDATE='sudo apt-get update -qq'
 
-DAVID=/david
-BIN=$DAVID/bin
+WORK_DIR=/work-dir
+BIN=$WORK_DIR/bin
 
-sudo rm -rf $DAVID $BIN $DAVID/downloads $DAVID/settings $DAVID/tmp || true
+sudo rm -rf $WORK_DIR $BIN $WORK_DIR/downloads $WORK_DIR/settings $WORK_DIR/tmp || true
 
-sudo mkdir $DAVID
-sudo chown $USER $DAVID
+sudo mkdir $WORK_DIR
+sudo chown $USER $WORK_DIR
 
 mkdir \
   $BIN \
-  $DAVID/downloads \
-  $DAVID/settings \
-  $DAVID/tmp
+  $WORK_DIR/downloads \
+  $WORK_DIR/settings \
+  $WORK_DIR/tmp
 
 export PATH=$PATH:$BIN
 
-cd $DAVID/downloads
+cd $WORK_DIR/downloads
 
-wget https://raw.github.com/david0922/hello-world/master/provision/common.sh -O $DAVID/settings/common.sh
+wget https://raw.github.com/david0922/hello-world/master/provision/common.sh -O $WORK_DIR/settings/common.sh
 
-wget https://raw.github.com/david0922/hello-world/master/provision/tmux.conf -O $DAVID/settings/tmux.conf
+wget https://raw.github.com/david0922/hello-world/master/provision/tmux.conf -O $WORK_DIR/settings/tmux.conf
 
-printf "source $DAVID/settings/common.sh" | tee -a $HOME/.bashrc
+printf "\nsource $WORK_DIR/settings/common.sh\n" | tee -a $HOME/.bashrc
 
 $UPDATE
 sudo apt-get upgrade -qq
@@ -70,6 +70,7 @@ $INSTALL \
   iproute2 \
   iputils-ping \
   jq \
+  libomp-dev \
   make \
   net-tools \
   openjdk-11-jdk \
@@ -197,9 +198,9 @@ $INSTALL yarn
 
 # python
 
-virtualenv -p $(which python3.8) $DAVID/py3.8_env
+virtualenv -p $(which python3.8) $WORK_DIR/py3.8_env
 
-source $DAVID/py3.8_env/bin/activate
+source $WORK_DIR/py3.8_env/bin/activate
 
 pip install \
   beautifulsoup4 \

@@ -1,11 +1,12 @@
-export BIN=/david/bin
+WORK_DIR=/work-dir
+BIN=$WORK_DIR/bin
 
 export PATH=$PATH:$BIN
 
 export EDITOR=/usr/bin/vim
 
 alias cls=clear
-alias cpp='g++ -Wall -Wextra -Werror -std=c++20 -pedantic'
+alias cpp='clang++ -Wall -Wextra -Werror -std=c++20 -pedantic'
 alias diff=colordiff
 alias grep='grep --color=always'
 alias json=jq
@@ -22,31 +23,27 @@ alias k=microk8s.kubectl
 alias kubectl=microk8s.kubectl
 alias k-all='microk8s.kubectl get all --all-namespaces'
 
-alias tmux='tmux -f /david/settings/tmux.conf'
+alias tmux="tmux -f $WORK_DIR/settings/tmux.conf"
 alias tma='tmux a -t'
 alias tmn='tmux new -s'
 
 # alias vagrant-destroy='vagrant destroy -f'
 # alias vagrant-status='vagrant global-status --prune'
 
-if [ "$PWD" = "$HOME" ] || [ "$PWD" = "$HOME/david" ]; then
-  cd /david
-fi
-
 # go
 
 export PATH=$PATH:$BIN/go/bin
-export PATH=$PATH:/david/projects/go/bin
+export PATH=$PATH:$WORK_DIR/projects/go/bin
 
 export GO111MODULE=auto
-export GOPATH=/david/projects/go
+export GOPATH=$WORK_DIR/projects/go
 
 # python
 
 alias py=ipython
 alias python=python3
 
-source /david/py3.8_env/bin/activate
+source $WORK_DIR/py3.8_env/bin/activate
 
 # ruby
 
