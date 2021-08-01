@@ -6,13 +6,15 @@ set -e -x
 
 export DEBIAN_FRONTEND=noninteractive
 
+PW=0000
+
 INSTALL='sudo apt-get install -qq'
 UPDATE='sudo apt-get update -qq'
 
 WORK_DIR=/work-dir
 BIN=$WORK_DIR/bin
 
-sudo rm -rf $WORK_DIR $BIN $WORK_DIR/downloads $WORK_DIR/settings $WORK_DIR/tmp || true
+sudo rm -rf $WORK_DIR $BIN $WORK_DIR/downloads $WORK_DIR/settings $WORK_DIR/tmp $HOME/.oh-my-zsh || true
 
 sudo mkdir $WORK_DIR
 sudo chown $USER $WORK_DIR
@@ -31,8 +33,6 @@ wget https://raw.github.com/david0922/hello-world/master/provision/common.sh -O 
 
 wget https://raw.github.com/david0922/hello-world/master/provision/tmux.conf -O $WORK_DIR/settings/tmux.conf
 
-printf "\nsource $WORK_DIR/settings/common.sh\n" | tee -a $HOME/.bashrc
-
 $UPDATE
 sudo apt-get upgrade -qq
 
@@ -45,8 +45,11 @@ sudo sed -i 's/.*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 sudo systemctl reload sshd
 
-# set root pw
-printf "0000\n0000\n" | sudo passwd root
+# set timezone
+sudo timedatectl set-timezone America/Los_Angeles
+
+# set pw
+printf "$PW\n$PW\n" | sudo passwd root
 
 # ufw firewall
 
@@ -251,7 +254,7 @@ $INSTALL mongodb-org
 
 sudo systemctl start mongod
 
-sudo sed -i 's/bindIp: "\(.*\)"/bindIp: "0.0.0.0"/' /etc/mongod.conf
+sudo sed -i 's/bindIp: \(.*\)/bindIp: 0.0.0.0/' /etc/mongod.conf
 
 sudo ufw allow 27017
 
@@ -279,7 +282,7 @@ $INSTALL postgresql-13
 
 printf "listen_addresses = '*'" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
 
-printf "ALTER USER postgres with encrypted password '0000';\n\\q" | sudo -u postgres psql
+printf "ALTER USER postgres with encrypted password '$PW';\n\\q" | sudo -u postgres psql
 
 printf 'host all all 0.0.0.0/0 md5' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
 
@@ -289,6 +292,17 @@ sudo ufw allow 5432
 # sudo systemctl restart postgresql.service
 sudo systemctl stop postgresql.service
 sudo systemctl disable postgresql.service
+
+# zsh
+
+sudo sed -i 's/auth\(.*\)pam_shells.so/auth sufficient pam_shells.so/' /etc/pam.d/chsh
+
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+sed -i 's/ZSH_THEME="\(.*\)"/ZSH_THEME="candy"/' $HOME/.zshrc
+
+chsh -s $(which zsh)
+
+printf "\nsource $WORK_DIR/settings/common.sh\n" | tee -a $HOME/.bashrc
 
 # clean up
 
@@ -302,4 +316,4 @@ sudo apt-get autoclean -qq
 sudo apt-get autoremove -qq
 
 echo 'done!'
-echo 'manually configure: git rsa, zsh'
+echo 'manually configure: git rsa'
