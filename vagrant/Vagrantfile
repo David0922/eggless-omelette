@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
     devbox.vm.hostname = $VM_NAME
 
     devbox.vm.network "private_network", type: "dhcp"
-    devbox.vm.network "public_network", bridge: "enp7s0"
+    devbox.vm.network "public_network", bridge: "enp7s0", ip: "192.168.2.11"
 
     devbox.vm.provider "virtualbox" do |v|
       v.cpus = 4
