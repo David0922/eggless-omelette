@@ -59,6 +59,11 @@ sudo ufw allow http
 sudo ufw allow https
 sudo ufw allow ssh
 
+sudo ufw allow 3000
+sudo ufw allow 3001
+sudo ufw allow 8080
+sudo ufw allow 8081
+
 # essentials
 
 $INSTALL \

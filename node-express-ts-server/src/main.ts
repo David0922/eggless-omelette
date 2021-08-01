@@ -8,7 +8,7 @@ const main = async () => {
 
   app.get('/', (req, res) => {
     console.log(`req: ${JSON.stringify(req.headers, null, 2)}`);
-    res.send('goodbye world');
+    res.send('goodbye world\n');
   });
 
   app.listen(port, bind_addr, () => {
