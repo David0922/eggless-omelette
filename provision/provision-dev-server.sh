@@ -302,7 +302,7 @@ sed -i 's/ZSH_THEME="\(.*\)"/ZSH_THEME="candy"/' $HOME/.zshrc
 
 chsh -s $(which zsh)
 
-printf "\nsource $WORK_DIR/settings/common.sh\n" | tee -a $HOME/.bashrc
+printf "\nsource $WORK_DIR/settings/common.sh\n" | tee -a $HOME/.zshrc
 
 # clean up
 
