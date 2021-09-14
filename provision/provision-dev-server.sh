@@ -177,7 +177,7 @@ git config --global color.ui true
 
 # go
 
-GO_VER=1.16.4
+GO_VER=1.17.1
 OS=linux
 ARCH=amd64
 GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
@@ -227,23 +227,25 @@ pip install \
 
 # ruby
 
-RB_ENV=$BIN/rbenv
+if false; then
+  RB_ENV=$BIN/rbenv
 
-$INSTALL libssl-dev zlib1g-dev
+  $INSTALL libssl-dev zlib1g-dev
 
-git clone https://github.com/rbenv/rbenv.git $RB_ENV
-git clone https://github.com/rbenv/ruby-build.git $RB_ENV/plugins/ruby-build
+  git clone https://github.com/rbenv/rbenv.git $RB_ENV
+  git clone https://github.com/rbenv/ruby-build.git $RB_ENV/plugins/ruby-build
 
-export PATH=$PATH:$RB_ENV/bin:$RB_ENV/plugins/ruby-build/bin
+  export PATH=$PATH:$RB_ENV/bin:$RB_ENV/plugins/ruby-build/bin
 
-eval "$(rbenv init -)"
+  eval "$(rbenv init -)"
 
-rbenv install 3.0.0
-rbenv global 3.0.0
+  rbenv install 3.0.0
+  rbenv global 3.0.0
 
-gem install rails
+  gem install rails
 
-rbenv rehash
+  rbenv rehash
+fi
 
 # MongoDB
 
