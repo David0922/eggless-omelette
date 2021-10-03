@@ -47,9 +47,9 @@ source $WORK_DIR/py3.8_env/bin/activate
 
 # ruby
 
-export PATH=$PATH:$BIN/rbenv/bin
-export PATH=$PATH:$BIN/rbenv/plugins/ruby-build/bin
+# export PATH=$PATH:$BIN/rbenv/bin
+# export PATH=$PATH:$BIN/rbenv/plugins/ruby-build/bin
 
-eval "$(rbenv init -)"
+# eval "$(rbenv init -)"
 
-alias rb=irb
+# alias rb=irb

@@ -220,6 +220,7 @@ pip install \
   matplotlib \
   numpy \
   pandas \
+  pytest \
   requests \
   selenium \
   webdriver-manager \
