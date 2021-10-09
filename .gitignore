@@ -1,6 +1,5 @@
 .vagrant
 .vscode
-db.config
 dist
 go.sum
 log

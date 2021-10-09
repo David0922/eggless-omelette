@@ -2,34 +2,14 @@ package main
 
 import (
 	"context"
-	"fmt"
-	"io/ioutil"
 	"log"
-	"strings"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
-
-func dbURI() (string, error) {
-	dbConfig, err := ioutil.ReadFile("./db.config")
-	if err != nil {
-		return "", err
-	}
-
-	splitted := strings.Split(string(dbConfig), "\n")
-	if len(splitted) < 3 {
-		return "", fmt.Errorf("failed to load ./db.config")
-	}
-
-	username := splitted[0]
-	password := splitted[1]
-	clusterAddr := splitted[2]
-
-	return fmt.Sprintf("mongodb+srv://%s:%s@%s", username, password, clusterAddr), nil
-}
 
 func dbClient(uri string) (*mongo.Client, func(), error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -57,12 +37,7 @@ func dbClient(uri string) (*mongo.Client, func(), error) {
 }
 
 func main() {
-	uri, err := dbURI()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	_, disconnect, err := dbClient(uri)
+	_, disconnect, err := dbClient(os.Getenv("MONGODB_URI"))
 	if err != nil {
 		log.Fatal(err)
 	}
