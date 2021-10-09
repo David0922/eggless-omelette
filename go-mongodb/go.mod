@@ -1,4 +1,4 @@
-module mongodb-atlas-go
+module go-mongodb
 
 go 1.16
 
