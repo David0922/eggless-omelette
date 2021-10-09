@@ -11,6 +11,7 @@ yarn add --dev \
   @types/express \
   @types/node \
   nodemon \
+  npm-check-updates \
   ts-node \
   typescript
 
