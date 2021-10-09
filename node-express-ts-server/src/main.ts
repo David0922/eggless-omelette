@@ -11,8 +11,11 @@ const main = async () => {
     res.status(500).send('something broke\n');
   };
 
+  app.use(express.json());
+  app.use(express.urlencoded());
+
   app.get('/', (req, res) => {
-    console.log(`req: ${JSON.stringify(req.headers, null, 2)}`);
+    console.log(req.headers);
     res.send('goodbye world\n');
   });
 

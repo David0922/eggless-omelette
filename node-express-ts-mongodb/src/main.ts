@@ -18,8 +18,11 @@ const main = async () => {
     throw new Error('failed to load env var `MONGODB_URI`');
   }
 
+  app.use(express.json());
+  app.use(express.urlencoded());
+
   app.get('/', (req, res) => {
-    console.log(`req: ${JSON.stringify(req.headers, null, 2)}`);
+    console.log(req.headers);
     res.send('goodbye world\n');
   });
 
