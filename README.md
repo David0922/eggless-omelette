@@ -46,3 +46,9 @@ docker run --rm -it \
 ```bash
 docker exec -it mongodb mongo -u username -p password
 ```
+
+### simple web server
+
+```bash
+busybox httpd -f -h . -p 0.0.0.0:8080 -v
+```
