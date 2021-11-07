@@ -6,13 +6,16 @@ export PATH=$PATH:$BIN
 export EDITOR=/usr/bin/vim
 
 alias cls=clear
+alias cp='cp --no-preserve=all'
 alias cpp='clang++ -Wall -Wextra -Werror -std=c++20 -pedantic'
+alias cpp2='clang++ -O2 -std=c++20'
 alias diff=colordiff
 alias grep='grep --color=always'
 alias json=jq
 alias less='less -r'
 alias ll='ls -aFhl --color=always'
 alias lsl='ls -aFhl --color=always | less -r'
+alias rsync='rsync --human-readable --progress --recursive --verbose'
 alias shutdown='sudo shutdown now'
 
 alias g='git --no-pager'
