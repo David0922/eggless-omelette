@@ -1,0 +1,8 @@
+.DS_Store
+.env
+.vscode
+/.svelte-kit
+/build
+/package
+node_modules
+yarn.lock
