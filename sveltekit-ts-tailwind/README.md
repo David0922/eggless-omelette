@@ -1,6 +1,6 @@
 ```bash
-docker build -t svelte-ts .
-docker run --rm -it -p 8080:80 svelte-ts
+docker build -t sveltekit-ts-tailwind .
+docker run --rm -it -p 8080:80 sveltekit-ts-tailwind
 ```
 
 dev: install [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode)
