@@ -56,6 +56,7 @@ $INSTALL \
   build-essential \
   busybox \
   clang-12 \
+  clang-format-12 \
   colordiff \
   curl \
   git \
@@ -72,6 +73,14 @@ $INSTALL \
   virtualenv \
   wget \
   zsh
+
+# clang
+
+sudo rm -rf /usr/bin/clang /usr/bin/clang++ /usr/bin/clang-format || true
+
+sudo ln -s /usr/bin/clang-12 /usr/bin/clang
+sudo ln -s /usr/bin/clang++-12 /usr/bin/clang++
+sudo ln -s /usr/bin/clang-format-12 /usr/bin/clang-format
 
 # docker
 
