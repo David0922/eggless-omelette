@@ -14,93 +14,84 @@ UPDATE='sudo apt-get update -qq'
 WORK_DIR=/work-dir
 BIN=$WORK_DIR/bin
 
-sudo rm -rf $WORK_DIR $BIN $WORK_DIR/downloads $WORK_DIR/settings $WORK_DIR/tmp $HOME/.oh-my-zsh || true
-
-sudo mkdir $WORK_DIR
-sudo chown $USER $WORK_DIR
-
-mkdir \
-  $BIN \
-  $WORK_DIR/downloads \
-  $WORK_DIR/settings \
-  $WORK_DIR/tmp
-
 export PATH=$PATH:$BIN
 
-cd $WORK_DIR/downloads
+# -------------------------------------------------- #
 
-wget https://raw.github.com/david0922/hello-world/master/provision/common.sh -O $WORK_DIR/settings/common.sh
+reset_dir() {
+  sudo rm -rf $WORK_DIR $BIN $WORK_DIR/downloads $WORK_DIR/settings $WORK_DIR/tmp $HOME/.oh-my-zsh || true
 
-wget https://raw.github.com/david0922/hello-world/master/provision/tmux.conf -O $WORK_DIR/settings/tmux.conf
+  sudo mkdir $WORK_DIR
+  sudo chown $USER $WORK_DIR
 
-$UPDATE
-sudo apt-get upgrade -qq
+  mkdir \
+    $BIN \
+    $WORK_DIR/downloads \
+    $WORK_DIR/settings \
+    $WORK_DIR/tmp
+}
 
-# enable ssh password authentication
+enable_ssh_pw_auth() {
+  sudo sed -i 's/.*AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config
+  sudo sed -i 's/.*GatewayPorts.*/GatewayPorts yes/' /etc/ssh/sshd_config
+  sudo sed -i 's/.*PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+  sudo sed -i 's/.*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-sudo sed -i 's/.*AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config
-sudo sed -i 's/.*GatewayPorts.*/GatewayPorts yes/' /etc/ssh/sshd_config
-sudo sed -i 's/.*PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
-sudo sed -i 's/.*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+  sudo systemctl reload sshd
+}
 
-sudo systemctl reload sshd
+set_timezone() {
+  sudo timedatectl set-timezone America/Los_Angeles
+}
 
-# set timezone
-sudo timedatectl set-timezone America/Los_Angeles
+set_pw() {
+  printf "$PW\n$PW\n" | sudo passwd root
+  printf "$PW\n$PW\n" | sudo passwd vagrant || true
+}
 
-# set pw
-printf "$PW\n$PW\n" | sudo passwd root
-printf "$PW\n$PW\n" | sudo passwd vagrant || true
+set_ufw_firewall() {
+  sudo ufw --force enable
 
-# ufw firewall
+  sudo ufw allow http
+  sudo ufw allow https
+  sudo ufw allow ssh
 
-sudo ufw --force enable
+  sudo ufw allow 3000
+  sudo ufw allow 3001
+  sudo ufw allow 8080
+  sudo ufw allow 8081
+}
 
-sudo ufw allow http
-sudo ufw allow https
-sudo ufw allow ssh
+install_essentials() {
+  $INSTALL \
+    build-essential \
+    busybox \
+    colordiff \
+    curl \
+    ethtool \
+    hping3 \
+    htop \
+    iproute2 \
+    iputils-ping \
+    jq \
+    libomp-dev \
+    make \
+    net-tools \
+    openjdk-11-jdk \
+    openssl \
+    screenfetch \
+    sipcalc \
+    sshfs \
+    tmux \
+    tree \
+    vim \
+    virtualenv \
+    wget
+}
 
-sudo ufw allow 3000
-sudo ufw allow 3001
-sudo ufw allow 8080
-sudo ufw allow 8081
+install_clang_latest() {
+  # https://apt.llvm.org/
 
-# essentials
-
-$INSTALL \
-  build-essential \
-  busybox \
-  colordiff \
-  curl \
-  ethtool \
-  git \
-  hping3 \
-  htop \
-  iproute2 \
-  iputils-ping \
-  jq \
-  libomp-dev \
-  make \
-  net-tools \
-  openjdk-11-jdk \
-  openssl \
-  python3-pip \
-  python3.8 \
-  screenfetch \
-  sipcalc \
-  sshfs \
-  tmux \
-  tree \
-  vim \
-  virtualenv \
-  wget \
-  zsh
-
-# clang & llvm
-
-# https://apt.llvm.org/
-
-if false; then
   $INSTALL gnupg lsb-release software-properties-common
 
   $UPDATE
@@ -120,46 +111,46 @@ if false; then
   sudo ln -s /usr/lib/llvm-12/bin/llc /usr/bin/llc
   sudo ln -s /usr/lib/llvm-12/bin/llvm-readelf /usr/bin/readelf
   sudo ln -s /usr/bin/clang-format-12 /usr/bin/clang-format
-fi
+}
 
-$INSTALL clang-12 clang-format-12
+install_clang() {
+  $INSTALL clang-12 clang-format-12
 
-sudo ln -s /usr/bin/clang-12 /usr/bin/clang
-sudo ln -s /usr/bin/clang++-12 /usr/bin/clang++
+  sudo ln -s /usr/bin/clang-12 /usr/bin/clang
+  sudo ln -s /usr/bin/clang++-12 /usr/bin/clang++
 
-sudo ln -s /usr/bin/clang-format-12 /usr/bin/clang-format
+  sudo ln -s /usr/bin/clang-format-12 /usr/bin/clang-format
+}
 
-# docker
+install_docker() {
+  $INSTALL \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
 
-$INSTALL \
-  apt-transport-https \
-  ca-certificates \
-  curl \
-  gnupg \
-  lsb-release
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  $UPDATE
 
-$UPDATE
+  $INSTALL docker-ce docker-ce-cli containerd.io
 
-$INSTALL docker-ce docker-ce-cli containerd.io
+  sudo groupadd docker || true
+  sudo usermod -aG docker $USER
 
-sudo groupadd docker || true
-sudo usermod -aG docker $USER
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
 
-sudo chmod +x /usr/local/bin/docker-compose
+  sudo curl \
+    -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/bash/docker-compose \
+    -o /etc/bash_completion.d/docker-compose
+}
 
-sudo curl \
-  -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/bash/docker-compose \
-  -o /etc/bash_completion.d/docker-compose
-
-# ebpf
-
-if false; then
+setup_ebpf_dev() {
   $INSTALL \
     bpfcc-tools \
     build-essential \
@@ -174,76 +165,77 @@ if false; then
 
   cd /kernel-src/tools/lib/bpf
   make && make install prefix=/usr/local
-fi
+}
 
-# gcloud
+install_git() {
+  $INSTALL git
+  git config --global color.ui true
+}
 
-# https://cloud.google.com/sdk/docs/downloads-interactive
-# requires python
+install_go() {
+  GO_VER=1.17.5
+  OS=linux
+  ARCH=amd64
+  GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 
-curl https://sdk.cloud.google.com > install.sh
-bash install.sh --disable-prompts --install-dir=$BIN
+  curl -O https://dl.google.com/go/$GO_TAR
+  tar --no-same-owner -xzf $GO_TAR -C $BIN
+}
 
-ln -s $BIN/google-cloud-sdk/bin/gcloud $BIN/gcloud
+install_microk8s() {
+  sudo snap install microk8s --classic
 
-# gcloud -q components install kubectl
-# ln -s $BIN/google-cloud-sdk/bin/kubectl $BIN/kubectl
+  sudo usermod -aG microk8s $USER
+  sudo chown -f -R $USER ~/.kube || true
 
-# git
+  sudo microk8s stop
+}
 
-git config --global color.ui true
+install_nodejs() {
+  curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+  $INSTALL nodejs
 
-# go
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  $UPDATE
+  $INSTALL yarn
+}
 
-GO_VER=1.17.5
-OS=linux
-ARCH=amd64
-GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
+install_python() {
+  $INSTALL python3-pip python3.8
 
-curl -O https://dl.google.com/go/$GO_TAR
-tar --no-same-owner -xzf $GO_TAR -C $BIN
+  virtualenv -p $(which python3.8) $WORK_DIR/py3.8_env
 
-# microk8s
+  source $WORK_DIR/py3.8_env/bin/activate
 
-sudo snap install microk8s --classic
+  pip install \
+    diagrams \
+    grpcio \
+    grpcio-tools \
+    ipython \
+    jupyter \
+    matplotlib \
+    numpy \
+    pandas \
+    pytest \
+    requests \
+    yapf
+}
 
-sudo usermod -aG microk8s $USER
-sudo chown -f -R $USER ~/.kube || true
+install_gcloud() {
+  # https://cloud.google.com/sdk/docs/downloads-interactive
+  # requires python
 
-sudo microk8s stop
+  curl https://sdk.cloud.google.com > install.sh
+  bash install.sh --disable-prompts --install-dir=$BIN
 
-# nodejs
+  ln -s $BIN/google-cloud-sdk/bin/gcloud $BIN/gcloud
 
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-$INSTALL nodejs
+  # gcloud -q components install kubectl
+  # ln -s $BIN/google-cloud-sdk/bin/kubectl $BIN/kubectl
+}
 
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-$UPDATE
-$INSTALL yarn
-
-# python
-
-virtualenv -p $(which python3.8) $WORK_DIR/py3.8_env
-
-source $WORK_DIR/py3.8_env/bin/activate
-
-pip install \
-  diagrams \
-  grpcio \
-  grpcio-tools \
-  ipython \
-  jupyter \
-  matplotlib \
-  numpy \
-  pandas \
-  pytest \
-  requests \
-  yapf
-
-# ruby
-
-if false; then
+install_ruby() {
   RB_ENV=$BIN/rbenv
 
   $INSTALL libssl-dev zlib1g-dev
@@ -261,11 +253,9 @@ if false; then
   gem install rails
 
   rbenv rehash
-fi
+}
 
-# MongoDB
-
-if false; then
+install_mongodb() {
   $INSTALL gnupg
 
   wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
@@ -286,18 +276,16 @@ if false; then
   # sudo systemctl restart mongod
   sudo systemctl stop mongod
   sudo systemctl disable mongod
-fi
+}
 
-# nginx
+install_nginx() {
+  $INSTALL nginx
 
-$INSTALL nginx
+  sudo systemctl stop nginx
+  sudo systemctl disable nginx
+}
 
-sudo systemctl stop nginx
-sudo systemctl disable nginx
-
-# PostgreSQL
-
-if false; then
+install_postgresql() {
   sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
@@ -318,29 +306,68 @@ if false; then
   # sudo systemctl restart postgresql.service
   sudo systemctl stop postgresql.service
   sudo systemctl disable postgresql.service
-fi
+}
 
-# zsh
+install_zsh() {
+  $INSTALL zsh
 
-sudo sed -i 's/auth\(.*\)pam_shells.so/auth sufficient pam_shells.so/' /etc/pam.d/chsh
+  sudo sed -i 's/auth\(.*\)pam_shells.so/auth sufficient pam_shells.so/' /etc/pam.d/chsh
 
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-sed -i 's/ZSH_THEME="\(.*\)"/ZSH_THEME="candy"/' $HOME/.zshrc
+  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  sed -i 's/ZSH_THEME="\(.*\)"/ZSH_THEME="candy"/' $HOME/.zshrc
 
-chsh -s $(which zsh)
+  chsh -s $(which zsh)
 
-printf "\nsource $WORK_DIR/settings/common.sh\n" | tee -a $HOME/.zshrc
+  printf "\nsource $WORK_DIR/settings/common.sh\n" | tee -a $HOME/.zshrc
+}
 
-# clean up
+clean_up() {
+  sudo ufw status
 
-sudo ufw status
+  $UPDATE
+  sudo apt-get upgrade -qq
+
+  sudo apt-get clean -qq
+  sudo apt-get autoclean -qq
+  sudo apt-get autoremove -qq
+}
+
+# -------------------------------------------------- #
+
+reset_dir
+enable_ssh_pw_auth
+set_timezone
+set_pw
+set_ufw_firewall
+
+cd $WORK_DIR/downloads
+
+wget https://raw.github.com/david0922/hello-world/master/provision/common.sh -O $WORK_DIR/settings/common.sh
+
+wget https://raw.github.com/david0922/hello-world/master/provision/tmux.conf -O $WORK_DIR/settings/tmux.conf
 
 $UPDATE
 sudo apt-get upgrade -qq
 
-sudo apt-get clean -qq
-sudo apt-get autoclean -qq
-sudo apt-get autoremove -qq
+install_essentials
+
+# install_clang_latest
+# install_mongodb
+# install_postgresql
+# install_ruby
+# setup_ebpf_dev
+install_clang
+install_docker
+install_git
+install_go
+install_microk8s
+install_nginx
+install_nodejs
+install_python
+install_gcloud # requires python
+install_zsh
+
+clean_up
 
 echo 'done!'
 echo 'manually configure: git rsa'
