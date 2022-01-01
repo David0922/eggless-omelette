@@ -50,6 +50,7 @@ sudo timedatectl set-timezone America/Los_Angeles
 
 # set pw
 printf "$PW\n$PW\n" | sudo passwd root
+printf "$PW\n$PW\n" | sudo passwd vagrant || true
 
 # ufw firewall
 
@@ -99,24 +100,33 @@ $INSTALL \
 
 # https://apt.llvm.org/
 
-$INSTALL gnupg lsb-release software-properties-common
+if false; then
+  $INSTALL gnupg lsb-release software-properties-common
 
-$UPDATE
+  $UPDATE
 
-wget https://apt.llvm.org/llvm.sh
-chmod +x llvm.sh
-sudo ./llvm.sh 12
+  wget https://apt.llvm.org/llvm.sh
+  chmod +x llvm.sh
+  sudo ./llvm.sh 12
 
-$INSTALL clang-format-12
+  $INSTALL clang-format-12
 
-sudo mv /usr/bin/readelf /usr/bin/readelf_old || true
+  sudo mv /usr/bin/readelf /usr/bin/readelf_old || true
 
-sudo rm -rf /usr/bin/clang /usr/bin/clang++ /usr/bin/llc /usr/bin/readelf /usr/bin/clang-format || true
+  sudo rm -rf /usr/bin/clang /usr/bin/clang++ /usr/bin/llc /usr/bin/readelf /usr/bin/clang-format || true
+
+  sudo ln -s /usr/bin/clang-12 /usr/bin/clang
+  sudo ln -s /usr/bin/clang++-12 /usr/bin/clang++
+  sudo ln -s /usr/lib/llvm-12/bin/llc /usr/bin/llc
+  sudo ln -s /usr/lib/llvm-12/bin/llvm-readelf /usr/bin/readelf
+  sudo ln -s /usr/bin/clang-format-12 /usr/bin/clang-format
+fi
+
+$INSTALL clang-12 clang-format-12
 
 sudo ln -s /usr/bin/clang-12 /usr/bin/clang
 sudo ln -s /usr/bin/clang++-12 /usr/bin/clang++
-sudo ln -s /usr/lib/llvm-12/bin/llc /usr/bin/llc
-sudo ln -s /usr/lib/llvm-12/bin/llvm-readelf /usr/bin/readelf
+
 sudo ln -s /usr/bin/clang-format-12 /usr/bin/clang-format
 
 # docker
@@ -177,7 +187,7 @@ git config --global color.ui true
 
 # go
 
-GO_VER=1.17.1
+GO_VER=1.17.5
 OS=linux
 ARCH=amd64
 GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
@@ -211,10 +221,9 @@ virtualenv -p $(which python3.8) $WORK_DIR/py3.8_env
 source $WORK_DIR/py3.8_env/bin/activate
 
 pip install \
-  beautifulsoup4 \
   diagrams \
-  flask \
-  flask-cors \
+  grpcio \
+  grpcio-tools \
   ipython \
   jupyter \
   matplotlib \
@@ -222,8 +231,6 @@ pip install \
   pandas \
   pytest \
   requests \
-  selenium \
-  webdriver-manager \
   yapf
 
 # ruby
@@ -250,26 +257,28 @@ fi
 
 # MongoDB
 
-$INSTALL gnupg
+if false; then
+  $INSTALL gnupg
 
-wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+  wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 
-$UPDATE
+  $UPDATE
 
-$INSTALL mongodb-org
+  $INSTALL mongodb-org
 
-sudo systemctl start mongod
+  sudo systemctl start mongod
 
-sudo sed -i 's/bindIp: \(.*\)/bindIp: 0.0.0.0/' /etc/mongod.conf
+  sudo sed -i 's/bindIp: \(.*\)/bindIp: 0.0.0.0/' /etc/mongod.conf
 
-sudo ufw allow 27017
+  sudo ufw allow 27017
 
-# sudo systemctl enable mongod
-# sudo systemctl restart mongod
-sudo systemctl stop mongod
-sudo systemctl disable mongod
+  # sudo systemctl enable mongod
+  # sudo systemctl restart mongod
+  sudo systemctl stop mongod
+  sudo systemctl disable mongod
+fi
 
 # nginx
 
@@ -280,26 +289,28 @@ sudo systemctl disable nginx
 
 # PostgreSQL
 
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+if false; then
+  sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
-$UPDATE
+  $UPDATE
 
-$INSTALL postgresql-13
+  $INSTALL postgresql-13
 
-printf "listen_addresses = '*'" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
+  printf "listen_addresses = '*'" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
 
-printf "ALTER USER postgres with encrypted password '$PW';\n\\q" | sudo -u postgres psql
+  printf "ALTER USER postgres with encrypted password '$PW';\n\\q" | sudo -u postgres psql
 
-printf 'host all all 0.0.0.0/0 md5' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
+  printf 'host all all 0.0.0.0/0 md5' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
 
-sudo ufw allow 5432
+  sudo ufw allow 5432
 
-# sudo systemctl enable postgresql.service
-# sudo systemctl restart postgresql.service
-sudo systemctl stop postgresql.service
-sudo systemctl disable postgresql.service
+  # sudo systemctl enable postgresql.service
+  # sudo systemctl restart postgresql.service
+  sudo systemctl stop postgresql.service
+  sudo systemctl disable postgresql.service
+fi
 
 # zsh
 
