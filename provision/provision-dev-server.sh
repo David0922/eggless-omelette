@@ -84,9 +84,11 @@ install_essentials() {
     sshfs \
     tmux \
     tree \
+    unzip \
     vim \
     virtualenv \
-    wget
+    wget \
+    zip
 }
 
 install_clang_latest() {
