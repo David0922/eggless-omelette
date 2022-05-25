@@ -1,5 +1,6 @@
 .vagrant
 .vscode
+build
 dist
 go.sum
 log
