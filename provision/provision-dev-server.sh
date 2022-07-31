@@ -184,6 +184,17 @@ install_go() {
   tar --no-same-owner -xzf $GO_TAR -C $BIN
 }
 
+install_bazel() {
+  wget https://github.com/bazelbuild/bazelisk/releases/download/v1.12.0/bazelisk-linux-amd64
+  chmod +x ./bazelisk-linux-amd64
+  mv ./bazelisk-linux-amd64 $BIN
+  sudo ln -s $BIN/bazelisk-linux-amd64 $BIN/bazel
+  bazel --version
+
+  # requires go
+  go install github.com/bazelbuild/buildtools/buildifier@latest
+}
+
 install_microk8s() {
   sudo snap install microk8s --classic
 
@@ -362,6 +373,7 @@ install_clang
 install_docker
 install_git
 install_go
+install_bazel
 install_microk8s
 install_nginx
 install_nodejs
