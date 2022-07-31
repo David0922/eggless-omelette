@@ -1,0 +1,8 @@
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "new_git_repository")
+
+new_git_repository(
+    name = "crow",
+    build_file = "crow.BUILD",
+    remote = "https://github.com/CrowCpp/Crow",
+    tag = "v1.0+4",
+)

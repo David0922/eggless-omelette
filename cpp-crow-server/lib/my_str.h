@@ -10,6 +10,8 @@ class MyStr {
 
  public:
   MyStr(const char *);
+
+  const char* c_str() const;
 };
 
 std::ostream &operator<<(std::ostream &, const MyStr &);
