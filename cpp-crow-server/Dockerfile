@@ -13,6 +13,6 @@ RUN ./bazelisk-linux-amd64 --version
 ADD . /app
 RUN ./bazelisk-linux-amd64 build //main
 
-FROM alpine
+FROM scratch
 COPY --from=build /app/bazel-bin/main/main /app/main
 CMD ["/app/main"]
