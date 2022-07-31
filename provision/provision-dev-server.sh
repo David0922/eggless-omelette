@@ -70,6 +70,7 @@ install_essentials() {
     curl \
     ethtool \
     hping3 \
+    libboost-all-dev \
     htop \
     iproute2 \
     iputils-ping \
