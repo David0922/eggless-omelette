@@ -1,0 +1,17 @@
+### build docker image
+
+```
+docker build -t go-server .
+```
+
+### run docker container
+
+```
+docker run --rm -it -p 3000:3000 go-server
+```
+
+### verify that it works
+
+```
+curl localhost:3000
+```
