@@ -1,6 +1,6 @@
 CC = clang++
 
-SRC := $(shell find src/ -name '*.cpp')
+SRC := $(shell find src/ -name '*.cc')
 
 CC_FLAGS = -Wall -Wextra -Werror -std=c++20 -pedantic
 

@@ -1,5 +1,7 @@
+.bazelrc
 .vagrant
 .vscode
+bazel-*
 build
 dist
 go.sum
