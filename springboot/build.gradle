@@ -1,0 +1,27 @@
+plugins {
+  id 'org.springframework.boot' version '2.7.2'
+  id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+  id 'java'
+}
+
+group = 'dev.mofu.playground.springboot'
+version = '0.0.1'
+sourceCompatibility = '11'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  // netty
+  implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+  // tomcat
+  // implementation 'org.springframework.boot:spring-boot-starter-web'
+
+  // testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+// tasks.named('test') {
+//   useJUnitPlatform()
+// }
