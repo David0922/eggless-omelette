@@ -13,7 +13,7 @@ sudo ln -s $BIN/bazelisk-linux-amd64 $BIN/bazel
 sudo apt install libboost-all-dev
 ```
 
-### build
+### build locally
 
 ```
 bazel build //main
@@ -26,7 +26,7 @@ rm -rf ~/.cache/bazel
 bazel clean --async
 ```
 
-### run
+### run locally
 
 ```
 ./bazel-bin/main/main
