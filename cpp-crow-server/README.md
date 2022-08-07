@@ -16,7 +16,7 @@ sudo apt install libboost-all-dev
 ### build locally
 
 ```
-bazel build //main
+bazel build --cxxopt='-std=c++17' //main
 ```
 
 ### clean

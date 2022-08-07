@@ -11,7 +11,7 @@ RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.12.0/bazeli
 RUN chmod +x ./bazelisk-linux-amd64
 RUN ./bazelisk-linux-amd64 --version
 ADD . /app
-RUN ./bazelisk-linux-amd64 build //main
+RUN ./bazelisk-linux-amd64 build --cxxopt='-std=c++17' //main
 
 FROM scratch
 COPY --from=build /app/bazel-bin/main/main /app/main
