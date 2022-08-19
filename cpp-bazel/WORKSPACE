@@ -6,3 +6,10 @@ new_git_repository(
     remote = "https://github.com/CrowCpp/Crow",
     tag = "v1.0+4",
 )
+
+new_git_repository(
+    name = "fmt",
+    build_file = "fmt.BUILD",
+    remote = "https://github.com/fmtlib/fmt",
+    tag = "9.0.0",
+)

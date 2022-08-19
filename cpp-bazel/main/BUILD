@@ -5,5 +5,6 @@ cc_binary(
     deps = [
         "//lib:my-str",
         "@crow",
+        "@fmt",
     ],
 )
