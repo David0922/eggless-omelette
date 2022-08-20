@@ -2,8 +2,6 @@ setup
 
 ```bash
 yarn
-yarn ncu -u
-yarn install
 ```
 
 run locally
