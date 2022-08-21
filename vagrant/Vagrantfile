@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
       v.memory = 4096
     end
 
-    devbox.vm.synced_folder "/david/tmp", "/david-host/tmp", type: "nfs"
+    devbox.vm.synced_folder "/david/devbox/tmp", "/david-host/tmp", type: "nfs"
   end
 
   if Vagrant.has_plugin?("vagrant-vbguest")
