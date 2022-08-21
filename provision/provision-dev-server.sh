@@ -193,7 +193,7 @@ install_bazel() {
   bazel --version
 
   # requires go
-  go install github.com/bazelbuild/buildtools/buildifier@latest
+  $BIN/go/bin/go install github.com/bazelbuild/buildtools/buildifier@latest
 }
 
 install_microk8s() {
