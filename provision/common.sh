@@ -35,8 +35,7 @@ alias tmn='tmux new -s'
 
 # go
 
-export PATH=$PATH:$BIN/go/bin
-export PATH=$PATH:$WORK_DIR/projects/go/bin
+export PATH=$PATH:$BIN/go/bin:$WORK_DIR/projects/go/bin
 
 export GO111MODULE=auto
 export GOPATH=$WORK_DIR/projects/go

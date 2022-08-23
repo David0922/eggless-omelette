@@ -183,6 +183,9 @@ install_go() {
 
   curl -O https://dl.google.com/go/$GO_TAR
   tar --no-same-owner -xzf $GO_TAR -C $BIN
+
+  export GOPATH=$WORK_DIR/projects/go
+  export PATH=$PATH:$BIN/go/bin:$WORK_DIR/projects/go/bin
 }
 
 install_bazel() {
@@ -193,7 +196,7 @@ install_bazel() {
   bazel --version
 
   # requires go
-  $BIN/go/bin/go install github.com/bazelbuild/buildtools/buildifier@latest
+  go install github.com/bazelbuild/buildtools/buildifier@latest
 }
 
 install_microk8s() {
@@ -211,6 +214,10 @@ install_nodejs() {
 
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+  printf "fs.inotify.max_user_watches = 1048576\n" | sudo tee -a /etc/sysctl.conf
+  sudo sysctl -p
+
   $UPDATE
   $INSTALL yarn
 }
@@ -308,11 +315,11 @@ install_postgresql() {
 
   $INSTALL postgresql-13
 
-  printf "listen_addresses = '*'" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
+  printf "listen_addresses = '*'\n" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
 
   printf "ALTER USER postgres with encrypted password '$PW';\n\\q" | sudo -u postgres psql
 
-  printf 'host all all 0.0.0.0/0 md5' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
+  printf 'host all all 0.0.0.0/0 md5\n' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
 
   sudo ufw allow 5432
 
