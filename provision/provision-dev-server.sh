@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# usage: bash -c "$(curl -fsSL https://raw.github.com/david0922/hello-world/master/provision/provision-dev-server.sh)"
+# usage: bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/hello-world/main/provision/provision-dev-server.sh)"
 
 set -e -x
 
