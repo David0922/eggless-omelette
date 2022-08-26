@@ -3,8 +3,9 @@
     "target": "ESNext",
     "module": "ESNext",
     "lib": [
-      "ESNext",
-      "DOM"
+      "DOM.Iterable",
+      "DOM",
+      "ESNext"
     ],
     "moduleResolution": "Node",
     "strict": true,
