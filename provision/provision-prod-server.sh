@@ -8,6 +8,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 INSTALL='sudo apt-get install -qq'
 UPDATE='sudo apt-get update -qq'
+UPGRADE='sudo apt-get upgrade -qq'
 
 WORK_DIR=/work-dir
 BIN=$WORK_DIR/bin
@@ -147,7 +148,7 @@ clean_up() {
   sudo ufw status
 
   $UPDATE
-  sudo apt-get upgrade -qq
+  $UPGRADE
 
   sudo apt-get clean -qq
   sudo apt-get autoclean -qq
@@ -155,6 +156,9 @@ clean_up() {
 }
 
 # -------------------------------------------------- #
+
+$UPDATE
+$UPGRADE
 
 reset_dir
 secure_ssh
@@ -167,14 +171,11 @@ wget https://raw.github.com/david0922/hello-world/master/provision/common.sh -O 
 
 wget https://raw.github.com/david0922/hello-world/master/provision/tmux.conf -O $WORK_DIR/settings/tmux.conf
 
-$UPDATE
-sudo apt-get upgrade -qq
-
 install_essentials
 
 install_docker
 install_git
-install_microk8s
+# install_microk8s
 install_nginx
 install_python
 install_zsh
@@ -183,3 +184,5 @@ clean_up
 
 echo 'done!'
 echo 'manually configure: git rsa'
+
+sudo reboot

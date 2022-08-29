@@ -10,6 +10,7 @@ PW=0000
 
 INSTALL='sudo apt-get install -qq'
 UPDATE='sudo apt-get update -qq'
+UPGRADE='sudo apt-get upgrade -qq'
 
 WORK_DIR=/work-dir
 BIN=$WORK_DIR/bin
@@ -19,7 +20,7 @@ export PATH=$PATH:$BIN
 # -------------------------------------------------- #
 
 reset_dir() {
-  sudo rm -rf $WORK_DIR $BIN $WORK_DIR/downloads $WORK_DIR/settings $WORK_DIR/tmp $HOME/.oh-my-zsh || true
+  sudo rm -rf $WORK_DIR $HOME/.oh-my-zsh || true
 
   sudo mkdir $WORK_DIR
   sudo chown $USER $WORK_DIR
@@ -32,10 +33,10 @@ reset_dir() {
 }
 
 enable_ssh_pw_auth() {
-  sudo sed -i 's/.*AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config
-  sudo sed -i 's/.*GatewayPorts.*/GatewayPorts yes/' /etc/ssh/sshd_config
-  sudo sed -i 's/.*PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
-  sudo sed -i 's/.*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+  sudo sed -i 's/^#\?AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config
+  sudo sed -i 's/^#\?GatewayPorts.*/GatewayPorts yes/' /etc/ssh/sshd_config
+  sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+  sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
   sudo systemctl reload sshd
 }
@@ -346,7 +347,7 @@ clean_up() {
   sudo ufw status
 
   $UPDATE
-  sudo apt-get upgrade -qq
+  $UPGRADE
 
   sudo apt-get clean -qq
   sudo apt-get autoclean -qq
@@ -354,6 +355,9 @@ clean_up() {
 }
 
 # -------------------------------------------------- #
+
+$UPDATE
+$UPGRADE
 
 reset_dir
 enable_ssh_pw_auth
@@ -366,9 +370,6 @@ cd $WORK_DIR/downloads
 wget https://raw.github.com/david0922/hello-world/master/provision/common.sh -O $WORK_DIR/settings/common.sh
 
 wget https://raw.github.com/david0922/hello-world/master/provision/tmux.conf -O $WORK_DIR/settings/tmux.conf
-
-$UPDATE
-sudo apt-get upgrade -qq
 
 install_essentials
 
@@ -393,3 +394,5 @@ clean_up
 
 echo 'done!'
 echo 'manually configure: git rsa'
+
+sudo reboot
