@@ -26,6 +26,8 @@ alias k=microk8s.kubectl
 alias kubectl=microk8s.kubectl
 alias k-all='microk8s.kubectl get all --all-namespaces'
 
+alias mp='sudo -E multipass'
+
 alias tmux="tmux -f $WORK_DIR/settings/tmux.conf"
 alias tma='tmux a -t'
 alias tmn='tmux new -s'

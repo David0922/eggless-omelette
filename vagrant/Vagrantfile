@@ -3,28 +3,31 @@
 
 # vagrantfile api/syntax version
 # don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
+VAGRANTFILE_API_VERSION = '2'
 
-$VM_NAME = "devbox"
+$VM_ID = ''
+$VM_NAME = "devbox-#{$VM_ID}"
 
-Vagrant.configure("2") do |config|
+Vagrant.configure('2') do |config|
   config.vm.define "#{$VM_NAME}" do |devbox|
     # ubuntu 20.04 LTS
-    devbox.vm.box = "ubuntu/focal64"
+    devbox.vm.box = 'ubuntu/focal64'
 
     devbox.vm.hostname = $VM_NAME
 
-    devbox.vm.network "private_network", type: "dhcp"
+    devbox.vm.network 'private_network', type: 'dhcp'
 
-    devbox.vm.provider "virtualbox" do |v|
+    devbox.vm.provider 'virtualbox' do |v|
       v.cpus = 4
-      v.memory = 4096
+      v.memory = 8192
+
+      v.customize ['modifyvm', :id, '--nested-hw-virt', 'on']
     end
 
-    devbox.vm.synced_folder "/david/devbox/tmp", "/david-host/tmp", type: "nfs"
+    devbox.vm.synced_folder '/david/devbox/tmp', '/david-host/tmp', type: 'nfs'
   end
 
-  if Vagrant.has_plugin?("vagrant-vbguest")
+  if Vagrant.has_plugin?('vagrant-vbguest')
     config.vbguest.auto_update = false
   end
 end

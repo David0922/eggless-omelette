@@ -47,7 +47,7 @@ set_timezone() {
 
 set_pw() {
   printf "$PW\n$PW\n" | sudo passwd root
-  printf "$PW\n$PW\n" | sudo passwd vagrant || true
+  printf "$PW\n$PW\n" | sudo passwd $USER || true
 }
 
 set_ufw_firewall() {
