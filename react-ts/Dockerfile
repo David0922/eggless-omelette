@@ -8,5 +8,5 @@ RUN yarn build
 FROM nginx:stable-alpine
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./nginx.conf /etc/nginx/conf.d/nginx.conf
-COPY --from=build /work-dir/build /app
+COPY --from=build /work-dir/dist /app
 CMD ["nginx", "-g", "daemon off;"]
