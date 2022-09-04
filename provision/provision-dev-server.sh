@@ -223,11 +223,13 @@ install_nodejs() {
 }
 
 install_python() {
-  $INSTALL python3-pip python3.8 virtualenv
+  PY_VER=3.8
 
-  virtualenv -p $(which python3.8) $WORK_DIR/py3.8_env
+  $INSTALL python3-pip python$PY_VER virtualenv
 
-  source $WORK_DIR/py3.8_env/bin/activate
+  virtualenv -p $(which python$PY_VER) $WORK_DIR/py${PY_VER}_env
+
+  source $WORK_DIR/py${PY_VER}_env/bin/activate
 
   pip install \
     diagrams \
