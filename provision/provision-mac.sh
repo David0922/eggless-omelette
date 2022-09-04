@@ -18,8 +18,8 @@ export PATH=$PATH:$BIN
 reset_dir() {
   sudo rm -rf $WORK_DIR $HOME/.oh-my-zsh || true
 
-  sudo touch /etc/sysctl.conf
-  sudo sed -i '' "/work-dir/d" /etc/sysctl.conf
+  sudo touch /etc/synthetic.conf
+  sudo sed -i '' "/work-dir/d" /etc/synthetic.conf
 
   mkdir $WORK_DIR
 
@@ -29,8 +29,8 @@ reset_dir() {
     $WORK_DIR/settings \
     $WORK_DIR/tmp
 
-  printf "$USER\t$WORK_DIR\n" | sudo tee -a /etc/sysctl.conf
-  printf "work-dir\t$WORK_DIR\n" | sudo tee -a /etc/sysctl.conf
+  printf "$USER\t$WORK_DIR\n" | sudo tee -a /etc/synthetic.conf
+  printf "work-dir\t$WORK_DIR\n" | sudo tee -a /etc/synthetic.conf
 }
 
 install_essentials() {
@@ -138,9 +138,9 @@ cd $WORK_DIR/downloads
 softwareupdate --agree-to-license --install-rosetta
 arch -x86_64 echo 'testing rosetta 2'
 
-curl https://raw.github.com/david0922/hello-world/master/provision/common-mac.sh -o $WORK_DIR/settings/common.sh
+curl https://raw.githubusercontent.com/david0922/hello-world/master/provision/common-mac.sh -o $WORK_DIR/settings/common.sh
 
-curl https://raw.github.com/david0922/hello-world/master/provision/tmux.conf -o $WORK_DIR/settings/tmux.conf
+curl https://raw.githubusercontent.com/david0922/hello-world/master/provision/tmux.conf -o $WORK_DIR/settings/tmux.conf
 
 bash -c "NONINTERACTIVE=1 $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"

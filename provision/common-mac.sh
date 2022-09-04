@@ -40,4 +40,4 @@ export GOPATH=$WORK_DIR/projects/go
 alias py=ipython
 alias python=python3
 
-source $WORK_DIR/py3.8_env/bin/activate
+source $WORK_DIR/py3.10_env/bin/activate
