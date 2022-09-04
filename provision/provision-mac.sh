@@ -35,7 +35,6 @@ reset_dir() {
 
 install_essentials() {
   $INSTALL \
-    boost \
     colordiff \
     htop \
     jq \
@@ -43,6 +42,7 @@ install_essentials() {
     tmux \
     tree \
     wget
+    # boost \
     # curl \
     # make \
     # unzip \
@@ -81,11 +81,13 @@ install_nodejs() {
 }
 
 install_python() {
-  $INSTALL python@3.10 virtualenv
+  PY_VER=3.10
 
-  virtualenv -p $(which python3.10) $WORK_DIR/py3.10_env
+  $INSTALL python@$PY_VER virtualenv
 
-  source $WORK_DIR/py3.10_env/bin/activate
+  virtualenv -p $(which python$PY_VER) $WORK_DIR/py${PY_VER}_env
+
+  source $WORK_DIR/py${PY_VER}_env/bin/activate
 
   pip install \
     diagrams \
