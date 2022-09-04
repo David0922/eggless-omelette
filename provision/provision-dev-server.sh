@@ -88,7 +88,6 @@ install_essentials() {
     tree \
     unzip \
     vim \
-    virtualenv \
     wget \
     zip
 }
@@ -224,7 +223,7 @@ install_nodejs() {
 }
 
 install_python() {
-  $INSTALL python3-pip python3.8
+  $INSTALL python3-pip python3.8 virtualenv
 
   virtualenv -p $(which python3.8) $WORK_DIR/py3.8_env
 
