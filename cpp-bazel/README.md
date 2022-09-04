@@ -13,6 +13,10 @@ sudo ln -s $BIN/bazelisk-linux-amd64 $BIN/bazel
 sudo apt install libboost-all-dev
 ```
 
+#### known issue
+
+bazel can't find system library in macOS
+
 ### build locally
 
 ```
