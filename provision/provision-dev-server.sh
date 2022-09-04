@@ -6,6 +6,8 @@ set -e -x
 
 export DEBIAN_FRONTEND=noninteractive
 
+export ARCH=$(dpkg --print-architecture)
+
 PW=0000
 
 INSTALL='sudo apt-get install -qq'
@@ -135,7 +137,7 @@ install_docker() {
 
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
-  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  echo "deb [arch=$ARCH signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
   $UPDATE
 
@@ -178,7 +180,6 @@ install_git() {
 install_go() {
   GO_VER=1.17.5
   OS=linux
-  ARCH=amd64
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 
   curl -O https://dl.google.com/go/$GO_TAR
@@ -189,10 +190,12 @@ install_go() {
 }
 
 install_bazel() {
-  wget https://github.com/bazelbuild/bazelisk/releases/download/v1.12.0/bazelisk-linux-amd64
-  chmod +x ./bazelisk-linux-amd64
-  mv ./bazelisk-linux-amd64 $BIN
-  sudo ln -s $BIN/bazelisk-linux-amd64 $BIN/bazel
+  BAZELISK=bazelisk-linux-$ARCH
+
+  wget https://github.com/bazelbuild/bazelisk/releases/download/v1.12.0/$BAZELISK
+  chmod +x ./$BAZELISK
+  mv ./$BAZELISK $BIN
+  sudo ln -s $BIN/$BAZELISK $BIN/bazel
   bazel --version
 
   # requires go
@@ -279,11 +282,13 @@ install_ruby() {
 }
 
 install_mongodb() {
+  MONGO_VER=6.0
+
   $INSTALL gnupg
 
-  wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+  wget -qO - https://www.mongodb.org/static/pgp/server-$MONGO_VER.asc | sudo apt-key add -
 
-  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/$MONGO_VER multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-$MONGO_VER.list
 
   $UPDATE
 
