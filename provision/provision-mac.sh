@@ -121,6 +121,10 @@ install_gcloud() {
   # ln -s $BIN/google-cloud-sdk/bin/kubectl $BIN/kubectl
 }
 
+install_vlc() {
+  $INSTALL --cask vlc
+}
+
 install_zsh() {
   # $INSTALL zsh
   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -160,6 +164,7 @@ install_jdk
 install_nodejs
 install_python
 install_gcloud # requires python
+install_vlc
 install_zsh
 
 clean_up
