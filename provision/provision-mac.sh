@@ -38,7 +38,6 @@ install_essentials() {
     colordiff \
     htop \
     jq \
-    openjdk@17 \
     tmux \
     tree \
     wget
@@ -74,6 +73,12 @@ install_bazel() {
 
   # requires go
   go install github.com/bazelbuild/buildtools/buildifier@latest
+}
+
+install_jdk() {
+  # $INSTALL openjdk@17
+  # $INSTALL --cask zulu
+  $INSTALL --cask temurin
 }
 
 install_nodejs() {
@@ -151,6 +156,7 @@ install_essentials
 
 install_go
 install_bazel
+install_jdk
 install_nodejs
 install_python
 install_gcloud # requires python
