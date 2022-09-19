@@ -8,7 +8,6 @@ export EDITOR=/usr/bin/vim
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 alias cls=clear
-alias cp='cp --no-preserve=all'
 alias cpp='clang++ -Wall -Wextra -Werror -std=c++20 -pedantic'
 alias cpp2='clang++ -O2 -std=c++20'
 alias diff=colordiff
@@ -27,6 +26,8 @@ alias gch='git checkout'
 alias tmux="tmux -f $WORK_DIR/settings/tmux.conf"
 alias tma='tmux a -t'
 alias tmn='tmux new -s'
+
+alias brave='open -a "Brave Browser" -n --args --incognito --new-window'
 
 # go
 
