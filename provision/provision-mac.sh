@@ -35,6 +35,7 @@ reset_dir() {
 
 install_essentials() {
   $INSTALL \
+    clang-format \
     colordiff \
     htop \
     jq \
@@ -155,6 +156,9 @@ curl https://raw.githubusercontent.com/david0922/hello-world/master/provision/tm
 
 bash -c "NONINTERACTIVE=1 $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# change screehshot location
+defaults write com.apple.screencapture location $WORK_DIR/downloads
 
 install_essentials
 

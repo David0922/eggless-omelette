@@ -28,6 +28,7 @@ alias tma='tmux a -t'
 alias tmn='tmux new -s'
 
 alias brave='open -a "Brave Browser" -n --args --incognito --new-window'
+alias brave='open -a "Google Chrome" -n --args --incognito --new-window'
 
 # go
 
