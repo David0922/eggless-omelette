@@ -1,0 +1,11 @@
+#include "big_int.h"
+
+#include <gtest/gtest.h>
+
+TEST(HelloTest, BasicAssertions) {
+  BigInt a("23984712903847109280000384723947"),
+      b("3984400049287349392384773894723");
+
+  EXPECT_EQ((a * b).str(),
+            "95564691276231347183185600324505193831386002651395480395031681");
+}
