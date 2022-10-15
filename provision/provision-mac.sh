@@ -180,6 +180,7 @@ echo 'manually configure:
   chrome
   firefox
   git config --global color.ui true
+  git config --global core.ignorecase false
   git config --global user.email EMAIL
   git config --global user.name NAME
   git rsa
