@@ -6,7 +6,7 @@ yarn
 
 run locally
 
-```basj
+```bash
 yarn build
 yarn start
 ```
