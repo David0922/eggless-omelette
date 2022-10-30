@@ -73,16 +73,17 @@ install_essentials() {
     curl \
     ethtool \
     hping3 \
-    libboost-all-dev \
     htop \
     iproute2 \
     iputils-ping \
     jq \
+    libboost-all-dev \
     libomp-dev \
     make \
     net-tools \
     openjdk-11-jdk \
     openssl \
+    protobuf-compiler \
     screenfetch \
     sipcalc \
     sshfs \

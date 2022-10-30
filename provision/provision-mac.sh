@@ -39,6 +39,7 @@ install_essentials() {
     colordiff \
     htop \
     jq \
+    protobuf \
     tmux \
     tree \
     wget
