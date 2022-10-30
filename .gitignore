@@ -4,7 +4,6 @@
 bazel-*
 build
 dist
-# go.sum
 log
 node_modules
 output-*
