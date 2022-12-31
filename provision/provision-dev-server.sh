@@ -206,6 +206,17 @@ install_bazel() {
   go install github.com/bazelbuild/buildtools/buildifier@latest
 }
 
+install_julia() {
+  JULIA_VER=1.6.7
+  OS=linux
+  JULIA_TAR=julia-$JULIA_VER-$OS-x86_64.tar.gz
+
+  curl -O https://julialang-s3.julialang.org/bin/linux/x64/1.6/$JULIA_TAR
+  tar --no-same-owner -xzf $JULIA_TAR -C $BIN
+
+  export PATH=$PATH:$BIN/julia-$JULIA_VER/bin
+}
+
 install_microk8s() {
   sudo snap install microk8s --classic
 
