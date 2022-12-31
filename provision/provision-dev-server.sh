@@ -388,9 +388,9 @@ set_ufw_firewall
 
 cd $WORK_DIR/downloads
 
-wget https://raw.githubusercontent.com/david0922/hello-world/master/provision/common.sh -O $WORK_DIR/settings/common.sh
+curl https://raw.githubusercontent.com/david0922/hello-world/main/provision/common.sh -o $WORK_DIR/settings/common.sh
 
-wget https://raw.githubusercontent.com/david0922/hello-world/master/provision/tmux.conf -O $WORK_DIR/settings/tmux.conf
+curl https://raw.githubusercontent.com/david0922/hello-world/main/provision/tmux.conf -o $WORK_DIR/settings/tmux.conf
 
 install_essentials
 

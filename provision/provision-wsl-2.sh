@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# usage: bash -c "$(curl -fsSL https://raw.github.com/david0922/hello-world/master/provision/provision-wsl-2.sh)"
+# usage: bash -c "$(curl -fsSL https://raw.githubusercontent.com/david0922/hello-world/main/provision/provision-wsl-2.sh)"
 
 set -e -x
 
@@ -29,9 +29,9 @@ export PATH=$PATH:$BIN
 
 cd $WORK_DIR/downloads
 
-wget https://raw.github.com/david0922/hello-world/master/provision/common.sh -O $WORK_DIR/settings/common.sh
+curl https://raw.githubusercontent.com/david0922/hello-world/main/provision/common.sh -o $WORK_DIR/settings/common.sh
 
-wget https://raw.github.com/david0922/hello-world/master/provision/tmux.conf -O $WORK_DIR/settings/tmux.conf
+curl https://raw.githubusercontent.com/david0922/hello-world/main/provision/tmux.conf -o $WORK_DIR/settings/tmux.conf
 
 $UPDATE
 sudo apt-get upgrade -qq
