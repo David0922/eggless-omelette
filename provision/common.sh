@@ -16,6 +16,7 @@ alias less='less -r'
 alias ll='ls -aFhl --color=always'
 alias lsl='ls -aFhl --color=always | less -r'
 alias rsync='rsync --human-readable --progress --recursive --verbose'
+alias serve-http='busybox httpd -f -h . -p 0.0.0.0:8080 -v'
 alias shutdown='sudo shutdown now'
 
 alias g='git --no-pager'
