@@ -163,6 +163,7 @@ pip install \
   numpy \
   pandas \
   pytest \
+  PyYAML \
   requests \
   yapf
 

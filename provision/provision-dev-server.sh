@@ -259,6 +259,7 @@ install_python() {
     numpy \
     pandas \
     pytest \
+    PyYAML \
     requests \
     yapf
 }
