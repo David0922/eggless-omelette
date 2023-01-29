@@ -38,3 +38,5 @@ service nginx stop
 
 rm -rf /etc/nginx/sites-enabled
 mv /work-dir/nginx.conf /etc/nginx/conf.d/nginx.conf
+
+nginx -t
