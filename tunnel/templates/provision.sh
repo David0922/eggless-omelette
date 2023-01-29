@@ -25,9 +25,10 @@ service ddclient restart
 
 sleep 300
 
+# DOMAIN_NAME_FLAGS: --domains domain-01.com --domains domain-02.com ...
 certbot certonly --nginx \
   --agree-tos \
-  --domains DOMAIN_NAME \
+  {DOMAIN_NAME_FLAGS} \
   --register-unsafely-without-email
 
 echo "0 0,12 * * * root python3 -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -q" | tee -a /etc/crontab

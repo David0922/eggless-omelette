@@ -17,17 +17,18 @@ gcloud compute instances create $VM_NAME \
   --zone=$ZONE
 ```
 
-### replace `DOMAIN_NAME` with an actual domain name
+### modify config.yml
+
+### generate ddclient.conf, nginx.conf, provision.sh from config.yml
 
 ```
-find . -type f -not -path ./README.md -exec sed -i 's/DOMAIN_NAME/ACTUAL_DOMAIN_NAME/' {} +
+python ./main.py
 ```
-
-### enter `login` and `password` in `ddclient.conf`
 
 ### build image
 
 ```
+cd output
 docker build --network host -t tunnel .
 ```
 

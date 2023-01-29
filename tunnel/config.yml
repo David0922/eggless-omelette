@@ -1,0 +1,14 @@
+domains:
+  - domain_name: domain-01.com
+    ddclient:
+      server: domains.google.com
+      login: login-1
+      password: pw-1
+    https_proxy_pass_port: 8081
+
+  - domain_name: domain-02.com
+    ddclient:
+      server: domains.google.com
+      login: login-2
+      password: pw-2
+    https_proxy_pass_port: 8082
