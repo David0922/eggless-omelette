@@ -49,8 +49,10 @@ def main():
     provision = f.read()
 
   with open(f'{output_dir}/provision.sh', 'w') as f:
-    flags = ' '.join(f'--domains {domain.domain_name}' for domain in domains)
-    f.write(provision.format(DOMAIN_NAME_FLAGS=flags))
+    certbot_cmd = '\n'.join(
+      f'certbot certonly --nginx --agree-tos --register-unsafely-without-email -d {domain.domain_name}'
+      for domain in domains)
+    f.write(provision.format(CERTBOT_CMD=certbot_cmd))
 
 
 if __name__ == '__main__':
