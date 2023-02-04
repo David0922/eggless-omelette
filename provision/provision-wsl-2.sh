@@ -123,7 +123,7 @@ git config --global color.ui true
 
 # go
 
-GO_VER=1.17.1
+GO_VER=1.19.5
 OS=linux
 ARCH=amd64
 GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
