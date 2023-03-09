@@ -1,3 +1,9 @@
+# eggless-omelette
+
+omelette... with... no egg...
+
+this repo contains boilerplate code to start a new project
+
 ### setup golang proj
 
 add to vscode `settings.json`

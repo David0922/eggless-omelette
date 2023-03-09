@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# usage: bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/hello-world/main/provision/provision-prod-server.sh)"
+# usage: bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-prod-server.sh)"
 
 set -e -x
 
@@ -167,9 +167,9 @@ set_ufw_firewall
 
 cd $WORK_DIR/downloads
 
-curl https://raw.githubusercontent.com/david0922/hello-world/main/provision/common.sh -o $WORK_DIR/settings/common.sh
+curl https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/common.sh -o $WORK_DIR/settings/common.sh
 
-curl https://raw.githubusercontent.com/david0922/hello-world/main/provision/tmux.conf -o $WORK_DIR/settings/tmux.conf
+curl https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/tmux.conf -o $WORK_DIR/settings/tmux.conf
 
 install_essentials
 

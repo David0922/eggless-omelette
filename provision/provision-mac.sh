@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# usage: bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/hello-world/main/provision/provision-mac.sh)"
+# usage: bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-mac.sh)"
 
 set -e -x
 
@@ -155,9 +155,9 @@ cd $WORK_DIR/downloads
 softwareupdate --agree-to-license --install-rosetta
 arch -x86_64 echo 'testing rosetta 2'
 
-curl https://raw.githubusercontent.com/david0922/hello-world/main/provision/common-mac.sh -o $WORK_DIR/settings/common.sh
+curl https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/common-mac.sh -o $WORK_DIR/settings/common.sh
 
-curl https://raw.githubusercontent.com/david0922/hello-world/main/provision/tmux.conf -o $WORK_DIR/settings/tmux.conf
+curl https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/tmux.conf -o $WORK_DIR/settings/tmux.conf
 
 bash -c "NONINTERACTIVE=1 $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
