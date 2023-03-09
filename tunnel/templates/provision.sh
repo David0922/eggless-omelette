@@ -32,7 +32,7 @@ sleep 300
 #   -d DOMAIN_name
 {CERTBOT_CMD}
 
-echo "0 0,12 * * * root python3 -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew --renew-hook 'service nginx reload'" | tee -a /etc/crontab
+echo "0 0,12 * * * root python3 -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew --deploy-hook 'service nginx reload'" | tee -a /etc/crontab
 
 service nginx stop
 
