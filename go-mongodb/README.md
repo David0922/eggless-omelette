@@ -1,1 +1,1 @@
-`MONGODB_URI='mongodb://username:password@addr'` ./go-mongodb
+MONGODB_URI='mongodb://username:password@addr' ./go-mongodb
