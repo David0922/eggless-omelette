@@ -16,12 +16,13 @@ Vagrant.configure('2') do |config|
     devbox.vm.hostname = $VM_NAME
 
     devbox.vm.network 'private_network', type: 'dhcp'
+    # devbox.vm.network "public_network", type: "dhcp"
 
     devbox.vm.provider 'virtualbox' do |v|
-      v.cpus = 4
-      v.memory = 8192
+      v.cpus = 2
+      v.memory = 4096
 
-      v.customize ['modifyvm', :id, '--nested-hw-virt', 'on']
+      # v.customize ['modifyvm', :id, '--nested-hw-virt', 'on']
     end
 
     devbox.vm.synced_folder '/david/devbox/tmp', '/david-host/tmp', type: 'nfs'
