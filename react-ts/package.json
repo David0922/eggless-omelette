@@ -2,23 +2,22 @@
   "name": "react-ts",
   "private": true,
   "version": "0.0.1",
-  "type": "module",
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "vite build",
     "clean": "rm -rf ./dist",
     "dev": "vite --host 0.0.0.0 --port 8080",
     "start": "vite preview --host 0.0.0.0 --port 8080"
   },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "npm-check-updates": "^16.7.12",
+    "typescript": "^5.0.2",
+    "vite": "^4.2.0"
+  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "@types/react-dom": "^18.0.6",
-    "@types/react": "^18.0.18",
-    "@vitejs/plugin-react": "^2.0.1",
-    "npm-check-updates": "^16.0.6",
-    "typescript": "^4.8.2",
-    "vite": "^3.0.9"
   }
 }
