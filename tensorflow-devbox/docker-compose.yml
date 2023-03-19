@@ -1,0 +1,19 @@
+services:
+  jupyter-notebook:
+    image: jupyter-notebook
+    build: ./jupyter-notebook
+    volumes:
+      - ${DATA_DIR}:/app/data
+      - ${NOTEBOOK_DIR}:/app/notebooks
+    ports:
+      - ${HOST_PORT}:80
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+      - SHELL=/usr/bin/zsh
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
