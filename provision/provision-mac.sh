@@ -52,7 +52,7 @@ install_essentials() {
 }
 
 install_go() {
-  GO_VER=1.19.5
+  GO_VER=1.20.2
   OS=darwin
   ARCH=arm64
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
