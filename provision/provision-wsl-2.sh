@@ -53,6 +53,7 @@ printf "$PW\n$PW\n" | sudo passwd root
 # essentials
 
 $INSTALL \
+  autossh \
   build-essential \
   busybox \
   clang-12 \

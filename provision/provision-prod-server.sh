@@ -55,6 +55,7 @@ set_ufw_firewall() {
 
 install_essentials() {
   $INSTALL \
+    autossh \
     busybox \
     colordiff \
     curl \
