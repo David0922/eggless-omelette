@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: curl-me
-          image: 'localhost:32000/curl-me'
+          image: "localhost:32000/curl-me"
           ports:
             - containerPort: 8080
           env:
@@ -46,13 +46,30 @@ kind: Service
 metadata:
   name: curl-me
 spec:
-  type: NodePort
+  type: ClusterIP
+  # type: NodePort
   selector:
     app: curl-me
   ports:
     # nodePort:   a static port assigned on each node
     # port:       port exposed internally in the ClusterIP
     # targetPort: the container port to send requests to
-    - nodePort: 30001 # curl HOST_IP:nodePort
-      port: 3000 # curl CLUSTER_IP:port
+    - port: 3000 # curl CLUSTER_IP:port
       targetPort: 8080
+      # nodePort: 30001 # curl HOST_IP:nodePort
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: http-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /curl-me
+            pathType: Prefix
+            backend:
+              service:
+                name: curl-me
+                port:
+                  number: 3000
