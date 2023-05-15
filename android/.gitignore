@@ -1,0 +1,9 @@
+.cxx
+.DS_Store
+.externalNativeBuild
+.gradle
+.idea
+*.iml
+build
+captures
+local.properties
