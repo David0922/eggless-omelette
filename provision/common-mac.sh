@@ -29,6 +29,7 @@ alias tmn='tmux new -s'
 
 alias brave='open -a "Brave Browser" -n --args --incognito --new-window'
 alias brave='open -a "Google Chrome" -n --args --incognito --new-window'
+alias pdf='open -a Negative -n'
 
 # go
 
