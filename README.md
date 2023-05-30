@@ -57,4 +57,8 @@ docker exec -it mongodb mongo -u username -p password
 
 ```bash
 busybox httpd -f -h . -p 0.0.0.0:8080 -v
+
+# or
+
+python -m http.server --directory . --bind 0.0.0.0 8080
 ```
