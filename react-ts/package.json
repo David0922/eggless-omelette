@@ -9,12 +9,12 @@
     "start": "vite preview --host 0.0.0.0 --port 8080"
   },
   "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "@vitejs/plugin-react": "^3.1.0",
-    "npm-check-updates": "^16.7.12",
-    "typescript": "^5.0.2",
-    "vite": "^4.2.0"
+    "@types/react": "^18.2.7",
+    "@types/react-dom": "^18.2.4",
+    "@vitejs/plugin-react": "^4.0.0",
+    "npm-check-updates": "^16.10.12",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.9"
   },
   "dependencies": {
     "react": "^18.2.0",
