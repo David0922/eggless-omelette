@@ -5,6 +5,8 @@ export PATH=$PATH:$BIN
 
 export EDITOR=/usr/bin/vim
 
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 alias cls=clear
