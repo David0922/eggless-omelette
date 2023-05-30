@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express, { ErrorRequestHandler } from 'express';
 
 const main = async () => {
@@ -11,6 +12,7 @@ const main = async () => {
     res.status(500).send('something broke\n');
   };
 
+  app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded());
 

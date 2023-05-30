@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 )
 
 func main() {
@@ -20,7 +21,10 @@ func main() {
 	// })
 
 	router := chi.NewRouter()
+
+	router.Use(cors.Handler(cors.Options{}))
 	router.Use(middleware.Logger)
+
 	router.Get("/", func(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte("goodbye world\n"))
 	})
