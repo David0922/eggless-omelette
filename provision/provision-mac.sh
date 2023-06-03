@@ -127,6 +127,10 @@ install_gcloud() {
   # ln -s $BIN/google-cloud-sdk/bin/kubectl $BIN/kubectl
 }
 
+install_rust() {
+  curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+}
+
 install_vlc() {
   $INSTALL --cask vlc
 }
@@ -167,6 +171,7 @@ defaults write com.apple.screencapture location $WORK_DIR/downloads
 
 install_essentials
 
+# install_rust
 install_go
 install_bazel
 install_jdk

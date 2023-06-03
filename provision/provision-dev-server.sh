@@ -298,6 +298,10 @@ install_ruby() {
   rbenv rehash
 }
 
+install_rust() {
+  curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+}
+
 install_mongodb() {
   MONGO_VER=6.0
 
@@ -400,6 +404,7 @@ install_essentials
 # install_mongodb
 # install_postgresql
 # install_ruby
+# install_rust
 # setup_ebpf_dev
 install_clang
 install_docker
