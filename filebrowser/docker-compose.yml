@@ -1,0 +1,21 @@
+services:
+  nginx:
+    image: nginx
+    build: ./nginx
+    ports:
+      - 8080:8080
+    networks:
+      - internet
+      - no-internet
+  filebrowser:
+    image: filebrowser/filebrowser
+    volumes:
+      # - ./.v/.filebrowser.json:/.filebrowser.json
+      # - ./.v/filebrowser.db:/database.db
+      - /path/to/root:/srv
+    networks:
+      - no-internet
+networks:
+  internet: {}
+  no-internet:
+    internal: true
