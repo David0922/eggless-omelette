@@ -40,6 +40,7 @@ install_essentials() {
     htop \
     jq \
     protobuf \
+    reattach-to-user-namespace \
     tmux \
     tree \
     wget

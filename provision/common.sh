@@ -1,5 +1,5 @@
-WORK_DIR=/work-dir
-BIN=$WORK_DIR/bin
+export WORK_DIR=/work-dir
+export BIN=$WORK_DIR/bin
 
 export PATH=$PATH:$BIN
 
@@ -32,6 +32,8 @@ alias mp='sudo -E multipass'
 alias tmux="tmux -f $WORK_DIR/settings/tmux.conf"
 alias tma='tmux a -t'
 alias tmn='tmux new -s'
+
+alias p='cat /tmp/clipboard'
 
 # alias vagrant-destroy='vagrant destroy -f'
 # alias vagrant-status='vagrant global-status --prune'
