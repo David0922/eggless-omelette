@@ -1,0 +1,22 @@
+services:
+  nginx:
+    image: nginx
+    build: ./nginx
+    ports:
+      - 8080:8080
+    networks:
+      - internet
+      - no-internet
+  emby:
+    image: emby/embyserver
+    volumes:
+      - /home/USER/videos:/videos
+    # ports:
+    #   - 8096:8096 # HTTP
+    #   - 8920:8920 # HTTPS
+    networks:
+      - no-internet
+networks:
+  internet: {}
+  no-internet:
+    internal: true
