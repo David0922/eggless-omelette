@@ -10,8 +10,7 @@ services:
   filebrowser:
     image: filebrowser/filebrowser
     volumes:
-      # - ./.v/.filebrowser.json:/.filebrowser.json
-      # - ./.v/filebrowser.db:/database.db
+      # - ./.db:/database
       - /path/to/root:/srv
     networks:
       - no-internet
