@@ -44,12 +44,21 @@ install_essentials() {
     tmux \
     tree \
     wget
-    # boost \
     # curl \
     # make \
     # unzip \
     # vim \
     # zip \
+}
+
+install_boost() {
+  $INSTALL boost
+
+  # BOOST_VER=1.82.0
+  # BOOST_TAR=boost_1_82_0.tar.bz2
+
+  # curl -O https://boostorg.jfrog.io/artifactory/main/release/$BOOST_VER/source/$BOOST_TAR
+  # tar --bzip2 -xf $BOOST_TAR -C $BIN
 }
 
 install_go() {
