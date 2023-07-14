@@ -15,7 +15,7 @@ sudo apt install libboost-all-dev
 
 #### known issue
 
-bazel can't find system library in macOS
+bazel can't find Boost C++ in macOS
 
 ### build locally
 
