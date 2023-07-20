@@ -231,8 +231,7 @@ install_nodejs() {
   curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
   $INSTALL nodejs
 
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  sudo npm install --global yarn
 
   printf "fs.inotify.max_user_watches = 1048576\n" | sudo tee -a /etc/sysctl.conf
   sudo sysctl -p
