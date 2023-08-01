@@ -1,0 +1,26 @@
+{
+  "name": "react-tailwind",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf ./dist",
+    "dev": "vite --host 0.0.0.0 --port 8080",
+    "start": "vite preview --host 0.0.0.0 --port 8080"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.18",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.4",
+    "autoprefixer": "^10.4.14",
+    "npm-check-updates": "^16.10.17",
+    "postcss": "^8.4.27",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.7"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
