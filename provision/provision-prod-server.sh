@@ -42,7 +42,7 @@ secure_ssh() {
 }
 
 set_timezone() {
-  sudo timedatectl set-timezone America/Los_Angeles
+  sudo timedatectl set-timezone America/New_York
 }
 
 set_ufw_firewall() {
@@ -116,11 +116,11 @@ install_microk8s() {
 }
 
 install_python() {
-  $INSTALL python3-pip python3.8
+  $INSTALL python3-pip python3.9
 
-  virtualenv -p $(which python3.8) $WORK_DIR/py3.8_env
+  virtualenv -p $(which python3.9) $WORK_DIR/py3.9_env
 
-  source $WORK_DIR/py3.8_env/bin/activate
+  source $WORK_DIR/py3.9_env/bin/activate
 
   pip install ipython jupyter
 }

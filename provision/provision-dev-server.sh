@@ -44,7 +44,7 @@ enable_ssh_pw_auth() {
 }
 
 set_timezone() {
-  sudo timedatectl set-timezone America/Los_Angeles
+  sudo timedatectl set-timezone America/New_York
 }
 
 set_pw() {
@@ -241,7 +241,7 @@ install_nodejs() {
 }
 
 install_python() {
-  PY_VER=3.8
+  PY_VER=3.9
 
   $INSTALL python3-pip python$PY_VER virtualenv
 
