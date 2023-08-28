@@ -118,6 +118,8 @@ install_python() {
     matplotlib \
     numpy \
     pandas \
+    plotly \
+    pyspark \
     pytest \
     PyYAML \
     requests \
