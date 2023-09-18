@@ -42,7 +42,8 @@ secure_ssh() {
 }
 
 set_timezone() {
-  sudo timedatectl set-timezone America/New_York
+  sudo timedatectl set-timezone UTC
+  # sudo timedatectl set-timezone America/New_York
 }
 
 set_ufw_firewall() {
