@@ -54,6 +54,9 @@ set_pw() {
 }
 
 set_ufw_firewall() {
+  $UPDATE
+  $INSTALL ufw
+
   sudo ufw --force enable
 
   sudo ufw allow http

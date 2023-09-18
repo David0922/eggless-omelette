@@ -47,6 +47,9 @@ set_timezone() {
 }
 
 set_ufw_firewall() {
+  $UPDATE
+  $INSTALL ufw
+
   sudo ufw --force enable
 
   sudo ufw allow http
