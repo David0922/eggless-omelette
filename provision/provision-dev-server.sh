@@ -228,16 +228,21 @@ install_microk8s() {
 }
 
 install_nodejs() {
-  curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+  NODE_VER=20
+
+  # https://github.com/nodesource/distributions#nodejs
+  $INSTALL ca-certificates curl gnupg
+  sudo mkdir -p /etc/apt/keyrings
+  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VER.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+
+  $UPDATE
   $INSTALL nodejs
 
   sudo npm install --global yarn
 
   printf "fs.inotify.max_user_watches = 1048576\n" | sudo tee -a /etc/sysctl.conf
   sudo sysctl -p
-
-  $UPDATE
-  $INSTALL yarn
 }
 
 install_python() {
