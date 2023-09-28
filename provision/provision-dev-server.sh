@@ -74,6 +74,7 @@ install_essentials() {
     autossh \
     build-essential \
     busybox \
+    cmake \
     colordiff \
     curl \
     ethtool \
