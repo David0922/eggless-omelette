@@ -318,6 +318,8 @@ install_gcloud() {
 
   ln -s $BIN/google-cloud-sdk/bin/gcloud $BIN/gcloud
 
+  gcloud config set disable_usage_reporting false
+
   # gcloud -q components install kubectl
   # ln -s $BIN/google-cloud-sdk/bin/kubectl $BIN/kubectl
 }
