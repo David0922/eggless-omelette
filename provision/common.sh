@@ -50,7 +50,25 @@ export GOPATH=$WORK_DIR/projects/go
 alias py=ipython
 alias python=python3
 
-source $WORK_DIR/py3.9_env/bin/activate
+# virtualenv
+# source $BIN/py3.9/bin/activate
+
+alias mamba=micromamba
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba init' !!
+export MAMBA_EXE=$BIN/micromamba
+export MAMBA_ROOT_PREFIX=$BIN/micromamba_root
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
+
+micromamba activate $BIN/py3.11
 
 # ruby
 

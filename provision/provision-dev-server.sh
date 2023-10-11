@@ -250,14 +250,15 @@ install_nodejs() {
   sudo sysctl -p
 }
 
-install_python() {
+install_python_virtualenv() {
   PY_VER=3.9
+  PY_ENV_PREFIX=$BIN/py$PY_VER
 
   $INSTALL python3-pip python$PY_VER virtualenv
 
-  virtualenv -p $(which python$PY_VER) $WORK_DIR/py${PY_VER}_env
+  virtualenv -p $(which python$PY_VER) $PY_ENV_PREFIX
 
-  source $WORK_DIR/py${PY_VER}_env/bin/activate
+  source $PY_ENV_PREFIX/bin/activate
 
   pip install \
     diagrams \
@@ -274,6 +275,38 @@ install_python() {
     PyYAML \
     requests \
     yapf
+}
+
+install_python_micromamba() {
+  PY_VER=3.11  # grpcio-tools hasn't supported python 3.12
+  PY_ENV_PREFIX=$BIN/py$PY_VER
+
+  curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+  mv ./bin/micromamba $BIN/micromamba
+  rm -rf ./bin
+
+  export MAMBA_ROOT_PREFIX=$BIN/micromamba_root
+  eval "$(micromamba shell hook -s posix)"
+
+  micromamba --yes create --prefix $PY_ENV_PREFIX \
+    python=$PY_VER \
+    diagrams \
+    grpcio \
+    grpcio-tools \
+    ipython \
+    jupyter \
+    matplotlib \
+    numpy \
+    pandas \
+    plotly \
+    pyspark \
+    pytest \
+    PyYAML \
+    requests \
+    yapf \
+    -c conda-forge
+
+  micromamba activate $PY_ENV_PREFIX
 }
 
 install_gcloud() {
@@ -425,7 +458,7 @@ install_bazel
 install_microk8s
 install_nginx
 install_nodejs
-install_python
+install_python_micromamba
 install_gcloud # requires python
 install_zsh
 
