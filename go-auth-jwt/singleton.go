@@ -23,7 +23,7 @@ var (
 func JWTKey() []byte {
 	once.Do(func() {
 		if s, err := RandStr(); err != nil {
-			log.Fatalln(err)
+			log.Fatal(err)
 		} else {
 			jwtKey = s
 		}
