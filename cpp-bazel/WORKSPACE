@@ -1,4 +1,14 @@
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "new_git_repository")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
+
+git_repository(
+    name = "com_github_nelhage_rules_boost",
+    commit = "4ab574f9a84b42b1809978114a4664184716f4bf",
+    remote = "https://github.com/nelhage/rules_boost",
+)
+
+load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
+
+boost_deps()
 
 new_git_repository(
     name = "crow",
