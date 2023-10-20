@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "lib/my_str.h"
+#include "cpp_lib/my_str.h"
 
 int main() {
   std::vector<std::string> v = {"boodbye", "world"};

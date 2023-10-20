@@ -1,6 +1,6 @@
 cc_library(
-    name = "my-str",
+    name = "cpp_lib",
     srcs = ["my_str.cc"],
     hdrs = ["my_str.h"],
-    visibility = ["//main:__pkg__"],
+    visibility = ["//cpp_server:__pkg__"],
 )
