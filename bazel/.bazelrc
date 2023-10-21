@@ -1,0 +1,9 @@
+# build --repo_env=CC=clang
+
+build --cxxopt=-std=c++17
+# build --cxxopt=-std=c++20
+
+# build --cxxopt=-pedantic
+# build --cxxopt=-Wall
+# build --cxxopt=-Werror
+# build --cxxopt=-Wextra
