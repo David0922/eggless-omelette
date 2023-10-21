@@ -82,3 +82,17 @@ pip_parse(
 load("@pip_deps//:requirements.bzl", "install_deps")
 
 install_deps()
+
+# protobuf
+
+git_repository(
+    name = "rules_proto",
+    remote = "https://github.com/bazelbuild/rules_proto",
+    tag = "5.3.0-21.7",
+)
+
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+
+rules_proto_dependencies()
+
+rules_proto_toolchains()
