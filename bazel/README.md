@@ -30,20 +30,19 @@ pip list --format=freeze > requirements.txt
 # build all
 bazel build //...
 
-# build cpp_server
+# build a target (e.g. cpp_server)
 bazel build //cpp_server
-
-# build go_server
-bazel build //go_server
 ```
 
 ## run
 
 ```bash
+# run a target
 bazel run //cpp_server
 
 # or
 
+# run binary manually
 ./bazel-bin/cpp_server/cpp_server
 ```
 
