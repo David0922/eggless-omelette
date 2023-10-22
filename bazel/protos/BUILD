@@ -1,4 +1,5 @@
 load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+load("@com_github_grpc_grpc//bazel:python_rules.bzl", "py_grpc_library", "py_proto_library")
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
@@ -39,3 +40,18 @@ go_library(
 )
 
 # gazelle:exclude empty.go
+
+py_proto_library(
+    name = "calc_py_proto",
+    visibility = ["//visibility:public"],
+    deps = [":calc_proto"],
+)
+
+# can't compile in mamba env
+# has to be compiled in virtualenv
+py_grpc_library(
+    name = "calc_py_grpc",
+    srcs = [":calc_proto"],
+    visibility = ["//visibility:public"],
+    deps = [":calc_py_proto"],
+)
