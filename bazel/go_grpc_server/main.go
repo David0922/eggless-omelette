@@ -6,7 +6,7 @@ import (
 	"log"
 	"net"
 
-	pb "dummy.mofu.dev/proto"
+	pb "dummy.mofu.dev/protos"
 
 	"google.golang.org/grpc"
 )

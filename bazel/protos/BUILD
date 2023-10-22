@@ -26,7 +26,7 @@ cc_grpc_library(
 go_proto_library(
     name = "calc_go_proto",
     compilers = ["@io_bazel_rules_go//proto:go_grpc"],
-    importpath = "dummy.mofu.dev/proto",
+    importpath = "dummy.mofu.dev/protos",
     proto = ":calc_proto",
     visibility = ["//visibility:public"],
 )
@@ -34,7 +34,7 @@ go_proto_library(
 go_library(
     name = "calc_go",
     embed = [":calc_go_proto"],
-    importpath = "dummy.mofu.dev/proto",
+    importpath = "dummy.mofu.dev/protos",
     visibility = ["//visibility:public"],
 )
 

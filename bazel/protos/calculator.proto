@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "dummy.mofu.dev/proto";
+option go_package = "dummy.mofu.dev/protos";
 
 service Calculator {
   rpc Add(AddRequest) returns (AddResponse) {}

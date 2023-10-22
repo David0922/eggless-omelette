@@ -5,7 +5,7 @@
 #include <string>
 
 #include "absl/strings/str_format.h"
-#include "proto/calculator.grpc.pb.h"
+#include "protos/calculator.grpc.pb.h"
 
 class CalculatorServiceImpl final : public Calculator::Service {
   grpc::Status Add(grpc::ServerContext*, const AddRequest* req,

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	pb "dummy.mofu.dev/proto"
+	pb "dummy.mofu.dev/protos"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"

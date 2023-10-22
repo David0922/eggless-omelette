@@ -5,7 +5,7 @@
 #include <string>
 
 #include "absl/strings/str_format.h"
-#include "proto/calculator.grpc.pb.h"
+#include "protos/calculator.grpc.pb.h"
 
 int main(int argc, char** argv) {
   const int port = 3000;
