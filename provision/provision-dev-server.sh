@@ -288,6 +288,8 @@ install_python_micromamba() {
   export MAMBA_ROOT_PREFIX=$BIN/micromamba_root
   eval "$(micromamba shell hook -s posix)"
 
+  printf "channels:\n  - conda-forge\n" | tee $HOME/.condarc
+
   micromamba --yes create --prefix $PY_ENV_PREFIX \
     python=$PY_VER \
     diagrams \
@@ -303,8 +305,7 @@ install_python_micromamba() {
     pytest \
     PyYAML \
     requests \
-    yapf \
-    -c conda-forge
+    yapf
 
   micromamba activate $PY_ENV_PREFIX
 }
