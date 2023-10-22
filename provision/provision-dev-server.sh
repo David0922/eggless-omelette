@@ -126,12 +126,12 @@ install_clang_latest() {
 }
 
 install_clang() {
-  $INSTALL clang-12 clang-format-12
+  $INSTALL clang-15 clang-format-15
 
-  sudo ln -s /usr/bin/clang-12 /usr/bin/clang
-  sudo ln -s /usr/bin/clang++-12 /usr/bin/clang++
+  sudo ln -s $(realpath /usr/bin/clang-15) /usr/bin/clang
+  sudo ln -s $(realpath /usr/bin/clang++-15) /usr/bin/clang++
 
-  sudo ln -s /usr/bin/clang-format-12 /usr/bin/clang-format
+  sudo ln -s $(realpath /usr/bin/clang-format-15) /usr/bin/clang-format
 }
 
 install_docker() {
