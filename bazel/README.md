@@ -51,7 +51,7 @@ bazel run //cpp_server
 ```bash
 bazel clean --async
 
-rm -rf ~/.cache/bazel
+sudo rm -rf ~/.cache/bazel
 ```
 
 ---
