@@ -65,6 +65,7 @@ set_ufw_firewall() {
   sudo ufw allow https
   sudo ufw allow ssh
 
+  sudo ufw allow 2222
   sudo ufw allow 3000
   sudo ufw allow 3001
   sudo ufw allow 8080
@@ -298,7 +299,8 @@ install_python_virtualenv() {
       PY_VER=3.10
       ;;
     *)
-      exit(1)
+      echo 'this script is expected to be run in ubuntu 20.04 / 22.04'
+      exit 1
       ;;
   esac
 
