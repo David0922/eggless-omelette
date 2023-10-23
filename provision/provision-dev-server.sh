@@ -104,34 +104,38 @@ install_essentials() {
 install_clang_latest() {
   # https://apt.llvm.org/
 
+  CLANG_VER=17
+
   $INSTALL gnupg lsb-release software-properties-common
 
   $UPDATE
 
   wget https://apt.llvm.org/llvm.sh
   chmod +x llvm.sh
-  sudo ./llvm.sh 12
+  sudo ./llvm.sh $CLANG_VER
 
-  $INSTALL clang-format-12
+  $INSTALL clang-format-$CLANG_VER
 
   sudo mv /usr/bin/readelf /usr/bin/readelf_old || true
 
   sudo rm -rf /usr/bin/clang /usr/bin/clang++ /usr/bin/llc /usr/bin/readelf /usr/bin/clang-format || true
 
-  sudo ln -s /usr/bin/clang-12 /usr/bin/clang
-  sudo ln -s /usr/bin/clang++-12 /usr/bin/clang++
-  sudo ln -s /usr/lib/llvm-12/bin/llc /usr/bin/llc
-  sudo ln -s /usr/lib/llvm-12/bin/llvm-readelf /usr/bin/readelf
-  sudo ln -s /usr/bin/clang-format-12 /usr/bin/clang-format
+  sudo ln -s /usr/bin/clang-$CLANG_VER /usr/bin/clang
+  sudo ln -s /usr/bin/clang++-$CLANG_VER /usr/bin/clang++
+  sudo ln -s /usr/lib/llvm-$CLANG_VER/bin/llc /usr/bin/llc
+  sudo ln -s /usr/lib/llvm-$CLANG_VER/bin/llvm-readelf /usr/bin/readelf
+  sudo ln -s /usr/bin/clang-format-$CLANG_VER /usr/bin/clang-format
 }
 
 install_clang() {
-  $INSTALL clang-15 clang-format-15
+  CLANG_VER=15
 
-  sudo ln -s $(realpath /usr/bin/clang-15) /usr/bin/clang
-  sudo ln -s $(realpath /usr/bin/clang++-15) /usr/bin/clang++
+  $INSTALL clang-$CLANG_VER clang-format-$CLANG_VER
 
-  sudo ln -s $(realpath /usr/bin/clang-format-15) /usr/bin/clang-format
+  sudo ln -s $(realpath /usr/bin/clang-$CLANG_VER) /usr/bin/clang
+  sudo ln -s $(realpath /usr/bin/clang++-$CLANG_VER) /usr/bin/clang++
+
+  sudo ln -s $(realpath /usr/bin/clang-format-$CLANG_VER) /usr/bin/clang-format
 }
 
 install_docker() {
@@ -250,33 +254,6 @@ install_nodejs() {
   sudo sysctl -p
 }
 
-install_python_virtualenv() {
-  PY_VER=3.9
-  PY_ENV_PREFIX=$BIN/py$PY_VER
-
-  $INSTALL python3-pip python$PY_VER virtualenv
-
-  virtualenv -p $(which python$PY_VER) $PY_ENV_PREFIX
-
-  source $PY_ENV_PREFIX/bin/activate
-
-  pip install \
-    diagrams \
-    grpcio \
-    grpcio-tools \
-    ipython \
-    jupyter \
-    matplotlib \
-    numpy \
-    pandas \
-    plotly \
-    pyspark \
-    pytest \
-    PyYAML \
-    requests \
-    yapf
-}
-
 install_python_micromamba() {
   PY_VER=3.11  # grpcio-tools hasn't supported python 3.12
   PY_ENV_PREFIX=$BIN/py$PY_VER
@@ -308,6 +285,33 @@ install_python_micromamba() {
     yapf
 
   micromamba activate $PY_ENV_PREFIX
+}
+
+install_python_virtualenv() {
+  PY_VER=3.9
+  PY_ENV_PREFIX=$BIN/py$PY_VER
+
+  $INSTALL python3-pip python$PY_VER virtualenv
+
+  virtualenv -p $(which python$PY_VER) $PY_ENV_PREFIX
+
+  source $PY_ENV_PREFIX/bin/activate
+
+  pip install \
+    diagrams \
+    grpcio \
+    grpcio-tools \
+    ipython \
+    jupyter \
+    matplotlib \
+    numpy \
+    pandas \
+    plotly \
+    pyspark \
+    pytest \
+    PyYAML \
+    requests \
+    yapf
 }
 
 install_gcloud() {
@@ -461,7 +465,8 @@ install_bazel
 install_microk8s
 install_nginx
 install_nodejs
-install_python_micromamba
+# install_python_micromamba
+install_python_virtualenv
 install_gcloud # requires python
 install_zsh
 

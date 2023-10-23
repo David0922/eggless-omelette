@@ -119,19 +119,6 @@ install_microk8s() {
   sudo microk8s stop
 }
 
-install_python_virtualenv() {
-  PY_VER=3.9
-  PY_ENV_PREFIX=$BIN/py$PY_VER
-
-  $INSTALL python3-pip python$PY_VER virtualenv
-
-  virtualenv -p $(which python$PY_VER) $PY_ENV_PREFIX
-
-  source $PY_ENV_PREFIX/bin/activate
-
-  pip install ipython jupyter
-}
-
 install_python_micromamba() {
   PY_VER=3.11
   PY_ENV_PREFIX=$BIN/py$PY_VER
@@ -150,6 +137,19 @@ install_python_micromamba() {
     -c conda-forge
 
   micromamba activate $PY_ENV_PREFIX
+}
+
+install_python_virtualenv() {
+  PY_VER=3.9
+  PY_ENV_PREFIX=$BIN/py$PY_VER
+
+  $INSTALL python3-pip python$PY_VER virtualenv
+
+  virtualenv -p $(which python$PY_VER) $PY_ENV_PREFIX
+
+  source $PY_ENV_PREFIX/bin/activate
+
+  pip install ipython jupyter
 }
 
 install_nginx() {
@@ -205,7 +205,8 @@ install_docker
 install_git
 # install_microk8s
 install_nginx
-install_python_micromamba
+# install_python_micromamba
+install_python_virtualenv
 install_zsh
 
 clean_up

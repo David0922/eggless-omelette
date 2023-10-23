@@ -51,7 +51,7 @@ alias py=ipython
 alias python=python3
 
 # virtualenv
-# source $BIN/py3.9/bin/activate
+source $BIN/py3.9/bin/activate
 
 alias mamba=micromamba
 
@@ -68,7 +68,7 @@ fi
 unset __mamba_setup
 # <<< mamba initialize <<<
 
-micromamba activate $BIN/py3.11
+# micromamba activate $BIN/py3.11
 
 # ruby
 
