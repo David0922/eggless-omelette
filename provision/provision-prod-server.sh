@@ -140,7 +140,18 @@ install_python_micromamba() {
 }
 
 install_python_virtualenv() {
-  PY_VER=3.9
+  case $(lsb_release -r -s) in
+    20.04)
+      PY_VER=3.9
+      ;;
+    22.04)
+      PY_VER=3.10
+      ;;
+    *)
+      exit(1)
+      ;;
+  esac
+
   PY_ENV_PREFIX=$BIN/py$PY_VER
 
   $INSTALL python3-pip python$PY_VER virtualenv

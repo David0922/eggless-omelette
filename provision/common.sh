@@ -51,7 +51,17 @@ alias py=ipython
 alias python=python3
 
 # virtualenv
-source $BIN/py3.9/bin/activate
+
+case $(lsb_release -r -s) in
+  20.04)
+    source $BIN/py3.9/bin/activate
+    ;;
+  22.04)
+    source $BIN/py3.10/bin/activate
+    ;;
+esac
+
+# micromamba
 
 alias mamba=micromamba
 
