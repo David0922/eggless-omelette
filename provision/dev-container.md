@@ -1,5 +1,5 @@
 ```bash
-docker build \
+podman build \
   --build-arg "USER=$USER" \
   --build-arg "USER_UID=$(id -u)" \
   --build-arg "USER_GID=$(id -g)" \
@@ -9,7 +9,7 @@ docker build \
 ```
 
 ```bash
-docker run \
+podman run \
   --name dev \
   --rm \
   -d \
@@ -22,5 +22,5 @@ docker run \
 ```
 
 ```bash
-docker kill dev
+podman kill dev
 ```
