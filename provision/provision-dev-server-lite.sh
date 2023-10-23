@@ -61,6 +61,7 @@ install_essentials() {
     cmake \
     colordiff \
     curl \
+    htop \
     jq \
     libboost-all-dev \
     make \
