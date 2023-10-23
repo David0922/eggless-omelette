@@ -27,6 +27,8 @@ reset_dir() {
   sudo mkdir $WORK_DIR
   sudo chown $USER $WORK_DIR
 
+  sudo ln -s $WORK_DIR /$USER
+
   mkdir \
     $BIN \
     $WORK_DIR/downloads \
