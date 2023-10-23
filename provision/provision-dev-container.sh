@@ -1,7 +1,4 @@
 #!/bin/bash
-
-#
-
 # usage: bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-dev-container.sh)"
 
 set -e -x
@@ -12,9 +9,9 @@ export ARCH=$(dpkg --print-architecture)
 
 PW=0000
 
-INSTALL='sudo apt-get install -qq'
-UPDATE='sudo apt-get update -qq'
-UPGRADE='sudo apt-get upgrade -qq'
+INSTALL='apt-get install -qq'
+UPDATE='apt-get update -qq'
+UPGRADE='apt-get upgrade -qq'
 
 WORK_DIR=/work-dir
 BIN=$WORK_DIR/bin
@@ -24,12 +21,9 @@ export PATH=$PATH:$BIN
 # -------------------------------------------------- #
 
 reset_dir() {
-  sudo rm -rf $WORK_DIR $HOME/.oh-my-zsh || true
+  rm -rf $WORK_DIR $HOME/.oh-my-zsh || true
 
-  sudo mkdir $WORK_DIR
-  sudo chown $USER $WORK_DIR
-
-  sudo ln -s $WORK_DIR /$USER
+  mkdir $WORK_DIR
 
   mkdir \
     $BIN \
@@ -41,18 +35,17 @@ reset_dir() {
 enable_ssh_pw_auth() {
   $INSTALL openssh-server
 
-  sudo sed -i 's/^#\?AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?GatewayPorts.*/GatewayPorts yes/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+  sed -i 's/^#\?AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config
+  sed -i 's/^#\?GatewayPorts.*/GatewayPorts yes/' /etc/ssh/sshd_config
+  sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+  sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-  sudo service ssh restart || true
-  sudo systemctl restart sshd || true
+  service ssh restart || true
+  systemctl restart sshd || true
 }
 
 set_pw() {
-  printf "$PW\n$PW\n" | sudo passwd root
-  printf "$PW\n$PW\n" | sudo passwd $USER || true
+  printf "$PW\n$PW\n" | passwd root
 }
 
 install_essentials() {
@@ -84,10 +77,10 @@ install_clang() {
 
   $INSTALL clang-$CLANG_VER clang-format-$CLANG_VER
 
-  sudo ln -s $(realpath /usr/bin/clang-$CLANG_VER) /usr/bin/clang
-  sudo ln -s $(realpath /usr/bin/clang++-$CLANG_VER) /usr/bin/clang++
+  ln -s $(realpath /usr/bin/clang-$CLANG_VER) /usr/bin/clang
+  ln -s $(realpath /usr/bin/clang++-$CLANG_VER) /usr/bin/clang++
 
-  sudo ln -s $(realpath /usr/bin/clang-format-$CLANG_VER) /usr/bin/clang-format
+  ln -s $(realpath /usr/bin/clang-format-$CLANG_VER) /usr/bin/clang-format
 }
 
 install_git() {
@@ -106,8 +99,8 @@ install_go() {
   export GOPATH=$WORK_DIR/projects/go
   export PATH=$PATH:$BIN/go/bin:$WORK_DIR/projects/go/bin
 
-  # go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-  # go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+  go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+  go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 }
 
 install_bazel() {
@@ -116,7 +109,7 @@ install_bazel() {
   wget https://github.com/bazelbuild/bazelisk/releases/download/v1.12.0/$BAZELISK
   chmod +x ./$BAZELISK
   mv ./$BAZELISK $BIN
-  sudo ln -s $BIN/$BAZELISK $BIN/bazel
+  ln -s $BIN/$BAZELISK $BIN/bazel
   bazel --version
 
   # requires go
@@ -128,17 +121,17 @@ install_nodejs() {
 
   # https://github.com/nodesource/distributions#nodejs
   $INSTALL ca-certificates curl gnupg
-  sudo mkdir -p /etc/apt/keyrings
-  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VER.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+  mkdir -p /etc/apt/keyrings
+  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VER.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
 
   $UPDATE
   $INSTALL nodejs
 
-  sudo npm install --global yarn
+  npm install --global yarn
 
-  printf "fs.inotify.max_user_watches = 1048576\n" | sudo tee -a /etc/sysctl.conf
-  sudo sysctl -p
+  printf "fs.inotify.max_user_watches = 1048576\n" | tee -a /etc/sysctl.conf
+  sysctl -p
 }
 
 install_python_virtualenv() {
@@ -184,7 +177,7 @@ install_python_virtualenv() {
 install_zsh() {
   $INSTALL zsh
 
-  sudo sed -i 's/auth\(.*\)pam_shells.so/auth sufficient pam_shells.so/' /etc/pam.d/chsh
+  sed -i 's/auth\(.*\)pam_shells.so/auth sufficient pam_shells.so/' /etc/pam.d/chsh
 
   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
   sed -i 's/ZSH_THEME="\(.*\)"/ZSH_THEME="candy"/' $HOME/.zshrc
@@ -198,9 +191,9 @@ clean_up() {
   $UPDATE
   $UPGRADE
 
-  sudo apt-get clean -qq
-  sudo apt-get autoclean -qq
-  sudo apt-get autoremove -qq
+  apt-get clean -qq
+  apt-get autoclean -qq
+  apt-get autoremove -qq
 }
 
 # -------------------------------------------------- #

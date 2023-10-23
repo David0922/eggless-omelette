@@ -114,6 +114,7 @@ py_repositories()
 # py_grpc_library v1.54.3 only works with python 3.10
 python_register_toolchains(
     name = "python_3_10",
+    ignore_root_user_error = True,
     python_version = "3.10",
 )
 

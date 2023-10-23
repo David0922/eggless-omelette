@@ -1,20 +1,8 @@
 FROM ubuntu:22.04
 
-ARG USER=$USER
-ARG USER_UID=$USER_UID
-ARG USER_GID=$USER_GID
-
-RUN groupadd --gid $USER_GID $USER
-RUN useradd --gid $USER_GID --uid $USER_UID -m $USER
-
 RUN apt-get update
 RUN apt-get install -y curl sudo
 
-RUN echo $USER ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER
-RUN chmod 0440 /etc/sudoers.d/$USER
-
-USER $USER
-
 RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-dev-container.sh)"
 
-CMD ["/usr/bin/sudo", "/usr/sbin/sshd", "-D"]
+CMD ["/usr/sbin/sshd", "-D"]
