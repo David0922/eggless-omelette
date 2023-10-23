@@ -11,7 +11,13 @@ $VM_NAME = "devbox-#{$VM_ID}"
 Vagrant.configure('2') do |config|
   config.vm.define "#{$VM_NAME}" do |devbox|
     # ubuntu 20.04 LTS
-    devbox.vm.box = 'ubuntu/focal64'
+    # devbox.vm.box = 'ubuntu/focal64'
+
+    # ubuntu 22.04 LTS
+    devbox.vm.box = 'ubuntu/jammy64'
+
+    # vagrant plugin install vagrant-disksize
+    config.disksize.size = '80GB'
 
     devbox.vm.hostname = $VM_NAME
 
@@ -19,13 +25,13 @@ Vagrant.configure('2') do |config|
     # devbox.vm.network "public_network", type: "dhcp"
 
     devbox.vm.provider 'virtualbox' do |v|
-      v.cpus = 2
-      v.memory = 4096
+      v.cpus = 4
+      v.memory = 8192
 
       # v.customize ['modifyvm', :id, '--nested-hw-virt', 'on']
     end
 
-    devbox.vm.synced_folder '/david/devbox/tmp', '/mnt-host/tmp', type: 'nfs'
+    # devbox.vm.synced_folder '/david/devbox/tmp', '/mnt-host/tmp', type: 'nfs'
     # devbox.vm.synced_folder '/david/devbox/tmp', '/mnt-host/tmp', type: 'nfs', mount_options: ["tcp"]
   end
 
