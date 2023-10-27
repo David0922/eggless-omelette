@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/David0922/hello-world/grpc/schema";
+option go_package = "github.com/David0922/eggless-omelette/grpc/schema";
 
 service Calculator {
   rpc Add(AddRequest) returns (AddResponse) {}
