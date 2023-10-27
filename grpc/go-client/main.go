@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	pb "github.com/David0922/hello-world/grpc/schema"
+	pb "github.com/David0922/eggless-omelette/grpc/schema"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
