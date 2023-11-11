@@ -89,7 +89,6 @@ install_essentials() {
     libboost-all-dev \
     libomp-dev \
     make \
-    net-tools \
     openjdk-11-jdk \
     openssl \
     protobuf-compiler \

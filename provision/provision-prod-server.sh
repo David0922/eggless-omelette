@@ -66,8 +66,8 @@ install_essentials() {
     colordiff \
     curl \
     htop \
+    iproute2 \
     jq \
-    net-tools \
     openssl \
     screenfetch \
     tmux \
