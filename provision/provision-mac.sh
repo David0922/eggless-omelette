@@ -114,6 +114,7 @@ install_python() {
     grpcio \
     grpcio-tools \
     ipython \
+    isort \
     jupyter \
     matplotlib \
     numpy \

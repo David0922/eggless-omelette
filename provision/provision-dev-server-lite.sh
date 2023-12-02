@@ -166,6 +166,7 @@ install_python_virtualenv() {
     grpcio \
     grpcio-tools \
     ipython \
+    isort \
     jupyter \
     matplotlib \
     numpy \

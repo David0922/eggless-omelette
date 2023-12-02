@@ -275,6 +275,7 @@ install_python_micromamba() {
     grpcio \
     grpcio-tools \
     ipython \
+    isort \
     jupyter \
     matplotlib \
     numpy \
@@ -316,6 +317,7 @@ install_python_virtualenv() {
     grpcio \
     grpcio-tools \
     ipython \
+    isort \
     jupyter \
     matplotlib \
     numpy \
