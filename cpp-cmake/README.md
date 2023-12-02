@@ -17,7 +17,7 @@ brew install boost
 ### build locally
 
 ```
-make build
+mkdir build
 cd build
 cmake ..
 make
