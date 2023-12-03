@@ -52,6 +52,10 @@ bazel run //cpp_server
 bazel clean --async
 
 sudo rm -rf ~/.cache/bazel
+
+# or
+
+bazel clean --expunge
 ```
 
 ---
