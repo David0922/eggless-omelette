@@ -64,7 +64,7 @@ $INSTALL \
   htop \
   jq \
   make \
-  openjdk-11-jdk \
+  openjdk-21-jdk \
   python3-pip \
   python3.8 \
   screenfetch \
@@ -124,7 +124,7 @@ git config --global color.ui true
 
 # go
 
-GO_VER=1.20.2
+GO_VER=1.21.5
 OS=linux
 ARCH=amd64
 GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz

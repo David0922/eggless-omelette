@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# usage: bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-dev-server-lite.sh)"
+#
+
+# usage: bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-dev-container.sh)"
 
 set -e -x
 
@@ -65,7 +67,7 @@ install_essentials() {
     jq \
     libboost-all-dev \
     make \
-    openjdk-11-jdk \
+    openjdk-21-jdk \
     openssl \
     protobuf-compiler \
     screenfetch \
@@ -94,7 +96,7 @@ install_git() {
 }
 
 install_go() {
-  GO_VER=1.20.2
+  GO_VER=1.21.5
   OS=linux
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 

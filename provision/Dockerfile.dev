@@ -15,6 +15,6 @@ RUN chmod 0440 /etc/sudoers.d/$USER
 
 USER $USER
 
-RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-dev-server-lite.sh)"
+RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-dev-container.sh)"
 
 CMD ["/usr/bin/sudo", "/usr/sbin/sshd", "-D"]

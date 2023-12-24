@@ -89,7 +89,7 @@ install_essentials() {
     libboost-all-dev \
     libomp-dev \
     make \
-    openjdk-11-jdk \
+    openjdk-21-jdk \
     openssl \
     protobuf-compiler \
     screenfetch \
@@ -191,7 +191,7 @@ install_git() {
 }
 
 install_go() {
-  GO_VER=1.20.2
+  GO_VER=1.21.5
   OS=linux
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 
