@@ -92,6 +92,28 @@ load("@pip_deps//:requirements.bzl", "install_deps")
 
 install_deps()
 
+# pybind
+
+git_repository(
+    name = "pybind11_bazel",
+    remote = "https://github.com/pybind/pybind11_bazel",
+    tag = "v2.11.1.bzl.1",
+)
+
+git_repository(
+    name = "pybind11",
+    build_file = "@pybind11_bazel//:pybind11.BUILD",
+    remote = "https://github.com/pybind/pybind11",
+    tag = "v2.11.1",
+)
+
+load("@pybind11_bazel//:python_configure.bzl", "python_configure")
+
+python_configure(
+    name = "local_config_python",
+    python_interpreter_target = interpreter,
+)
+
 # protobuf
 # https://github.com/grpc/grpc/issues/31892
 # won't work if placed before python_register_toolchains
