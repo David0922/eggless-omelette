@@ -1,3 +1,11 @@
+build --noenable_bzlmod
+
+# https://github.com/bazelbuild/bazel/issues/19915
+build --noincompatible_sandbox_hermetic_tmp
+
+# build --sandbox_debug
+# build --verbose_failures
+
 # build --repo_env=CC=clang
 
 # build --cxxopt=-O2
