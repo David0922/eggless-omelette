@@ -13,7 +13,7 @@ pybind_extension(
 )
 
 py_library(
-    name = "py_pet",
+    name = "pet_pybind_lib",
     data = [":pet_pybind.so"],
 )
 
@@ -21,5 +21,5 @@ py_binary(
     name = "main",
     srcs = ["main.py"],
     main = "main.py",
-    deps = [":py_pet"],
+    deps = [":pet_pybind_lib"],
 )
