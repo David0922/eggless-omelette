@@ -4,9 +4,5 @@ cc_library(
     includes = ["include"],
     linkopts = ["-pthread"],
     visibility = ["//visibility:public"],
-    deps = [
-        "@boost//:algorithm",
-        "@boost//:asio",
-        "@boost//:optional",
-    ],
+    deps = ["@asio"],
 )

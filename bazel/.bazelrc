@@ -5,13 +5,14 @@ build --noincompatible_sandbox_hermetic_tmp
 
 build --cxxopt=-O3
 build --cxxopt=-std=c++20
+build --host_cxxopt=-std=c++20
 
 build --define=use_fast_cpp_protos=true
 
 # build --sandbox_debug
 # build --verbose_failures
 
-# build --repo_env=CC=clang
+build --repo_env=CC=clang
 
 # build --cxxopt=-pedantic
 # build --cxxopt=-Wall
