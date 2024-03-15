@@ -51,11 +51,14 @@ bazel run //cpp_server
 ```bash
 bazel clean --async
 
+# or
+bazel clean --expunge
+
+# linux
 sudo rm -rf ~/.cache/bazel
 
-# or
-
-bazel clean --expunge
+# mac
+sudo rm -rf  /private/var/tmp/_bazel*
 ```
 
 ---
