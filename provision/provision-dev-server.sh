@@ -120,13 +120,23 @@ install_clang_latest() {
 
   sudo mv /usr/bin/readelf /usr/bin/readelf_old || true
 
-  sudo rm -rf /usr/bin/clang /usr/bin/clang++ /usr/bin/llc /usr/bin/readelf /usr/bin/clang-format || true
+  sudo rm -rf \
+    /usr/bin/clang \
+    /usr/bin/clang-format \
+    /usr/bin/clang++ \
+    /usr/bin/ld.lld \
+    /usr/bin/llc \
+    /usr/bin/readelf \
+    /usr/bin/lld \
+  || true
 
   sudo ln -s /usr/bin/clang-$CLANG_VER /usr/bin/clang
+  sudo ln -s /usr/bin/clang-format-$CLANG_VER /usr/bin/clang-format
   sudo ln -s /usr/bin/clang++-$CLANG_VER /usr/bin/clang++
+  sudo ln -s /usr/bin/ld.lld-$CLANG_VER /usr/bin/ld.lld
+  sudo ln -s /usr/bin/lld-$CLANG_VER /usr/bin/lld
   sudo ln -s /usr/lib/llvm-$CLANG_VER/bin/llc /usr/bin/llc
   sudo ln -s /usr/lib/llvm-$CLANG_VER/bin/llvm-readelf /usr/bin/readelf
-  sudo ln -s /usr/bin/clang-format-$CLANG_VER /usr/bin/clang-format
 }
 
 install_clang() {
