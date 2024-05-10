@@ -1,7 +1,6 @@
 __pycache__
 .vagrant
 .vscode
-bazel-*
 build
 dist
 log
