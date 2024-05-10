@@ -1,7 +1,7 @@
 build --noenable_bzlmod
 
 # https://github.com/bazelbuild/bazel/issues/19915
-build --noincompatible_sandbox_hermetic_tmp
+# build --noincompatible_sandbox_hermetic_tmp
 
 build --cxxopt=-O3
 build --cxxopt=-std=c++17
