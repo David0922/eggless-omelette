@@ -120,6 +120,9 @@ def go_dependencies():
         importpath = "google.golang.org/protobuf",
         sum = "h1:uNO2rsAINq/JlFpSdYEKIZ0uKD/R9cpdv0T+yoGwGmI=",
         version = "v1.33.0",
+        build_directives = [
+            "gazelle:proto disable",  # https://github.com/bazelbuild/rules_go/issues/3906
+        ],
     )
     go_repository(
         name = "org_golang_x_crypto",
