@@ -206,7 +206,7 @@ install_go() {
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 
   curl -O https://dl.google.com/go/$GO_TAR
-  tar --no-same-owner -xzf $GO_TAR -C $BIN
+  tar -xzf $GO_TAR -C $BIN --no-same-owner
 
   export GOPATH=$WORK_DIR/projects/go
   export PATH=$PATH:$BIN/go/bin:$WORK_DIR/projects/go/bin
@@ -234,7 +234,7 @@ install_julia() {
   JULIA_TAR=julia-$JULIA_VER-$OS-x86_64.tar.gz
 
   curl -O https://julialang-s3.julialang.org/bin/linux/x64/1.6/$JULIA_TAR
-  tar --no-same-owner -xzf $JULIA_TAR -C $BIN
+  tar -xzf $JULIA_TAR -C $BIN --no-same-owner
 
   export PATH=$PATH:$BIN/julia-$JULIA_VER/bin
 }

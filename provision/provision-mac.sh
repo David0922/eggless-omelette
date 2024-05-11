@@ -68,7 +68,7 @@ install_go() {
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 
   curl -O https://dl.google.com/go/$GO_TAR
-  tar --no-same-owner -xzf $GO_TAR -C $BIN
+  tar -xzf $GO_TAR -C $BIN --no-same-owner
 
   export GOPATH=$WORK_DIR/projects/go
   export PATH=$PATH:$BIN/go/bin:$WORK_DIR/projects/go/bin
