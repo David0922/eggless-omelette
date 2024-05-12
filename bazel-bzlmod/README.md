@@ -1,10 +1,12 @@
-## generate `BUILD` for go projects
+## generate `BUILD` for go/python projects
 
 ```bash
-bazel run //:gazelle
+bazel run //:gazelle_go
+bazel run //:gazelle_py
 
 # specific dir
-bazel run //:gazelle -- dir1 dir2
+bazel run //:gazelle_go -- dir1 dir2
+bazel run //:gazelle_py -- dir1 dir2
 ```
 
 ## sync bazel with go.mod
@@ -12,15 +14,35 @@ bazel run //:gazelle -- dir1 dir2
 ```bash
 bazel run @rules_go//go -- mod tidy
 bazel mod tidy
-bazel run //:gazelle
+bazel run //:gazelle_go
 ```
 
-## update `requirements.txt`
+## update python dependencies
 
 ```bash
-mamba update --all --yes
+micromamba --yes create python=3.12 \
+  --channel conda-forge \
+  --file requirements.txt \
+  --name tmp
+
+micromamba activate tmp
+
+micromamba update --all --yes
 
 pip list --format=freeze > requirements.txt
+
+micromamba deactivate
+
+micromamba --yes env remove --name tmp
+
+# update requirements_lock.txt
+bazel run //:requirements.update
+
+# update gazelle_python.yaml
+bazel run //:gazelle_python_manifest.update
+
+# update python BUILD files
+bazel run //:gazelle_py
 ```
 
 ## build
