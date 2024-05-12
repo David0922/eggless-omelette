@@ -32,3 +32,5 @@ pip.parse(
     requirements_lock = "//:requirements_lock.txt",
 )
 use_repo(pip, "pip")
+
+bazel_dep(name = "pybind11_bazel", version = "2.12.0")
