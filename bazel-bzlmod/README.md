@@ -50,7 +50,7 @@ bazel run //cpp_server
 ```bash
 bazel clean --async
 
-# or
+# if `--expunge` is specified, the entire working tree will be removed and the server stopped
 bazel clean --expunge
 
 # linux
