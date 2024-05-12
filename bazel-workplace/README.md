@@ -19,9 +19,20 @@ bazel run //:gazelle
 ## update `requirements.txt`
 
 ```bash
-mamba update --all --yes
+micromamba --yes create python=3.12 \
+  --channel conda-forge \
+  --file requirements.txt \
+  --name tmp
+
+micromamba activate tmp
+
+micromamba update --all --yes
 
 pip list --format=freeze > requirements.txt
+
+micromamba deactivate
+
+micromamba --yes env remove --name tmp
 ```
 
 ## build
