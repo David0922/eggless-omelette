@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 6,
-  "moduleFileHash": "c0338f4c9235b1bf7b8199c617b7efcacc98ec37071866b2db2a832d7f5c9789",
+  "moduleFileHash": "ce7f76b1ce172aa7dfd2bdf745d6eb07a22c432331b926a509d1cc5b489bf9b1",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -109,6 +109,7 @@
               "tagName": "toolchain",
               "attributeValues": {
                 "configure_coverage_tool": true,
+                "ignore_root_user_error": true,
                 "python_version": "3.12"
               },
               "devDependency": false,
@@ -128,7 +129,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 28,
+            "line": 29,
             "column": 20
           },
           "imports": {
@@ -146,7 +147,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 29,
+                "line": 30,
                 "column": 10
               }
             }
@@ -2767,7 +2768,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_11_host": {
@@ -2802,7 +2803,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_11_aarch64-apple-darwin": {
@@ -2820,7 +2821,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_12_x86_64-unknown-linux-gnu_coverage": {
@@ -2879,7 +2880,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_12_x86_64-unknown-linux-gnu": {
@@ -2897,7 +2898,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "@python_3_12_x86_64-unknown-linux-gnu_coverage//:coverage",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_11_x86_64-pc-windows-msvc": {
@@ -2915,7 +2916,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_12_aarch64-unknown-linux-gnu_coverage": {
@@ -2951,7 +2952,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "@python_3_12_aarch64-apple-darwin_coverage//:coverage",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_12": {
@@ -2986,7 +2987,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "@python_3_12_x86_64-apple-darwin_coverage//:coverage",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_12_s390x-unknown-linux-gnu": {
@@ -3004,7 +3005,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_12_aarch64-unknown-linux-gnu": {
@@ -3022,7 +3023,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "@python_3_12_aarch64-unknown-linux-gnu_coverage//:coverage",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_11": {
@@ -3057,7 +3058,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_11_x86_64-apple-darwin": {
@@ -3075,7 +3076,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_versions": {
@@ -3121,7 +3122,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_12_host": {
@@ -3174,7 +3175,7 @@
               "distutils_content": "",
               "strip_prefix": "python",
               "coverage_tool": "",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           }
         },

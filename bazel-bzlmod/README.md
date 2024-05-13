@@ -1,3 +1,26 @@
+## build dev container
+
+```bash
+podman build \
+  --no-cache \
+  -t dev-env \
+  -f Dockerfile.dev
+```
+
+```bash
+podman run \
+  --name dev \
+  --rm \
+  -d \
+  -p 2222:22 \
+  -v .:/repo \
+  dev-env
+```
+
+```bash
+podman kill dev
+```
+
 ## generate `BUILD` for go/python projects
 
 ```bash

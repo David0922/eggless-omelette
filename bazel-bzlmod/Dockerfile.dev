@@ -1,0 +1,14 @@
+FROM ubuntu:24.04
+
+RUN apt-get update
+RUN apt-get install -y curl sudo
+
+ADD provision-dev-container.sh /tmp/provision.sh
+ADD dev-container-common.sh /tmp/common.sh
+ADD requirements.txt /tmp/requirements.txt
+
+WORKDIR /tmp
+RUN chmod +x ./provision.sh
+RUN ./provision.sh
+
+CMD ["/usr/sbin/sshd", "-D"]
