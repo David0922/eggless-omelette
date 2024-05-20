@@ -29,7 +29,7 @@ python ./main.py
 
 ```
 cd output
-docker build --network host -t tunnel .
+docker build --no-cache --network host -t tunnel .
 ```
 
 ### run container
