@@ -35,7 +35,8 @@ def main():
       ddclient.format(SERVER=domain.ddclient.server,
                       LOGIN=domain.ddclient.login,
                       PASSWORD=domain.ddclient.password,
-                      DOMAIN_NAME=domain.domain_name) for domain in domains))
+                      DOMAIN_NAME=domain.domain_name) for domain in domains
+      if hasattr(domain, 'ddclient')))
 
   with open(f'{template_dir}/nginx.conf', 'r') as f:
     nginx = f.read()
