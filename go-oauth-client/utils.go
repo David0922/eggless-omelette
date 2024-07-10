@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/base64"
 	"fmt"
 	"io"
 	"net/http"
@@ -52,4 +53,8 @@ func HTTPRequest(method string, endpoint string, headers map[string]string, para
 	}
 
 	return resBody, res.StatusCode, nil
+}
+
+func EncodeBasicAuthenticationCredentials(id, pw string) string {
+	return base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", id, pw)))
 }
