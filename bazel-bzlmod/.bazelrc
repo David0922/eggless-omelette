@@ -3,18 +3,17 @@ common --enable_bzlmod
 # https://github.com/bazelbuild/bazel/issues/19915
 # build --noincompatible_sandbox_hermetic_tmp
 
+build --repo_env=CC=clang
+# build --repo_env=CC=gcc
+
 build --cxxopt=-O3
-build --cxxopt=-std=c++17
-build --host_cxxopt=-std=c++17
+build --cxxopt=-std=c++20
+build --host_cxxopt=-std=c++20
 
 build --define=use_fast_cpp_protos=true
 
 # build --sandbox_debug
 # build --verbose_failures
-
-# @upb (grpc's dependency) doesn't compile with clang
-# build --repo_env=CC=clang
-build --repo_env=CC=gcc
 
 # build --cxxopt=-pedantic
 # build --cxxopt=-Wall

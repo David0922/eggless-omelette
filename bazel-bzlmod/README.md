@@ -101,7 +101,7 @@ bazel run //cpp_server
 ```bash
 bazel clean --async
 
-# if `--expunge` is specified, the entire working tree will be removed and the server stopped
+# --expunge: removes the entire working tree and stops the bazel server
 bazel clean --expunge
 
 # linux
