@@ -35,7 +35,10 @@ bazel run //:gazelle_py -- dir1 dir2
 ## sync bazel with go.mod
 
 ```bash
-bazel run @rules_go//go -- mod tidy
+# create `deps.bzl` if it doesn't exist
+touch deps.bzl
+
+bazel run @io_bazel_rules_go//go -- mod tidy
 bazel mod tidy
 bazel run //:gazelle_go
 ```
@@ -43,6 +46,9 @@ bazel run //:gazelle_go
 ## update python dependencies
 
 ```bash
+# create `gazelle_python.yaml` if it doesn't exist
+touch gazelle_python.yaml
+
 micromamba --yes create python=3.12 \
   --channel conda-forge \
   --file requirements.txt \
