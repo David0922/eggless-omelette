@@ -1,7 +1,6 @@
 __pycache__
 .vagrant
 .vscode
-build
 dist
 log
 node_modules
