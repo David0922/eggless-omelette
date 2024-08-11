@@ -42,7 +42,7 @@ enable_ssh_pw_auth() {
   sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
   sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-  sudo systemctl reload sshd
+  sudo systemctl reload ssh.service
 }
 
 set_timezone() {

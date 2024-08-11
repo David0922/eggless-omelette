@@ -41,7 +41,7 @@ enable_ssh_pw_auth() {
   sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 
   service ssh restart || true
-  systemctl restart sshd || true
+  systemctl restart ssh.service || true
 }
 
 set_pw() {
