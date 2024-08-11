@@ -41,12 +41,14 @@ go_library(
 
 # gazelle:exclude empty.go
 
+# doesn't work on mac
 py_proto_library(
     name = "calc_py_proto",
     visibility = ["//visibility:public"],
     deps = [":calc_proto"],
 )
 
+# doesn't work on mac
 py_grpc_library(
     name = "calc_py_grpc",
     srcs = [":calc_proto"],
