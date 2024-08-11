@@ -53,12 +53,15 @@ alias python=python3
 
 # virtualenv
 
-case $(lsb_release -r -s) in
+case $(lsb_release -a | grep -i release | awk '{print $2}') in
   20.04)
     source $BIN/py3.9/bin/activate
     ;;
   22.04)
     source $BIN/py3.10/bin/activate
+    ;;
+  24.04)
+    source $BIN/py3.12/bin/activate
     ;;
 esac
 

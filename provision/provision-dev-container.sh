@@ -135,12 +135,15 @@ install_nodejs() {
 }
 
 install_python_virtualenv() {
-  case $(lsb_release -r -s) in
+  case $(lsb_release -a | grep -i release | awk '{print $2}') in
     20.04)
       PY_VER=3.9
       ;;
     22.04)
       PY_VER=3.10
+      ;;
+    24.04)
+      PY_VER=3.12
       ;;
     *)
       echo 'this script is expected to be run in ubuntu 20.04 / 22.04'
