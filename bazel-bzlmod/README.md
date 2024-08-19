@@ -113,6 +113,12 @@ sudo rm -rf  /private/var/tmp/_bazel*
 
 ---
 
+## known issues
+
+- `py_proto_library` doesn't work on mac
+
+---
+
 #### bazel target pattern syntax
 
 https://grpc.io/blog/bazel-rules-protobuf/#13-target-pattern-syntax
