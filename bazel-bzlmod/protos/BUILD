@@ -15,14 +15,14 @@ cpp_grpc_library(
     visibility = ["//visibility:public"],
 )
 
-# gazelle:exclude empty.go
-
 go_grpc_library(
     name = "calc_go_grpc",
     importpath = "dummy.mofu.dev/protos",
     protos = [":calc_proto"],
     visibility = ["//visibility:public"],
 )
+
+# gazelle:exclude empty.go
 
 python_grpc_library(
     name = "calc_py_grpc",
