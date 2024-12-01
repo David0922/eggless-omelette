@@ -11,6 +11,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 alias b=bazel
 alias cls=clear
+alias c='clang -Wall -Wextra -Werror -std=c17 -pedantic'
 alias cpp='clang++ -Wall -Wextra -Werror -std=c++20 -pedantic'
 alias cpp2='clang++ -O2 -std=c++20'
 alias diff=colordiff
@@ -31,19 +32,18 @@ alias tma='tmux a -t'
 alias tmn='tmux new -s'
 
 alias brave='open -a "Brave Browser" -n --args --incognito --new-window'
-alias brave='open -a "Google Chrome" -n --args --incognito --new-window'
+alias chrome='open -a "Google Chrome" -n --args --incognito --new-window'
 alias pdf='open -a Negative -n'
 
 # go
 
-export PATH=$PATH:$BIN/go/bin:$WORK_DIR/projects/go/bin
-
 export GO111MODULE=auto
-export GOPATH=$WORK_DIR/projects/go
+export GOPATH=$BIN/gopath
+export PATH=$PATH:$BIN/go/bin:$GOPATH/bin
 
 # python
 
 alias py=ipython
 alias python=python3
 
-source $WORK_DIR/py3.10_env/bin/activate
+source $WORK_DIR/py3.12_env/bin/activate

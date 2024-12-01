@@ -208,11 +208,11 @@ install_go() {
   curl -O https://dl.google.com/go/$GO_TAR
   tar -xzf $GO_TAR -C $BIN --no-same-owner
 
-  export GOPATH=$WORK_DIR/projects/go
-  export PATH=$PATH:$BIN/go/bin:$WORK_DIR/projects/go/bin
+  export GOPATH=$BIN/gopath
+  export PATH=$PATH:$BIN/go/bin:$GOPATH/bin
 
-  go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-  go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+  # go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+  # go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 }
 
 install_bazel() {

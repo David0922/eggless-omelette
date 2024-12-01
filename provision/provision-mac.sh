@@ -37,15 +37,15 @@ install_essentials() {
   $INSTALL \
     clang-format \
     colordiff \
-    htop \
     jq \
-    protobuf \
     reattach-to-user-namespace \
     tmux \
     tree \
     wget
     # curl \
+    # htop \
     # make \
+    # protobuf \
     # unzip \
     # vim \
     # zip \
@@ -62,7 +62,7 @@ install_boost() {
 }
 
 install_go() {
-  GO_VER=1.21.5
+  GO_VER=1.23.3
   OS=darwin
   ARCH=arm64
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
@@ -70,17 +70,17 @@ install_go() {
   curl -O https://dl.google.com/go/$GO_TAR
   tar -xzf $GO_TAR -C $BIN --no-same-owner
 
-  export GOPATH=$WORK_DIR/projects/go
-  export PATH=$PATH:$BIN/go/bin:$WORK_DIR/projects/go/bin
+  export GOPATH=$BIN/gopath
+  export PATH=$PATH:$BIN/go/bin:$GOPATH/bin
 
-  go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-  go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+  # go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+  # go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 }
 
 install_bazel() {
   BAZEL_BIN=bazelisk-darwin-arm64
 
-  wget https://github.com/bazelbuild/bazelisk/releases/download/v1.13.0/$BAZEL_BIN
+  wget https://github.com/bazelbuild/bazelisk/releases/download/v1.24.1/$BAZEL_BIN
   chmod +x ./$BAZEL_BIN
   mv ./$BAZEL_BIN $BIN
   sudo ln -s $BIN/$BAZEL_BIN $BIN/bazel
@@ -101,7 +101,7 @@ install_nodejs() {
 }
 
 install_python() {
-  PY_VER=3.10
+  PY_VER=3.12
 
   $INSTALL python@$PY_VER virtualenv
 
@@ -111,8 +111,6 @@ install_python() {
 
   pip install \
     diagrams \
-    grpcio \
-    grpcio-tools \
     ipython \
     isort \
     jupyter \
@@ -120,11 +118,13 @@ install_python() {
     numpy \
     pandas \
     plotly \
-    pyspark \
     pytest \
     PyYAML \
     requests \
     yapf
+    # grpcio \
+    # grpcio-tools \
+    # pyspark \
 }
 
 install_gcloud() {
@@ -187,10 +187,10 @@ install_essentials
 # install_rust
 install_go
 install_bazel
-install_jdk
+# install_jdk
 install_nodejs
 install_python
-install_gcloud # requires python
+# install_gcloud # requires python
 install_vlc
 install_zsh
 

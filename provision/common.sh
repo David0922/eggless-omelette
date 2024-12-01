@@ -41,10 +41,9 @@ alias p='cat /tmp/clipboard'
 
 # go
 
-export PATH=$PATH:$BIN/go/bin:$WORK_DIR/projects/go/bin
-
 export GO111MODULE=auto
-export GOPATH=$WORK_DIR/projects/go
+export GOPATH=$BIN/gopath
+export PATH=$PATH:$BIN/go/bin:$GOPATH/bin
 
 # python
 
