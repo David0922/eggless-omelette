@@ -193,6 +193,8 @@ setup_ebpf_dev() {
 
   cd /kernel-src/tools/lib/bpf
   make && make install prefix=/usr/local
+
+  cd $WORK_DIR/downloads
 }
 
 install_git() {
@@ -435,6 +437,15 @@ install_postgresql() {
   # sudo systemctl restart postgresql.service
   sudo systemctl stop postgresql.service
   sudo systemctl disable postgresql.service
+}
+
+install_vcpkg() {
+  cd $BIN
+  $INSTALL pkg-config
+  git clone --branch 2024.11.16 --depth 1 https://github.com/microsoft/vcpkg.git
+  cd vcpkg
+  ./bootstrap-vcpkg.sh -disableMetrics
+  cd $WORK_DIR/downloads
 }
 
 install_zsh() {

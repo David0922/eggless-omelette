@@ -45,6 +45,11 @@ export GO111MODULE=auto
 export GOPATH=$BIN/gopath
 export PATH=$PATH:$BIN/go/bin:$GOPATH/bin
 
+# vcpkg
+
+export VCPKG_ROOT=$BIN/vcpkg
+export PATH=$PATH:$VCPKG_ROOT
+
 # python
 
 alias py=ipython
