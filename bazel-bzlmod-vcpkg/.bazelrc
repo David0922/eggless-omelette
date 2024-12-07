@@ -1,0 +1,18 @@
+common --enable_bzlmod
+
+build --repo_env=CC=clang
+# build --repo_env=CC=gcc
+
+build --cxxopt=-O3
+build --cxxopt=-std=c++20
+build --host_cxxopt=-std=c++20
+
+build:macos --cxxopt=-fno-aligned-allocation
+
+# build --sandbox_debug
+# build --verbose_failures
+
+# build --cxxopt=-pedantic
+# build --cxxopt=-Wall
+# build --cxxopt=-Werror
+# build --cxxopt=-Wextra

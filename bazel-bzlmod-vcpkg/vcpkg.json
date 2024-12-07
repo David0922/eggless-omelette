@@ -1,0 +1,8 @@
+{
+  "dependencies": [
+    "crow",
+    "fmt",
+    "grpc",
+    "protobuf"
+  ]
+}
