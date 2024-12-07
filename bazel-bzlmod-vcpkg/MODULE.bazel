@@ -1,0 +1,8 @@
+# buildifier: disable=module-docstring
+module(name = "dummy")
+
+# protobuf & grpc
+
+bazel_dep(name = "rules_proto", version = "6.0.2")
+
+bazel_dep(name = "rules_proto_grpc_cpp", version = "5.0.1")

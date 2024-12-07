@@ -1,0 +1,8 @@
+{
+  "dependencies": [
+    "abseil",
+    "crow",
+    "fmt",
+    "grpc"
+  ]
+}
