@@ -251,14 +251,12 @@ install_microk8s() {
 }
 
 install_nodejs() {
-  NODE_VER=20
+  NODE_VER=22
 
-  # https://github.com/nodesource/distributions#nodejs
-  $INSTALL ca-certificates curl gnupg
-  sudo mkdir -p /etc/apt/keyrings
-  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VER.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-
+  # https://github.com/nodesource/distributions?tab=readme-ov-file#using-ubuntu-nodejs-22
+  $INSTALL curl
+  curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh
+  sudo -E bash nodesource_setup.sh
   $UPDATE
   $INSTALL nodejs
 
@@ -284,8 +282,6 @@ install_python_micromamba() {
   micromamba --yes create --prefix $PY_ENV_PREFIX \
     python=$PY_VER \
     diagrams \
-    grpcio \
-    grpcio-tools \
     ipython \
     isort \
     jupyter \
@@ -293,13 +289,56 @@ install_python_micromamba() {
     numpy \
     pandas \
     plotly \
-    pyspark \
     pytest \
     PyYAML \
     requests \
     yapf
+    # grpcio \
+    # grpcio-tools \
+    # pyspark \
 
   micromamba activate $PY_ENV_PREFIX
+}
+
+install_python_venv() {
+  case $(lsb_release -a | grep -i release | awk '{print $2}') in
+    20.04)
+      PY_VER=3.9
+      ;;
+    22.04)
+      PY_VER=3.10
+      ;;
+    24.04)
+      PY_VER=3.12
+      ;;
+    *)
+      echo 'this script is expected to be run in ubuntu 20.04 / 22.04'
+      exit 1
+      ;;
+  esac
+
+  PY_ENV_PREFIX=$BIN/py$PY_VER
+
+  python$PY_VER -m venv $PY_ENV_PREFIX
+
+  source $PY_ENV_PREFIX/bin/activate
+
+  pip install \
+    diagrams \
+    ipython \
+    isort \
+    jupyter \
+    matplotlib \
+    numpy \
+    pandas \
+    plotly \
+    pytest \
+    PyYAML \
+    requests \
+    yapf
+    # grpcio \
+    # grpcio-tools \
+    # pyspark \
 }
 
 install_python_virtualenv() {
@@ -329,8 +368,6 @@ install_python_virtualenv() {
 
   pip install \
     diagrams \
-    grpcio \
-    grpcio-tools \
     ipython \
     isort \
     jupyter \
@@ -338,11 +375,13 @@ install_python_virtualenv() {
     numpy \
     pandas \
     plotly \
-    pyspark \
     pytest \
     PyYAML \
     requests \
     yapf
+    # grpcio \
+    # grpcio-tools \
+    # pyspark \
 }
 
 install_gcloud() {
@@ -506,6 +545,7 @@ install_microk8s
 install_nginx
 install_nodejs
 # install_python_micromamba
+# install_python_venv
 install_python_virtualenv
 install_gcloud # requires python
 install_zsh

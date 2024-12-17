@@ -55,7 +55,7 @@ export PATH=$PATH:$VCPKG_ROOT
 alias py=ipython
 alias python=python3
 
-# virtualenv
+# venv / virtualenv
 
 case $(lsb_release -a | grep -i release | awk '{print $2}') in
   20.04)

@@ -117,14 +117,12 @@ install_bazel() {
 }
 
 install_nodejs() {
-  NODE_VER=20
+  NODE_VER=22
 
-  # https://github.com/nodesource/distributions#nodejs
-  $INSTALL ca-certificates curl gnupg
-  mkdir -p /etc/apt/keyrings
-  curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-  echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VER.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
-
+  # https://github.com/nodesource/distributions?tab=readme-ov-file#using-ubuntu-nodejs-22
+  $INSTALL curl
+  curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh
+  sudo -E bash nodesource_setup.sh
   $UPDATE
   $INSTALL nodejs
 
@@ -161,8 +159,6 @@ install_python_virtualenv() {
 
   pip install \
     diagrams \
-    grpcio \
-    grpcio-tools \
     ipython \
     isort \
     jupyter \
@@ -170,11 +166,13 @@ install_python_virtualenv() {
     numpy \
     pandas \
     plotly \
-    pyspark \
     pytest \
     PyYAML \
     requests \
     yapf
+    # grpcio \
+    # grpcio-tools \
+    # pyspark \
 }
 
 install_zsh() {
