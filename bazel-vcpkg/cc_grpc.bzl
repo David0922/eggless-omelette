@@ -23,7 +23,7 @@ filter_files = rule(
             mandatory = True,
         ),
         "extensions": attr.string_list(
-            doc = "extensions of the files to keep eg. ['h']",
+            doc = "extensions of the files to keep e.g. ['h']",
             mandatory = True,
         ),
     },
@@ -32,6 +32,8 @@ filter_files = rule(
 # buildifier: disable=function-docstring
 def cc_grpc(name, protos, visibility, deps):
     name_pb = name + "_pb"
+    name_srcs = name_pb + "_srcs"
+    name_hdrs = name_pb + "_hdrs"
 
     cpp_grpc_compile(
         name = name_pb,
@@ -39,21 +41,21 @@ def cc_grpc(name, protos, visibility, deps):
     )
 
     filter_files(
-        name = name_pb + "_srcs",
+        name = name_srcs,
         target = name_pb,
         extensions = ["cc"],
     )
 
     filter_files(
-        name = name_pb + "_hdrs",
+        name = name_hdrs,
         target = name_pb,
         extensions = ["h"],
     )
 
     cc_library(
         name = name,
-        srcs = [name_pb + "_srcs"],
-        hdrs = [name_pb + "_hdrs"],
+        srcs = [name_srcs],
+        hdrs = [name_hdrs],
         includes = [name_pb],
         visibility = visibility,
         deps = deps,

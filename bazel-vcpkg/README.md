@@ -1,7 +1,7 @@
 ## install dependencies
 
 ```bash
-vcpkg --disable-metrics install
+vcpkg --disable-metrics install --recurse
 ```
 
 ## update vcpkg baseline
