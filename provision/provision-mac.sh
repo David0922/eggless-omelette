@@ -144,6 +144,15 @@ install_rust() {
   curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 }
 
+install_vcpkg() {
+  cd $BIN
+  $INSTALL pkg-config
+  git clone --branch 2024.11.16 --depth 1 https://github.com/microsoft/vcpkg.git
+  cd vcpkg
+  ./bootstrap-vcpkg.sh -disableMetrics
+  cd $WORK_DIR/downloads
+}
+
 install_vlc() {
   $INSTALL --cask vlc
 }
