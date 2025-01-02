@@ -10,7 +10,7 @@ vcpkg --disable-metrics install --recurse
 vcpkg --disable-metrics x-update-baseline
 ```
 
-### show package versions
+## show package versions
 
 ```bash
 vcpkg --disable-metrics list
@@ -19,7 +19,7 @@ vcpkg --disable-metrics list
 ## format C++ & protobuf
 
 ```bash
-find . -iname vcpkg_installed -prune -o -iname '*.cc' -o -iname '*.h' -o -iname '*.proto' | xargs clang-format -i
+find . -path ./vcpkg_installed -prune -o -type f \( -name '*.cc' -o -name '*.h' -o -iname '*.proto' \) -exec clang-format -i {} +
 ```
 
 ## build
@@ -61,11 +61,3 @@ sudo rm -rf ~/.cache/bazel
 # mac
 sudo rm -rf  /private/var/tmp/_bazel*
 ```
-
----
-
-#### bazel target pattern syntax
-
-https://grpc.io/blog/bazel-rules-protobuf/#13-target-pattern-syntax
-
-![](./target-pattern-syntax.png)

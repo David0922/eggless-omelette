@@ -8,6 +8,12 @@ sudo apt install cmake ninja-build
 brew install cmake ninja
 ```
 
+### install dependencies
+
+```bash
+vcpkg --disable-metrics install --recurse
+```
+
 ### update vcpkg baseline
 
 ```bash
@@ -18,12 +24,6 @@ vcpkg --disable-metrics x-update-baseline
 
 ```bash
 vcpkg --disable-metrics list
-```
-
-### install dependencies
-
-```bash
-vcpkg --disable-metrics install
 ```
 
 ### create `CMakeUserPresets.json`
@@ -57,12 +57,6 @@ cmake --preset=default
 cmake --build build
 ```
 
-## clean
-
-```
-rm -rf ./build
-```
-
 ## run
 
 ```
@@ -73,4 +67,10 @@ rm -rf ./build
 
 ```
 curl localhost:3000
+```
+
+## clean
+
+```
+rm -rf ./build
 ```
