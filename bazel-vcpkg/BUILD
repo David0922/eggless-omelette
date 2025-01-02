@@ -9,11 +9,13 @@ cc_library(
             "vcpkg_installed/x64-linux/include/**/*.h",
             "vcpkg_installed/x64-linux/include/**/*.hpp",
             "vcpkg_installed/x64-linux/include/**/*.ipp",
+            "vcpkg_installed/x64-linux/include/**/*.inc",
         ]),
         "@platforms//os:macos": glob([
             "vcpkg_installed/arm64-osx/include/**/*.h",
             "vcpkg_installed/arm64-osx/include/**/*.hpp",
             "vcpkg_installed/arm64-osx/include/**/*.ipp",
+            "vcpkg_installed/arm64-osx/include/**/*.inc",
         ]),
     }),
     includes = select({
