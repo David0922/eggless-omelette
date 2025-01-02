@@ -36,8 +36,10 @@ reset_dir() {
 install_essentials() {
   $INSTALL \
     clang-format \
+    cmake \
     colordiff \
     jq \
+    ninja \
     reattach-to-user-namespace \
     tmux \
     tree \
