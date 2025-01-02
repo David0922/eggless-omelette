@@ -52,8 +52,6 @@ export VCPKG_DISABLE_METRICS=1
 export VCPKG_ROOT=$BIN/vcpkg
 export PATH=$PATH:$VCPKG_ROOT
 
-alias vcpkg='vcpkg --disable-metrics'
-
 # python
 
 alias py=ipython
