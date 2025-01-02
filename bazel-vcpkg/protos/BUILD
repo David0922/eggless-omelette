@@ -11,12 +11,12 @@ proto_library(
 #     name = "calc_cc_grpc",
 #     protos = [":calc_proto"],
 #     visibility = ["//visibility:public"],
-#     deps = ["//:third_party"],
+#     deps = ["//:vcpkg"],
 # )
 
 cc_grpc(
     name = "calc_cc_grpc",
     protos = [":calc_proto"],
     visibility = ["//visibility:public"],
-    deps = ["//:third_party"],
+    deps = ["//:vcpkg"],
 )
