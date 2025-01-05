@@ -77,7 +77,6 @@ install_essentials() {
     autossh \
     build-essential \
     busybox \
-    cmake \
     colordiff \
     curl \
     ethtool \
@@ -101,6 +100,7 @@ install_essentials() {
     vim \
     wget \
     zip
+    # cmake \
 }
 
 install_clang_latest() {
@@ -148,6 +148,18 @@ install_clang() {
   sudo ln -s $(realpath /usr/bin/clang++-$CLANG_VER) /usr/bin/clang++
 
   sudo ln -s $(realpath /usr/bin/clang-format-$CLANG_VER) /usr/bin/clang-format
+}
+
+install_cmake() {
+  CMAKE_VER=v3.31.3
+
+  $INSTALL libssl-dev openssl
+
+  git clone --branch $CMAKE_VER --depth 1 https://github.com/Kitware/CMake.git
+  cd CMake
+  ./bootstrap && make && sudo make install
+
+  cd ..
 }
 
 install_docker() {
@@ -537,6 +549,7 @@ install_essentials
 # install_rust
 # setup_ebpf_dev
 install_clang
+install_cmake
 install_docker
 install_git
 install_go
