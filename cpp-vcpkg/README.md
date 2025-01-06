@@ -3,8 +3,16 @@
 ### install cmake & ninja
 
 ```
-sudo apt install cmake ninja-build
+# linux
+sudo apt install ninja-build
 
+CMAKE_VER=v3.31.3
+sudo apt install libssl-dev openssl
+git clone --branch $CMAKE_VER --depth 1 https://github.com/Kitware/CMake.git
+cd CMake
+./bootstrap && make && sudo make install
+
+# mac
 brew install cmake ninja
 ```
 
