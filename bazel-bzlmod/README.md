@@ -82,9 +82,6 @@ bazel build //...
 
 # build a target (e.g. cpp_server)
 bazel build //cpp_server
-
-# build on mac
-bazel build --config=macos //...
 ```
 
 ## run

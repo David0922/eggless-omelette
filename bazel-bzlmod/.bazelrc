@@ -1,7 +1,5 @@
 common --enable_bzlmod
-
-# https://github.com/bazelbuild/bazel/issues/19915
-# build --noincompatible_sandbox_hermetic_tmp
+common --enable_platform_specific_config
 
 build --repo_env=CC=clang
 # build --repo_env=CC=gcc
@@ -12,6 +10,9 @@ build --host_cxxopt=-std=c++20
 
 build --define=use_fast_cpp_protos=true
 
+build:linux --noincompatible_disallow_ctx_resolve_tools
+
+# `error: aligned deallocation function of type xxx is only available on macOS 10.13 or newer`
 build:macos --cxxopt=-fno-aligned-allocation
 
 # build --sandbox_debug

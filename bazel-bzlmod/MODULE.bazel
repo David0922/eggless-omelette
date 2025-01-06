@@ -1,6 +1,8 @@
 # buildifier: disable=module-docstring
 module(name = "dummy")
 
+bazel_dep(name = "platforms", version = "0.0.10")
+
 bazel_dep(name = "gazelle", version = "0.39.1")
 
 # C++
@@ -43,8 +45,8 @@ bazel_dep(name = "pybind11_bazel", version = "2.13.6")
 
 # protobuf & grpc
 
-bazel_dep(name = "rules_proto", version = "6.0.2")
+bazel_dep(name = "rules_proto", version = "7.1.0")
 
-bazel_dep(name = "rules_proto_grpc_cpp", version = "5.0.0")
-bazel_dep(name = "rules_proto_grpc_go", version = "5.0.0")
-bazel_dep(name = "rules_proto_grpc_python", version = "5.0.0")
+bazel_dep(name = "rules_proto_grpc_cpp", version = "5.0.1")
+bazel_dep(name = "rules_proto_grpc_go", version = "5.0.1")
+bazel_dep(name = "rules_proto_grpc_python", version = "5.0.1")
