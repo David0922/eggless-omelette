@@ -336,6 +336,7 @@ install_python_venv() {
   source $PY_ENV_PREFIX/bin/activate
 
   pip install \
+    conan \
     diagrams \
     ipython \
     isort \
@@ -542,25 +543,27 @@ curl https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision
 
 install_essentials
 
-# install_clang_latest
-# install_mongodb
-# install_postgresql
-# install_ruby
-# install_rust
-# setup_ebpf_dev
 install_clang
+# install_clang_latest
+# setup_ebpf_dev
 install_cmake
 install_docker
 install_git
 install_go
-install_bazel
-install_microk8s
-install_nginx
+install_bazel # requires go
+# install_julia
+# install_microk8s
+# install_mongodb
+# install_nginx
 install_nodejs
+# install_postgresql
 # install_python_micromamba
 # install_python_venv
 install_python_virtualenv
-install_gcloud # requires python
+# install_gcloud # requires python
+# install_ruby
+# install_rust
+# install_vcpkg
 install_zsh
 
 clean_up

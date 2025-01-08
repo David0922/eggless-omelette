@@ -26,6 +26,7 @@ reset_dir() {
   mkdir \
     $BIN \
     $WORK_DIR/downloads \
+    $WORK_DIR/downloads/screenshots \
     $WORK_DIR/settings \
     $WORK_DIR/tmp
 
@@ -51,6 +52,8 @@ install_essentials() {
     # unzip \
     # vim \
     # zip \
+
+  $INSTALL --cask rectangle
 }
 
 install_boost() {
@@ -107,11 +110,12 @@ install_python() {
 
   $INSTALL python@$PY_VER virtualenv
 
-  virtualenv -p $(which python$PY_VER) $WORK_DIR/py${PY_VER}_env
+  virtualenv -p $(which python$PY_VER) $BIN/py${PY_VER}_env
 
-  source $WORK_DIR/py${PY_VER}_env/bin/activate
+  source $BIN/py${PY_VER}_env/bin/activate
 
   pip install \
+    conan \
     diagrams \
     ipython \
     isort \
@@ -190,18 +194,20 @@ curl https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision
 bash -c "NONINTERACTIVE=1 $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# change screehshot location
-defaults write com.apple.screencapture location $WORK_DIR/downloads
+# change screenshots location
+defaults write com.apple.screencapture location $WORK_DIR/downloads/screenshots
 
 install_essentials
 
-# install_rust
+# install_boost
 install_go
-install_bazel
+install_bazel # requires go
 # install_jdk
 install_nodejs
 install_python
 # install_gcloud # requires python
+# install_rust
+# install_vcpkg
 install_vlc
 install_zsh
 

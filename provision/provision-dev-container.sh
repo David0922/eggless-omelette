@@ -158,6 +158,7 @@ install_python_virtualenv() {
   source $PY_ENV_PREFIX/bin/activate
 
   pip install \
+    conan \
     diagrams \
     ipython \
     isort \
@@ -217,7 +218,7 @@ install_essentials
 install_clang
 install_git
 install_go
-install_bazel
+install_bazel # requires go
 install_nodejs
 install_python_virtualenv
 install_zsh

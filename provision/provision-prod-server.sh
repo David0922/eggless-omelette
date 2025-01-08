@@ -221,7 +221,7 @@ install_essentials
 install_docker
 install_git
 # install_microk8s
-install_nginx
+# install_nginx
 # install_python_micromamba
 install_python_virtualenv
 install_zsh

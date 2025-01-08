@@ -26,6 +26,7 @@ alias shutdown='sudo shutdown now'
 alias g='git --no-pager'
 alias gb='git --no-pager branch'
 alias gch='git checkout'
+alias gdh='git diff HEAD'
 
 alias tmux="tmux -f $WORK_DIR/settings/tmux.conf"
 alias tma='tmux a -t'
@@ -51,6 +52,5 @@ export PATH=$PATH:$VCPKG_ROOT
 # python
 
 alias py=ipython
-alias python=python3
 
-source $WORK_DIR/py3.12_env/bin/activate
+source $BIN/py3.12_env/bin/activate
