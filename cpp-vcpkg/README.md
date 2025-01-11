@@ -81,4 +81,5 @@ curl localhost:3000
 
 ```
 rm -rf ./build
+rm -rf $HOME/.cache/vcpkg
 ```
