@@ -1,0 +1,24 @@
+import %workspace%/conan/conan_bzl.rc
+
+common --enable_bzlmod
+common --enable_platform_specific_config
+
+build --repo_env=CC=clang
+# build --repo_env=CC=gcc
+
+build --cxxopt=-O3
+build --cxxopt=-std=c++20
+build --host_cxxopt=-std=c++20
+
+build:linux --noincompatible_disallow_empty_glob
+
+# enable if `error: aligned deallocation function of type xxx is only available on macOS 10.13 or newer`
+# build:macos --cxxopt=-fno-aligned-allocation
+
+# build --sandbox_debug
+# build --verbose_failures
+
+# build --cxxopt=-pedantic
+# build --cxxopt=-Wall
+# build --cxxopt=-Werror
+# build --cxxopt=-Wextra

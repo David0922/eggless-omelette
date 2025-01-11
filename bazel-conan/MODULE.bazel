@@ -1,0 +1,17 @@
+# buildifier: disable=module-docstring
+module(name = "dummy")
+
+load_conan_dependencies = use_extension("//conan:conan_deps_module_extension.bzl", "conan_extension")
+use_repo(
+    load_conan_dependencies,
+    "abseil",
+    "asio",
+    "c-ares",
+    "crowcpp-crow",
+    "fmt",
+    "grpc",
+    "openssl",
+    "protobuf",
+    "re2",
+    "zlib",
+)
