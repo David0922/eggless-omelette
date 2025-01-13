@@ -27,16 +27,18 @@ def main():
 
   os.popen(f'cp {template_dir}/Dockerfile {output_dir}/Dockerfile')
 
-  with open(f'{template_dir}/ddclient.conf', 'r') as f:
-    ddclient = f.read()
-
-  with open(f'{output_dir}/ddclient.conf', 'w') as f:
-    f.write('\n'.join(
-      ddclient.format(SERVER=domain.ddclient.server,
-                      LOGIN=domain.ddclient.login,
-                      PASSWORD=domain.ddclient.password,
-                      DOMAIN_NAME=domain.domain_name) for domain in domains
-      if hasattr(domain, 'ddclient')))
+  # squarespace doesn't support dynamic DNS
+  #
+  # with open(f'{template_dir}/ddclient.conf', 'r') as f:
+  #   ddclient = f.read()
+  #
+  # with open(f'{output_dir}/ddclient.conf', 'w') as f:
+  #   f.write('\n'.join(
+  #     ddclient.format(SERVER=domain.ddclient.server,
+  #                     LOGIN=domain.ddclient.login,
+  #                     PASSWORD=domain.ddclient.password,
+  #                     DOMAIN_NAME=domain.domain_name) for domain in domains
+  #     if hasattr(domain, 'ddclient')))
 
   with open(f'{template_dir}/nginx.conf', 'r') as f:
     nginx = f.read()

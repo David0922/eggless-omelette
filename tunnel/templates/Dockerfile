@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 RUN mkdir /work-dir
 ADD . /work-dir
 RUN chmod +x /work-dir/provision.sh
