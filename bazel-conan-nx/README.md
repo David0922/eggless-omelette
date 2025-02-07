@@ -12,6 +12,26 @@ bazel mod tidy
 find . -type f \( -name '*.cc' -o -name '*.h' -o -iname '*.proto' \) -exec clang-format -i {} +
 ```
 
+## generate `BUILD` for go projects
+
+```bash
+bazel run //:gazelle_go
+
+# specific dir
+bazel run //:gazelle_go -- dir1 dir2
+```
+
+## sync bazel with go.mod
+
+```bash
+# create `deps.bzl` if it doesn't exist
+touch deps.bzl
+
+bazel run @io_bazel_rules_go//go -- mod tidy
+bazel mod tidy
+bazel run //:gazelle_go
+```
+
 ## build
 
 ```bash

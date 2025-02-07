@@ -1,0 +1,35 @@
+# buildifier: disable=module-docstring
+module(name = "dummy")
+
+# C++
+
+load_conan_dependencies = use_extension("//conan:conan_deps_module_extension.bzl", "conan_extension")
+use_repo(
+    load_conan_dependencies,
+    "abseil",
+    "asio",
+    "c-ares",
+    "crowcpp-crow",
+    "fmt",
+    "grpc",
+    "openssl",
+    "protobuf",
+    "re2",
+    "zlib",
+)
+
+# go
+
+bazel_dep(name = "gazelle", version = "0.39.1")
+bazel_dep(name = "rules_go", version = "0.50.1", repo_name = "io_bazel_rules_go")
+
+go_sdk = use_extension("@io_bazel_rules_go//go:extensions.bzl", "go_sdk")
+go_sdk.download(version = "1.22.3")
+go_sdk.host()
+
+go_deps = use_extension("@gazelle//:extensions.bzl", "go_deps")
+go_deps.from_file(go_mod = "//:go.mod")
+use_repo(go_deps, "org_golang_google_grpc")
+
+bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "rules_proto_grpc_go", version = "5.0.1")

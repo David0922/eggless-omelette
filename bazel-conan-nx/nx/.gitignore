@@ -1,0 +1,4 @@
+.nx/cache
+.nx/workspace-data
+dist
+node_modules
