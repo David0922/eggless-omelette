@@ -1,7 +1,6 @@
 __pycache__
 .DS_Store
 .vagrant
-.vscode
 dist
 log
 node_modules
