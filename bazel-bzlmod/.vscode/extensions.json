@@ -1,0 +1,15 @@
+{
+  "recommendations": [
+    "BazelBuild.vscode-bazel",
+    "dbaeumer.vscode-eslint",
+    "eeyore.yapf",
+    "esbenp.prettier-vscode",
+    "golang.go",
+    "ms-python.isort",
+    "ms-python.python",
+    "ms-vscode-remote.vscode-remote-extensionpack",
+    "ms-vscode.cpptools-extension-pack",
+    "ms-vscode.makefile-tools",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}

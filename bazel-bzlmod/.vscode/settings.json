@@ -1,0 +1,7 @@
+{
+  "C_Cpp.clang_format_fallbackStyle": "Google",
+  "C_Cpp.formatting": "clangFormat",
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
+}
