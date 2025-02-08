@@ -102,7 +102,8 @@ install_jdk() {
 }
 
 install_nodejs() {
-  $INSTALL node yarn
+  $INSTALL node
+  npm install --global pnpm@latest-10 yarn
 }
 
 install_python() {

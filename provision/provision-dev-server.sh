@@ -272,7 +272,7 @@ install_nodejs() {
   $UPDATE
   $INSTALL nodejs
 
-  sudo npm install --global yarn
+  npm install --global pnpm@latest-10 yarn
 
   printf "fs.inotify.max_user_watches = 1048576\n" | sudo tee -a /etc/sysctl.conf
   sudo sysctl -p
