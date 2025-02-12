@@ -9,5 +9,5 @@ export default [
     // override or add rules here
     rules: {},
   },
-  ...override,
+  { ...override },
 ];
