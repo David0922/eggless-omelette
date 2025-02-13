@@ -4,28 +4,61 @@
 pnpm install
 ```
 
+## add dependencies
+
+```bash
+# prod dependencies (e.g. connect rpc)
+pnpm add --workspace-root  @connectrpc/connect @connectrpc/connect-web @bufbuild/protobuf
+
+# dev dependencies (e.g. connect rpc)
+pnpm add --workspace-root --save-dev @bufbuild/buf @bufbuild/protoc-gen-es
+```
+
 ## list all generators in the @nx/react plugin
 
 ```bash
+pnpm nx list @nx/js
 pnpm nx list @nx/react
 ```
 
-## generating a react app
+## generae a package (e.g. react app)
 
 ```bash
-pnpm nx generate @nx/react:application
+pnpm nx generate @nx/js:library my_lib
+pnpm nx generate @nx/react:application react_01
+```
+
+add `my_lib` to `react_01/package.json`
+
+```json
+  "devDependencies": {
+    "@dummy/my_lib": "workspace:*"
+  }
+```
+
+## delete a package
+
+```bash
+pnpm nx generate remove @dummy/react_01
+pnpm install
+
+grep -inr react_01 .
+
+# manually delete entries from:
+#   ./pnpm-workspace.yaml
+#   ./tsconfig.json
 ```
 
 ## view details about å project
 
 ```bash
-pnpm nx show project @nx/react_01
+pnpm nx show project @dummy/react_01
 ```
 
 ## dev
 
 ```bash
-pnpm nx dev @nx/react_01
+pnpm nx dev @dummy/react_01
 ```
 
 ## build
