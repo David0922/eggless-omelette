@@ -1,3 +1,16 @@
+## install protoc & protobuf plugins
+
+```bash
+# grpc
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
+# connect rpc
+go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
+go install github.com/bufbuild/buf/cmd/buf@latest
+go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+```
+
 ## install dependencies
 
 ```bash
@@ -38,20 +51,20 @@ bazel run //:gazelle_go
 # build all
 bazel build //...
 
-# build a target (e.g. cpp_server)
-bazel build //cpp_server
+# build a target (e.g. cc_server)
+bazel build //cc_server
 ```
 
 ## run
 
 ```bash
 # run a target
-bazel run //cpp_server
+bazel run //cc_server
 
 # or
 
 # run binary manually
-./bazel-bin/cpp_server/cpp_server
+./bazel-bin/cc_server/cc_server
 ```
 
 ## clean

@@ -6,7 +6,7 @@ go_library(
     importpath = "dummy.mofu.dev/go_grpc_server",
     visibility = ["//visibility:private"],
     deps = [
-        "//protos:calc_go_grpc",
+        "//protos/gen_go",
         "@org_golang_google_grpc//:grpc",
     ],
 )

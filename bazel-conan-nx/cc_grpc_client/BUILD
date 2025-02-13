@@ -1,8 +1,8 @@
 cc_binary(
-    name = "cpp_grpc_server",
+    name = "cc_grpc_client",
     srcs = ["main.cc"],
     deps = [
-        "//protos:calc_cc_grpc",
+        "//protos/gen_cc",
         "@fmt",
         "@grpc",
         "@protobuf",

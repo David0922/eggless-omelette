@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "gen_go_connect",
+    srcs = ["calculator.connect.go"],
+    importpath = "dummy.mofu.dev/protos/gen_go/gen_go_connect",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//protos/gen_go",
+        "@com_connectrpc_connect//:connect",
+    ],
+)

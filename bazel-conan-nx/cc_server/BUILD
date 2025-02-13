@@ -1,5 +1,5 @@
 cc_binary(
-    name = "cpp_server",
+    name = "cc_server",
     srcs = ["main.cc"],
     deps = [
         "@crowcpp-crow",

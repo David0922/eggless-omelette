@@ -39,7 +39,4 @@ go_sdk.host()
 
 go_deps = use_extension("@gazelle//:extensions.bzl", "go_deps")
 go_deps.from_file(go_mod = "//:go.mod")
-use_repo(go_deps, "org_golang_google_grpc")
-
-bazel_dep(name = "rules_proto", version = "7.1.0")
-bazel_dep(name = "rules_proto_grpc_go", version = "5.0.1")
+use_repo(go_deps, "com_connectrpc_connect", "com_github_go_chi_chi", "com_github_go_chi_cors", "org_golang_google_grpc", "org_golang_google_protobuf", "org_golang_x_net")

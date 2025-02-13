@@ -65,6 +65,7 @@ pnpm nx dev @dummy/react_01
 
 ```bash
 # build all
+pnpm nx run-many --targets=gen
 pnpm nx run-many --targets=build
 
 # build a target (e.g. react_01)

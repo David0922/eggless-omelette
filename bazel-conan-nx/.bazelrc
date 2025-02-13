@@ -10,7 +10,7 @@ build --cxxopt=-O3
 build --cxxopt=-std=c++20
 build --host_cxxopt=-std=c++20
 
-build:linux --noincompatible_disallow_ctx_resolve_tools
+# build:linux --noincompatible_disallow_ctx_resolve_tools
 build:linux --noincompatible_disallow_empty_glob
 
 # enable if `error: aligned deallocation function of type xxx is only available on macOS 10.13 or newer`

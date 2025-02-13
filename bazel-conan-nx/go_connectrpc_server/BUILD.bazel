@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "go_connectrpc_server_lib",
+    srcs = ["main.go"],
+    importpath = "dummy.mofu.dev/go_connectrpc_server",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//protos/gen_go",
+        "//protos/gen_go/gen_go_connect",
+        "@com_connectrpc_connect//:connect",
+        "@com_github_go_chi_chi//:chi",
+        "@com_github_go_chi_chi//middleware",
+        "@com_github_go_chi_cors//:cors",
+        "@org_golang_x_net//http2",
+        "@org_golang_x_net//http2/h2c",
+    ],
+)
+
+go_binary(
+    name = "go_connectrpc_server",
+    embed = [":go_connectrpc_server_lib"],
+    visibility = ["//visibility:public"],
+)

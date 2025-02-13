@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-#include "protos/calculator.grpc.pb.h"
+#include "protos/gen_cc/calculator.grpc.pb.h"
 
 class CalculatorServiceImpl final : public Calculator::Service {
   grpc::Status Add(grpc::ServerContext*, const AddRequest* req,

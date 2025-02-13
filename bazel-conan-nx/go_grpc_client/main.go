@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	pb "dummy.mofu.dev/protos"
+	pb "dummy.mofu.dev/protos/gen_go"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -16,7 +16,7 @@ func main() {
 	port := 3000
 	serverAddr := fmt.Sprintf("%s:%d", ip, port)
 
-	conn, err := grpc.Dial(serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(serverAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("failed to connect: %v", err)
 	}

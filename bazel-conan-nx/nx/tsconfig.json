@@ -3,8 +3,8 @@
   "compileOnSave": false,
   "files": [],
   "references": [
-    {
-      "path": "./react_01"
-    }
+    { "path": "./add" },
+    { "path": "./protos" },
+    { "path": "./react_01" }
   ]
 }

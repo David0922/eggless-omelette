@@ -104,14 +104,14 @@ const char descriptor_table_protodef_calculator_2eproto[] ABSL_ATTRIBUTE_SECTION
     "\n\020calculator.proto\"\"\n\nAddRequest\022\t\n\001a\030\001 "
     "\001(\005\022\t\n\001b\030\002 \001(\005\"\030\n\013AddResponse\022\t\n\001c\030\001 \001(\005"
     "20\n\nCalculator\022\"\n\003Add\022\013.AddRequest\032\014.Add"
-    "Response\"\000B\027Z\025dummy.mofu.dev/protosb\006pro"
-    "to3"
+    "Response\"\000B\036Z\034dummy.mofu.dev/protos/gen_"
+    "gob\006proto3"
 };
 static ::absl::once_flag descriptor_table_calculator_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_calculator_2eproto = {
     false,
     false,
-    163,
+    170,
     descriptor_table_protodef_calculator_2eproto,
     "calculator.proto",
     &descriptor_table_calculator_2eproto_once,

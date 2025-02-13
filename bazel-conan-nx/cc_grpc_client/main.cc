@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-#include "protos/calculator.grpc.pb.h"
+#include "protos/gen_cc/calculator.grpc.pb.h"
 
 int main(int argc, char** argv) {
   const int port = 3000;

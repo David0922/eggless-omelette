@@ -1,2 +1,4 @@
 packages:
+  - 'add'
+  - 'protos'
   - 'react_01'
