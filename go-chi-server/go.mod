@@ -1,6 +1,6 @@
-module github.com/David0922/eggless-omelette/go-server
+module github.com/David0922/eggless-omelette/go-chi-server
 
-go 1.20
+go 1.22.6
 
 require (
 	github.com/go-chi/chi/v5 v5.0.12

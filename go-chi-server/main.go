@@ -17,7 +17,7 @@ func main() {
 
 	// http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
 	// 	log.Printf("req: %+v\n", req)
-	// 	fmt.Fprintf(w, "goodbye world old\n")
+	// 	fmt.Fprintf(w, "goodbye world\n")
 	// })
 
 	router := chi.NewRouter()
