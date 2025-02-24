@@ -16,9 +16,7 @@ apt-get install -qq \
   vim
   # ddclient \
 
-pip install certbot certbot-nginx
-
-ln -s /opt/certbot/bin/certbot /usr/bin/certbot
+pip install --break-system-packages certbot certbot-nginx
 
 # squarespace doesn't support dynamic DNS
 #
