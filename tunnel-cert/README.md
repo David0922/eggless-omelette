@@ -29,18 +29,18 @@ python ./main.py
 
 ```
 cd output
-docker build --no-cache --network host -t tunnel .
+docker build --no-cache --network host -t tunnel-cert .
 ```
 
 ### run container
 
 ```
-sudo docker run --rm -it --network host tunnel
+sudo docker run --rm -it --network host tunnel-cert
 ```
 
 ### reverse ssh from localhost
 
-use `autossh` instead of `ssh` to keep the tunnel alive
+use `autossh` instead of `ssh` to keep the ssh connection alive
 
 ```
 autossh -M MONITORING_PORT -N -R REMOTE_PORT:localhost:LOCAL_PORT DOMAIN_NAME
