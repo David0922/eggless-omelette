@@ -1,3 +1,3 @@
-FROM nginx:1.27-alpine-slim
+FROM nginx:stable-alpine-slim
 COPY ./nginx.conf /etc/nginx/nginx.conf
 CMD ["nginx", "-g", "daemon off;"]
