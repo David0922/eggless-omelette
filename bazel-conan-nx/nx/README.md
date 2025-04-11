@@ -65,11 +65,23 @@ pnpm nx dev @dummy/react_01
 
 ```bash
 # build all
-pnpm nx run-many --targets=gen
-pnpm nx run-many --targets=build
+pnpm nx run-many --targets=gen --verbose
+pnpm nx run-many --targets=build --verbose
 
 # build a target (e.g. react_01)
 pnpm nx build react_01
+```
+
+## run dev
+
+```bash
+pnpm nx dev react_01
+```
+
+## run prod
+
+```bash
+pnpm nx preview react_01
 ```
 
 ## clear nx cache & shutdown nx daemon

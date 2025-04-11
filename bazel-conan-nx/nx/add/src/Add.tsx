@@ -1,11 +1,25 @@
-import { type DescService } from '@bufbuild/protobuf';
+import {
+  create,
+  fromBinary,
+  toBinary,
+  type DescService,
+} from '@bufbuild/protobuf';
 import { createClient, type Client } from '@connectrpc/connect';
 import { createConnectTransport } from '@connectrpc/connect-web';
-import { Calculator } from '@dummy/protos_connectrpc';
+import {
+  AddRequestSchema,
+  AddResponseSchema,
+  Calculator,
+  type AddRequest,
+  type AddResponse,
+} from '@dummy/protos_connectrpc';
 import { useEffect, useMemo, useState } from 'react';
 
+const protocol: 'ConnectRPC' | 'REST' = 'REST';
+const baseUrl = 'http://localhost:3000';
+
 const transport = createConnectTransport({
-  baseUrl: 'http://localhost:3000',
+  baseUrl: baseUrl,
 });
 
 function useConnectRpcClient<T extends DescService>(service: T): Client<T> {
@@ -21,8 +35,22 @@ export function Add() {
 
   useEffect(() => {
     const asyncAdd = async () => {
-      const res = await calculator.add({ a: a, b: b });
-      setC(res.c);
+      if (protocol === 'ConnectRPC') {
+        const req = create(AddRequestSchema, { a: a, b: b }) as AddRequest;
+        const res = (await calculator.add(req)) as AddResponse;
+        setC(res.c);
+      } else if (protocol === 'REST') {
+        const req = create(AddRequestSchema, { a: a, b: b }) as AddRequest;
+        const reqBin = toBinary(AddRequestSchema, req);
+        const fetchRes = await fetch(`${baseUrl}/rest-api/calculator/add`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/proto' },
+          body: reqBin,
+        });
+        const resBin = new Uint8Array(await fetchRes.arrayBuffer());
+        const res = fromBinary(AddResponseSchema, resBin) as AddResponse;
+        setC(res.c);
+      }
     };
 
     asyncAdd().catch(console.error);
