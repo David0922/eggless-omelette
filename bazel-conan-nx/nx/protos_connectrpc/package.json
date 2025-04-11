@@ -1,5 +1,5 @@
 {
-  "name": "@dummy/protos",
+  "name": "@dummy/protos_connectrpc",
   "version": "0.0.1",
   "scripts": {
     "gen": "./gen.sh"

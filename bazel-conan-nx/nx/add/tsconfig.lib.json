@@ -32,7 +32,7 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
-      "path": "../protos/tsconfig.lib.json"
+      "path": "../protos_connectrpc/tsconfig.lib.json"
     }
   ]
 }

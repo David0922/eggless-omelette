@@ -1,4 +1,4 @@
 packages:
   - 'add'
-  - 'protos'
+  - 'protos_connectrpc'
   - 'react_01'

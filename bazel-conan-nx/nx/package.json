@@ -58,5 +58,6 @@
       "esbuild",
       "nx"
     ]
-  }
+  },
+  "packageManager": "pnpm@10.8.0"
 }

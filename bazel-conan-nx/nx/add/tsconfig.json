@@ -3,7 +3,7 @@
   "include": [],
   "references": [
     {
-      "path": "../protos"
+      "path": "../protos_connectrpc"
     },
     {
       "path": "./tsconfig.lib.json"

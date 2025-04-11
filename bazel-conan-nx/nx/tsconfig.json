@@ -4,7 +4,7 @@
   "files": [],
   "references": [
     { "path": "./add" },
-    { "path": "./protos" },
+    { "path": "./protos_connectrpc" },
     { "path": "./react_01" }
   ]
 }

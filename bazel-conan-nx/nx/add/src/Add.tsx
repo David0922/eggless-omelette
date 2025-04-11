@@ -1,7 +1,7 @@
 import { type DescService } from '@bufbuild/protobuf';
 import { createClient, type Client } from '@connectrpc/connect';
 import { createConnectTransport } from '@connectrpc/connect-web';
-import { Calculator } from '@dummy/protos';
+import { Calculator } from '@dummy/protos_connectrpc';
 import { useEffect, useMemo, useState } from 'react';
 
 const transport = createConnectTransport({
