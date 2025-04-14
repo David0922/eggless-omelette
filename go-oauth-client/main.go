@@ -2,5 +2,6 @@ package main
 
 func main() {
 	// google()
-	schwab()
+	// schwab()
+	tradestation()
 }
