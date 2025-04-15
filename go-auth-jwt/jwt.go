@@ -31,11 +31,9 @@ func Argon2id(password string, salt []byte) []byte {
 
 func ExtractBearerToken(req *http.Request) (string, error) {
 	authHeader := req.Header.Get("Authorization")
-
 	if !strings.HasPrefix(authHeader, "Bearer ") {
 		return "", fmt.Errorf("incorrect format")
 	}
-
 	return strings.TrimPrefix(authHeader, "Bearer "), nil
 }
 
@@ -45,7 +43,6 @@ func NewJWT(jwtKey []byte, username string) (string, error) {
 		jwt.RegisteredClaims{ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour))},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &claims)
-
 	return token.SignedString(jwtKey)
 }
 
@@ -54,7 +51,6 @@ func ValidateJWT(jwtKey []byte, tokenString string) (string, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %+v", token.Header["alg"])
 		}
-
 		return jwtKey, nil
 	})
 	if err != nil {

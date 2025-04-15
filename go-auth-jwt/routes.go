@@ -4,50 +4,65 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"strings"
+
+	"github.com/rs/zerolog"
 )
+
+type Controller struct {
+	jwtKey []byte
+	userDB FakeUserDB
+	logger zerolog.Logger
+}
 
 type Credential struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
-func register(w http.ResponseWriter, req *http.Request) {
+func (c *Controller) register(w http.ResponseWriter, req *http.Request) {
 	var credential Credential
 
-	userDB := UserDB()
-
 	if err := json.NewDecoder(req.Body).Decode(&credential); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		c.logger.Error().Err(err).Send()
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	if _, ok := userDB[credential.Username]; ok {
+	credential.Username = strings.TrimSpace(credential.Username)
+	credential.Password = strings.TrimSpace(credential.Password)
+	if len(credential.Username) == 0 || len(credential.Password) == 0 {
+		http.Error(w, "username & password can't be empty", http.StatusBadRequest)
+		return
+	}
+
+	if _, ok := c.userDB[credential.Username]; ok {
 		http.Error(w, "username already exists", http.StatusBadRequest)
 		return
 	}
 
 	salt, err := RandStr()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		c.logger.Error().Err(err).Send()
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	hash := Argon2id(credential.Password, salt)
 
-	userDB[credential.Username] = User{Username: credential.Username, Salt: salt, Hash: hash}
+	c.userDB[credential.Username] = User{Username: credential.Username, Salt: salt, Hash: hash}
 }
 
-func login(w http.ResponseWriter, req *http.Request) {
+func (c *Controller) login(w http.ResponseWriter, req *http.Request) {
 	var credential Credential
 
-	userDB := UserDB()
-
 	if err := json.NewDecoder(req.Body).Decode(&credential); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		c.logger.Error().Err(err).Send()
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	user, ok := userDB[credential.Username]
+	user, ok := c.userDB[credential.Username]
 	if !ok {
 		http.Error(w, "incorrect credential", http.StatusUnauthorized)
 		return
@@ -58,11 +73,23 @@ func login(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	jwt, err := NewJWT(JWTKey(), user.Username)
+	jwt, err := NewJWT(c.jwtKey, user.Username)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		c.logger.Error().Err(err).Send()
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	w.Write([]byte(jwt))
+}
+
+func (c *Controller) protected(w http.ResponseWriter, req *http.Request) {
+	username, ok := req.Context().Value(UsernameCtxKey{}).(string)
+	if !ok {
+		c.logger.Error().Msg("failed to get username")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	c.logger.Info().Msgf("%s accessed protected resource", username)
+	w.Write([]byte("Ϟ(๑⚈ ․̫ ⚈๑)⋆ " + username + "\n"))
 }

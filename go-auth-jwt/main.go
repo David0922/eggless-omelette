@@ -1,31 +1,60 @@
 package main
 
 import (
-	"log"
 	"net/http"
+	"os"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	"github.com/rs/zerolog"
 )
 
+type User struct {
+	Username string
+	Salt     []byte
+	Hash     []byte
+}
+
+type FakeUserDB map[string]User
+
 func main() {
-	r := chi.NewRouter()
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr}).With().Caller().Timestamp().Logger().Level(zerolog.DebugLevel)
 
-	r.Use(middleware.Logger)
+	jwtKey, err := RandStr()
+	if err != nil {
+		logger.Fatal().Err(err).Send()
+	}
 
-	r.Post("/api/v1/register", register)
-	r.Post("/api/v1/login", login)
+	userDB := make(FakeUserDB)
 
-	r.Group(func(r chi.Router) {
-		r.Use(Authenticator)
+	controller := &Controller{
+		jwtKey: jwtKey,
+		userDB: userDB,
+		logger: logger,
+	}
 
-		r.Get("/api/v1/protected", protected)
+	recovery := NewRecovery(logger)
+	requestLogger := NewRequestLogger(logger)
+	authenticator := NewAuthenticator(jwtKey, userDB, logger)
+	middleware := MiddlewareStack(recovery, requestLogger)
+
+	privileged := http.NewServeMux()
+	privileged.HandleFunc("GET /protected", controller.protected)
+
+	v1 := http.NewServeMux()
+	v1.HandleFunc("GET /panic", func(w http.ResponseWriter, r *http.Request) {
+		panic("oh no ><")
 	})
+	v1.HandleFunc("POST /register", controller.register)
+	v1.HandleFunc("POST /login", controller.login)
+	v1.Handle("/", authenticator(privileged))
+
+	mux := http.NewServeMux()
+	mux.Handle("/api/v1/", middleware(http.StripPrefix("/api/v1", v1)))
 
 	bindAddr := "0.0.0.0:3000"
-	log.Printf("listening at %s\n", bindAddr)
+	logger.Info().Str("bindAddr", bindAddr).Send()
 
-	if err := http.ListenAndServe(bindAddr, r); err != nil {
-		log.Fatalf("http.ListenAndServe: %v\n", err)
+	if err := http.ListenAndServe(bindAddr, mux); err != nil {
+		logger.Fatal().Err(err).Send()
 	}
 }
