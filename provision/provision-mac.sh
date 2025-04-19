@@ -67,7 +67,7 @@ install_boost() {
 }
 
 install_go() {
-  GO_VER=1.23.3
+  GO_VER=1.24.2
   OS=darwin
   ARCH=arm64
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
@@ -83,15 +83,8 @@ install_go() {
 }
 
 install_bazel() {
-  BAZEL_BIN=bazelisk-darwin-arm64
-
-  wget https://github.com/bazelbuild/bazelisk/releases/download/v1.24.1/$BAZEL_BIN
-  chmod +x ./$BAZEL_BIN
-  mv ./$BAZEL_BIN $BIN
-  sudo ln -s $BIN/$BAZEL_BIN $BIN/bazel
-  bazel --version
-
   # requires go
+  go install github.com/bazelbuild/bazelisk@latest
   go install github.com/bazelbuild/buildtools/buildifier@latest
 }
 

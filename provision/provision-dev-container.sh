@@ -89,7 +89,7 @@ install_git() {
 }
 
 install_go() {
-  GO_VER=1.21.5
+  GO_VER=1.24.2
   OS=linux
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 
@@ -104,15 +104,8 @@ install_go() {
 }
 
 install_bazel() {
-  BAZELISK=bazelisk-linux-$ARCH
-
-  wget https://github.com/bazelbuild/bazelisk/releases/download/v1.12.0/$BAZELISK
-  chmod +x ./$BAZELISK
-  mv ./$BAZELISK $BIN
-  ln -s $BIN/$BAZELISK $BIN/bazel
-  bazel --version
-
   # requires go
+  go install github.com/bazelbuild/bazelisk@latest
   go install github.com/bazelbuild/buildtools/buildifier@latest
 }
 

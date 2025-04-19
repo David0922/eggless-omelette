@@ -9,7 +9,8 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-alias b=bazel
+alias b=bazelisk
+alias bazel=bazelisk
 alias cls=clear
 alias c='clang -Wall -Wextra -Werror -std=c17 -pedantic'
 alias cpp='clang++ -Wall -Wextra -Werror -std=c++20 -pedantic'

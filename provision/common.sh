@@ -5,7 +5,8 @@ export PATH=$PATH:$BIN
 
 export EDITOR=/usr/bin/vim
 
-alias b=bazel
+alias b=bazelisk
+alias bazel=bazelisk
 alias cls=clear
 alias cp='cp --no-preserve=all'
 alias cpp='clang++ -Wall -Wextra -Werror -std=c++20 -pedantic'
