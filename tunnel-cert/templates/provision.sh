@@ -8,13 +8,13 @@ apt-get update -qq
 apt-get upgrade -qq
 
 apt-get install -qq \
-  libaugeas0 \
   nginx \
-  perl \
   python3-pip \
-  python3.12 \
-  vim
+  python3.12
   # ddclient \
+  # libaugeas0 \
+  # perl \
+  # vim
 
 pip install --break-system-packages certbot certbot-nginx
 
@@ -36,6 +36,11 @@ echo "0 0,12 * * * root python3 -c 'import random; import time; time.sleep(rando
 service nginx stop
 
 rm -rf /etc/nginx/sites-enabled
-mv /work-dir/nginx.conf /etc/nginx/conf.d/nginx.conf
+
+# http(s) only
+# mv /work-dir/nginx.conf /etc/nginx/conf.d/nginx.conf
+
+# tcp
+mv /work-dir/nginx.conf /etc/nginx/nginx.conf
 
 nginx -t

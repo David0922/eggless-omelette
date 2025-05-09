@@ -4,11 +4,14 @@ domains:
     #   server: domains.google.com
     #   login: login-1
     #   password: pw-1
+    tcp_mode: false
     https_proxy_pass_port: 8081
 
   - domain_name: domain-02.com
-    # ddclient:
-    #   server: domains.google.com
-    #   login: login-2
-    #   password: pw-2
+    tcp_mode: false
     https_proxy_pass_port: 8082
+
+  - domain_name: domain-03.com
+    tcp_mode: true # skip certbot
+    http_proxy_pass_port: 8083
+    https_proxy_pass_port: 8084

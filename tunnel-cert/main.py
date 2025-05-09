@@ -43,10 +43,25 @@ def main():
   with open(f'{template_dir}/nginx.conf', 'r') as f:
     nginx = f.read()
 
+  with open(f'{template_dir}/nginx-tcp.conf', 'r') as f:
+    nginx_tcp = f.read()
+
+  with open(f'{template_dir}/nginx-https.conf', 'r') as f:
+    nginx_https = f.read()
+
   with open(f'{output_dir}/nginx.conf', 'w') as f:
-    f.write('\n'.join(
-      nginx.format(DOMAIN_NAME=domain.domain_name,
-                   HTTPS_PROXY_PASS_PORT=domain.https_proxy_pass_port) for domain in domains))
+    nginx_servers = []
+    for domain in domains:
+      if domain.tcp_mode:
+        nginx_servers.append(
+          nginx_tcp.format(DOMAIN_NAME=domain.domain_name,
+                           HTTP_PROXY_PASS_PORT=domain.http_proxy_pass_port,
+                           HTTPS_PROXY_PASS_PORT=domain.https_proxy_pass_port))
+      else:
+        nginx_servers.append(
+          nginx_https.format(DOMAIN_NAME=domain.domain_name,
+                             HTTPS_PROXY_PASS_PORT=domain.https_proxy_pass_port))
+    f.write(nginx.format(SERVERS='\n'.join(nginx_servers)))
 
   with open(f'{template_dir}/provision.sh', 'r') as f:
     provision = f.read()
@@ -54,7 +69,7 @@ def main():
   with open(f'{output_dir}/provision.sh', 'w') as f:
     certbot_cmd = '\n'.join(
       f'certbot certonly --nginx --agree-tos --register-unsafely-without-email -d {domain.domain_name}'
-      for domain in domains)
+      for domain in domains if not domain.tcp_mode)
     f.write(provision.format(CERTBOT_CMD=certbot_cmd))
 
 
