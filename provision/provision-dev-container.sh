@@ -110,6 +110,9 @@ install_bazel() {
 }
 
 install_nodejs() {
+  export NPM_CONFIG_PREFIX=$BIN/npm-global
+  export PATH=$PATH:$NPM_CONFIG_PREFIX/bin
+
   NODE_VER=22
 
   # https://github.com/nodesource/distributions?tab=readme-ov-file#using-ubuntu-nodejs-22
@@ -137,7 +140,7 @@ install_python_virtualenv() {
       PY_VER=3.12
       ;;
     *)
-      echo 'this script is expected to be run in ubuntu 20.04 / 22.04'
+      echo 'this script is expected to be run in ubuntu 20.04 / 22.04 / 24.04'
       exit 1
       ;;
   esac

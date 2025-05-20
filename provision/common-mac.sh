@@ -55,3 +55,8 @@ export PATH=$PATH:$VCPKG_ROOT
 alias py=ipython
 
 source $BIN/py3.12_env/bin/activate
+
+# node.js
+
+export NPM_CONFIG_PREFIX=$BIN/npm-global
+export PATH=$PATH:$NPM_CONFIG_PREFIX/bin

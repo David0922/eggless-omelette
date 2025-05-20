@@ -91,6 +91,11 @@ unset __mamba_setup
 
 # micromamba activate $BIN/py3.11
 
+# node.js
+
+export NPM_CONFIG_PREFIX=$BIN/npm-global
+export PATH=$PATH:$NPM_CONFIG_PREFIX/bin
+
 # ruby
 
 # export PATH=$PATH:$BIN/rbenv/bin

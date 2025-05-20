@@ -95,7 +95,11 @@ install_jdk() {
 }
 
 install_nodejs() {
+  export NPM_CONFIG_PREFIX=$BIN/npm-global
+  export PATH=$PATH:$NPM_CONFIG_PREFIX/bin
+
   $INSTALL node
+
   npm install --global pnpm@latest-10 yarn
 }
 

@@ -153,7 +153,7 @@ install_python_virtualenv() {
       PY_VER=3.12
       ;;
     *)
-      echo 'this script is expected to be run in ubuntu 20.04 / 22.04'
+      echo 'this script is expected to be run in ubuntu 20.04 / 22.04 / 24.04'
       exit 1
       ;;
   esac
