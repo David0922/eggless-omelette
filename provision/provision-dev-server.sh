@@ -32,6 +32,7 @@ reset_dir() {
   mkdir \
     $BIN \
     $WORK_DIR/downloads \
+    $WORK_DIR/projects \
     $WORK_DIR/settings \
     $WORK_DIR/tmp
 }
@@ -76,31 +77,31 @@ install_essentials() {
   $INSTALL \
     autossh \
     build-essential \
-    busybox \
     colordiff \
     curl \
-    ethtool \
-    hping3 \
     htop \
-    iproute2 \
-    iputils-ping \
     jq \
-    libboost-all-dev \
-    libomp-dev \
-    make \
-    openjdk-21-jdk \
-    openssl \
-    protobuf-compiler \
-    screenfetch \
-    sipcalc \
     sshfs \
     tmux \
     tree \
-    unzip \
     vim \
-    wget \
-    zip
+    wget
+    # busybox \
     # cmake \
+    # ethtool \
+    # hping3 \
+    # iproute2 \
+    # iputils-ping \
+    # libboost-all-dev \
+    # libomp-dev \
+    # make \
+    # openjdk-21-jdk \
+    # openssl \
+    # protobuf-compiler \
+    # screenfetch \
+    # sipcalc \
+    # unzip \
+    # zip \
 }
 
 install_clang_latest() {
@@ -542,7 +543,7 @@ install_essentials
 install_clang
 # install_clang_latest
 # setup_ebpf_dev
-install_cmake
+# install_cmake
 install_docker
 install_git
 install_go

@@ -62,21 +62,21 @@ set_ufw_firewall() {
 install_essentials() {
   $INSTALL \
     autossh \
-    busybox \
     colordiff \
     curl \
     htop \
-    iproute2 \
     jq \
-    openssl \
-    screenfetch \
     tmux \
     tree \
-    unzip \
     vim \
-    virtualenv \
-    wget \
-    zip
+    wget
+    # busybox \
+    # iproute2 \
+    # openssl \
+    # screenfetch \
+    # unzip \
+    # virtualenv \
+    # zip \
 }
 
 install_docker() {
