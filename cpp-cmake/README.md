@@ -1,9 +1,9 @@
 ### install cmake
 
 ```
-sudo apt install cmake
+sudo apt install cmake ninja-build
 
-brew install cmake
+brew install cmake ninja
 ```
 
 ### install boost c++
@@ -16,11 +16,17 @@ brew install boost
 
 ### build locally
 
-```
+```bash
 mkdir build
 cd build
+
+# make
 cmake ..
-make
+make -j $(nproc)
+
+# ninja
+cmake -G Ninja ..
+ninja -j $(nproc)
 ```
 
 ### clean
