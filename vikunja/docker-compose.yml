@@ -1,0 +1,44 @@
+services:
+  nginx:
+    image: nginx
+    build: ./nginx
+    ports:
+      - 8080:8080
+    networks:
+      - internet
+      - no-internet
+    restart: always
+
+  vikunja:
+    image: vikunja/vikunja:0.24.6
+    depends_on:
+      - db
+      - nginx
+    environment:
+      - VIKUNJA_DATABASE_DATABASE=${VIKUNJA_DB}
+      - VIKUNJA_DATABASE_HOST=db
+      - VIKUNJA_DATABASE_PASSWORD=${VIKUNJA_DB_PW}
+      - VIKUNJA_DATABASE_TYPE=postgres
+      - VIKUNJA_DATABASE_USER=${VIKUNJA_DB_USER}
+    networks:
+      - no-internet
+    volumes:
+      - ./v/vikunja/files:/app/vikunja/files
+    restart: always
+
+  db:
+    image: postgres:17
+    environment:
+      - POSTGRES_DB=${VIKUNJA_DB}
+      - POSTGRES_PASSWORD=${VIKUNJA_DB_PW}
+      - POSTGRES_USER=${VIKUNJA_DB_USER}
+    networks:
+      - no-internet
+    volumes:
+      - ./v/postgres:/var/lib/postgresql/data
+    restart: always
+
+networks:
+  internet: {}
+  no-internet:
+    internal: true
