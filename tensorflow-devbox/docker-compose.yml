@@ -1,6 +1,5 @@
 services:
   jupyter-notebook:
-    image: jupyter-notebook
     build: ./jupyter-notebook
     volumes:
       - ${DATA_DIR}:/app/data

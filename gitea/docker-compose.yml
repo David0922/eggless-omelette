@@ -1,6 +1,5 @@
 services:
   nginx:
-    image: nginx
     build: ./nginx
     ports:
       - 2222:2222
