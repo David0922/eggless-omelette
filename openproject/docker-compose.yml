@@ -1,0 +1,29 @@
+services:
+  nginx:
+    build: ./nginx
+    depends_on:
+      - openproject
+    ports:
+      - 8080:8080
+    networks:
+      - internet
+      - no-internet
+    restart: always
+
+  openproject:
+    image: openproject/openproject:16
+    environment:
+      - OPENPROJECT_HOST__NAME=localhost:8080
+      - OPENPROJECT_HTTPS=false
+      # - OPENPROJECT_SECRET_KEY_BASE=not_secret
+    networks:
+      - no-internet
+    volumes:
+      - ./v/openproject/assets:/var/openproject/assets
+      - ./v/openproject/pgdata:/var/openproject/pgdata
+    restart: always
+
+networks:
+  internet: {}
+  no-internet:
+    internal: true
