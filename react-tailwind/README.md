@@ -1,19 +1,25 @@
 setup
 
 ```bash
-yarn
+pnpm install
 ```
 
 run locally
 
 ```bash
-yarn build
-yarn start
+pnpm dev
+```
+
+run production build
+
+```bash
+pnpm build
+pnpm preview
 ```
 
 containerize
 
 ```bash
-docker build -t react-tailwind .
-docker run --rm -it -p 8080:80 react-tailwind
+podman build -t react-tailwind .
+podman run --rm -it -p 8080:80 react-tailwind
 ```
