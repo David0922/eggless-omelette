@@ -1,19 +1,25 @@
 setup
 
 ```bash
-yarn
+pnpm install
 ```
 
 run locally
 
 ```bash
-yarn build
-yarn start
+pnpm dev
+```
+
+run production build
+
+```bash
+pnpm build
+pnpm preview
 ```
 
 containerize
 
 ```bash
-docker build -t react-ts .
-docker run --rm -it -p 8080:80 react-ts
+podman build -t react-ts .
+podman run --rm -it -p 8080:80 react-ts
 ```
