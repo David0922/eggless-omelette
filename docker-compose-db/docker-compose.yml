@@ -1,0 +1,82 @@
+services:
+  nginx:
+    build: ./nginx
+    hostname: nginx
+    container_name: nginx
+    ports:
+      # clickhouse
+      # https://clickhouse.com/docs/guides/sre/network-ports
+      - 8123:8123 # http
+      - 9000:9000 # native protocol (ClickHouse TCP protocol)
+      # mysql
+      - 3306:3306
+      # postgres
+      - 5432:5432
+      # redis
+      - 6379:6379
+    networks:
+      - internet
+      - no-internet
+    restart: unless-stopped
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.6.5-alpine
+    hostname: clickhouse
+    container_name: clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    environment:
+      - CLICKHOUSE_DB=${CLICKHOUSE_DB}
+      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD}
+      - CLICKHOUSE_USER=${CLICKHOUSE_USER}
+    networks:
+      - no-internet
+    volumes:
+      - ./v/clickhouse/ch_data:/var/lib/clickhouse
+      - ./v/clickhouse/ch_logs:/var/log/clickhouse-server
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0.43
+    hostname: mysql
+    container_name: mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+    networks:
+      - no-internet
+    volumes:
+      - ./v/mysql/data:/var/lib/mysql
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17.5-alpine3.22
+    hostname: postgres
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+    networks:
+      - no-internet
+    volumes:
+      - ./v/postgres/data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:8.0.3-alpine3.21
+    hostname: redis
+    container_name: redis
+    networks:
+      - no-internet
+    restart: unless-stopped
+
+networks:
+  internet: {}
+  no-internet:
+    internal: true
