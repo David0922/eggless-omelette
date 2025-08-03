@@ -1,4 +1,8 @@
 ```bash
+# podman machine reset
+# podman machine init --cpus 4 --memory 4096 --disk-size 20 --volume /Volumes:/Volumes
+# podman machine start
+
 podman-compose up
 
 # clickhouse

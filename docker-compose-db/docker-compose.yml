@@ -1,8 +1,8 @@
 services:
   nginx:
     build: ./nginx
-    hostname: nginx
     container_name: nginx
+    hostname: nginx
     ports:
       # clickhouse
       # https://clickhouse.com/docs/guides/sre/network-ports
@@ -21,8 +21,8 @@ services:
 
   clickhouse:
     image: clickhouse/clickhouse-server:25.6.5-alpine
-    hostname: clickhouse
     container_name: clickhouse
+    hostname: clickhouse
     ulimits:
       nofile:
         soft: 262144
@@ -35,14 +35,14 @@ services:
     networks:
       - no-internet
     volumes:
-      - ./v/clickhouse/ch_data:/var/lib/clickhouse
-      - ./v/clickhouse/ch_logs:/var/log/clickhouse-server
+      - ${V}/clickhouse/ch_data:/var/lib/clickhouse
+      - ${V}/clickhouse/ch_logs:/var/log/clickhouse-server
     restart: unless-stopped
 
   mysql:
     image: mysql:8.0.43
-    hostname: mysql
     container_name: mysql
+    hostname: mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -51,13 +51,13 @@ services:
     networks:
       - no-internet
     volumes:
-      - ./v/mysql/data:/var/lib/mysql
+      - ${V}/mysql/data:/var/lib/mysql
     restart: unless-stopped
 
   postgres:
     image: postgres:17.5-alpine3.22
-    hostname: postgres
     container_name: postgres
+    hostname: postgres
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -65,13 +65,13 @@ services:
     networks:
       - no-internet
     volumes:
-      - ./v/postgres/data:/var/lib/postgresql/data
+      - ${V}/postgres/data:/var/lib/postgresql/data
     restart: unless-stopped
 
   redis:
     image: redis:8.0.3-alpine3.21
-    hostname: redis
     container_name: redis
+    hostname: redis
     networks:
       - no-internet
     restart: unless-stopped
