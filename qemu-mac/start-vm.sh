@@ -11,7 +11,7 @@ DISK_IMG=$VM_ID.qcow2
 SEED_IMG=$VM_ID-seed.img
 
 qemu-system-aarch64 \
-  -name $VM_ID.qcow2 \
+  -name $VM_ID \
   -machine type=virt,accel=hvf \
   -cpu host \
   -smp $CPU \
