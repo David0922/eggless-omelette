@@ -42,7 +42,7 @@ secure_ssh() {
   sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
   sudo sed -i 's/^#\?UsePAM.*/UsePAM no/' /etc/ssh/sshd_config
 
-  sudo systemctl reload ssh.service
+  # sudo systemctl reload ssh.service
 }
 
 set_timezone() {
