@@ -50,26 +50,27 @@ set_pw() {
 
 install_essentials() {
   $INSTALL \
-    autossh \
     build-essential \
     busybox \
     cmake \
     colordiff \
     curl \
     htop \
+    iputils-ping \
     jq \
-    libboost-all-dev \
     make \
-    openjdk-21-jdk \
-    openssl \
-    protobuf-compiler \
     screenfetch \
     tmux \
     tree \
-    unzip \
     vim \
-    wget \
-    zip
+    wget
+    # autossh \
+    # libboost-all-dev \
+    # openjdk-21-jdk \
+    # openssl \
+    # protobuf-compiler \
+    # unzip \
+    # zip \
 }
 
 install_clang() {
@@ -154,22 +155,22 @@ install_python_virtualenv() {
   source $PY_ENV_PREFIX/bin/activate
 
   pip install \
-    conan \
-    diagrams \
     ipython \
-    isort \
-    jupyter \
-    matplotlib \
-    numpy \
-    pandas \
-    plotly \
-    pytest \
-    PyYAML \
-    requests \
-    yapf
+    jupyter
+    # conan \
+    # diagrams \
     # grpcio \
     # grpcio-tools \
+    # isort \
+    # matplotlib \
+    # numpy \
+    # pandas \
+    # plotly \
     # pyspark \
+    # pytest \
+    # PyYAML \
+    # requests \
+    # yapf \
 }
 
 install_zsh() {
@@ -214,8 +215,8 @@ install_essentials
 install_clang
 install_git
 install_go
-install_bazel # requires go
-install_nodejs
+# install_bazel # requires go
+# install_nodejs
 install_python_virtualenv
 install_zsh
 
