@@ -1,0 +1,15 @@
+services:
+  netbird:
+    image: netbirdio/netbird:latest
+    container_name: netbird
+    hostname: ${NB_HOSTNAME}
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+    environment:
+      - NB_SETUP_KEY=${NB_SETUP_KEY}
+    network_mode: host
+    volumes:
+      - ./v/netbird-client:/var/lib/netbird
+    restart: unless-stopped
