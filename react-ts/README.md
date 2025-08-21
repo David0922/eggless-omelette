@@ -1,3 +1,9 @@
+update packages
+
+```bash
+pnpm --package=npm-check-updates dlx ncu -u
+```
+
 setup
 
 ```bash
