@@ -47,6 +47,12 @@ export GO111MODULE=auto
 export GOPATH=$BIN/gopath
 export PATH=$PATH:$BIN/go/bin:$GOPATH/bin
 
+# rust
+
+export RUSTUP_HOME=$BIN/rust/.rustup
+export CARGO_HOME=$BIN/rust/.cargo
+export PATH=$PATH:$BIN/rust/.cargo/bin
+
 # vcpkg
 
 export VCPKG_DISABLE_METRICS=1

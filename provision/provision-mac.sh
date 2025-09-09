@@ -145,7 +145,14 @@ install_gcloud() {
 }
 
 install_rust() {
-  curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+  mkdir -p $BIN/rust
+
+  export RUSTUP_HOME=$BIN/rust/.rustup
+  export CARGO_HOME=$BIN/rust/.cargo
+
+  export PATH=$PATH:$BIN/rust/.cargo/bin
+
+  curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path
 }
 
 install_vcpkg() {
