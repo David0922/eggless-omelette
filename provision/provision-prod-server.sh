@@ -36,6 +36,9 @@ reset_dir() {
 }
 
 secure_ssh() {
+  $INSTALL fail2ban
+  sudo systemctl enable fail2ban
+
   sudo sed -i 's/^#\?ChallengeResponseAuthentication.*/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
   sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
   sudo sed -i 's/^#\?PermitEmptyPasswords.*/PermitEmptyPasswords no/' /etc/ssh/sshd_config
