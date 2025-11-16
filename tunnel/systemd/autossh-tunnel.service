@@ -5,7 +5,7 @@ Description=autossh tunnel pika.mofu.dev:3203 <----> localhost:22
 User=pika
 
 Environment="AUTOSSH_GATETIME=0"
-ExecStart=autossh -i ./private-key -M 20002 -N -R 3203:localhost:22 pika@pika.mofu.dev
+ExecStart=autossh -i ./private-key -M 20002 -N -R 0.0.0.0:3203:localhost:22 pika@pika.mofu.dev
 
 Restart=always
 RestartSec=5
