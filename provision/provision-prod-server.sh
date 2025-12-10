@@ -91,7 +91,8 @@ install_docker() {
     ca-certificates \
     curl \
     gnupg \
-    lsb-release
+    lsb-release \
+    uidmap
 
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
@@ -103,6 +104,10 @@ install_docker() {
 
   sudo groupadd docker || true
   sudo usermod -aG docker $USER
+
+  # sudo systemctl disable --now docker.service docker.socket
+  # sudo rm -rf /var/run/docker.sock
+  # dockerd-rootless-setuptool.sh install
 }
 
 install_git() {
