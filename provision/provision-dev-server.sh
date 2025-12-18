@@ -495,7 +495,7 @@ install_postgresql() {
 install_vcpkg() {
   cd $BIN
   $INSTALL pkg-config
-  git clone --branch 2024.11.16 --depth 1 https://github.com/microsoft/vcpkg.git
+  git clone --branch 2025.12.12 --depth 1 https://github.com/microsoft/vcpkg.git
   cd vcpkg
   ./bootstrap-vcpkg.sh -disableMetrics
   cd $WORK_DIR/downloads
