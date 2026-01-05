@@ -107,7 +107,7 @@ install_essentials() {
 install_clang_latest() {
   # https://apt.llvm.org/
 
-  CLANG_VER=17
+  CLANG_VER=20
 
   $INSTALL gnupg lsb-release software-properties-common
 
@@ -141,7 +141,7 @@ install_clang_latest() {
 }
 
 install_clang() {
-  CLANG_VER=15
+  CLANG_VER=19
 
   $INSTALL clang-$CLANG_VER clang-format-$CLANG_VER
 
@@ -152,7 +152,7 @@ install_clang() {
 }
 
 install_cmake() {
-  CMAKE_VER=v3.31.3
+  CMAKE_VER=v4.2.1
 
   $INSTALL libssl-dev openssl
 

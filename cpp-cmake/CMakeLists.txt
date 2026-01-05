@@ -1,25 +1,25 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.31)
+
+project(dummy_proj LANGUAGES CXX)
 
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-
-project(LANGUAGES CXX)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 
 include(FetchContent)
 
 FetchContent_Declare(
   Crow
   GIT_REPOSITORY https://github.com/CrowCpp/Crow
-  GIT_TAG        v1.0+4
+  GIT_TAG        v1.3.0
   GIT_SHALLOW    TRUE
 )
 
 FetchContent_Declare(
   fmt
   GIT_REPOSITORY https://github.com/fmtlib/fmt
-  GIT_TAG        9.0.0
+  GIT_TAG        12.1.0
   GIT_SHALLOW    TRUE
 )
 

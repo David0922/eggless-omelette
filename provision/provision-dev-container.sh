@@ -74,7 +74,7 @@ install_essentials() {
 }
 
 install_clang() {
-  CLANG_VER=15
+  CLANG_VER=19
 
   $INSTALL clang-$CLANG_VER clang-format-$CLANG_VER
 
