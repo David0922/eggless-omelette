@@ -67,7 +67,7 @@ vcpkg --disable-metrics install --recurse
 ## build
 
 ```
-cmake --preset=default
+cmake --preset default
 cmake --build build
 ```
 

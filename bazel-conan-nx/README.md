@@ -80,6 +80,6 @@ sudo rm -rf ~/.cache/bazel
 rm -rf ~/.conan2
 
 # mac
-sudo rm -rf  /private/var/tmp/_bazel*
+sudo rm -rf /private/var/tmp/_bazel*
 rm -rf ~/.conan2
 ```

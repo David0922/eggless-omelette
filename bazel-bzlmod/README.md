@@ -108,7 +108,7 @@ bazel clean --expunge
 sudo rm -rf ~/.cache/bazel
 
 # mac
-sudo rm -rf  /private/var/tmp/_bazel*
+sudo rm -rf /private/var/tmp/_bazel*
 ```
 
 ---
