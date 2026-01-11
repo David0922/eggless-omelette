@@ -16,10 +16,10 @@ cd CMake
 brew install cmake ninja
 ```
 
-### install dependencies
+### add a `builtin-baseline` field to the vcpkg.json if it does not already have one
 
 ```bash
-vcpkg --disable-metrics install --recurse
+vcpkg --disable-metrics x-update-baseline --add-initial-baseline
 ```
 
 ### update vcpkg baseline
@@ -56,6 +56,12 @@ vcpkg --disable-metrics list
 ```bash
 find . \( -path ./build -o -path ./vcpkg_installed \) -prune -o \
   -type f \( -name '*.cc' -o -name '*.h' \) -exec clang-format -i {} +
+```
+
+### install dependencies
+
+```bash
+vcpkg --disable-metrics install --recurse
 ```
 
 ## build

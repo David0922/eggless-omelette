@@ -2,5 +2,16 @@
   "dependencies": [
     "crow",
     "fmt"
-  ]
+  ],
+  "overrides": [
+    {
+      "name": "crow",
+      "version": "1.3.0"
+    },
+    {
+      "name": "fmt",
+      "version": "12.1.0"
+    }
+  ],
+  "builtin-baseline": "84bab45d415d22042bd0b9081aea57f362da3f35"
 }

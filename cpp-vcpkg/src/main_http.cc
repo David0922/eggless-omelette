@@ -8,7 +8,7 @@
 #include "my_str.h"
 
 int main() {
-  std::vector<std::string> v = {"boodbye", "world"};
+  std::vector<std::string> v = {"goodbye", "world"};
   fmt::print("{}\n", v);
 
   crow::SimpleApp app;

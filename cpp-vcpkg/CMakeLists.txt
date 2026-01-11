@@ -13,4 +13,4 @@ find_package(fmt CONFIG REQUIRED)
 add_library(MyStr ./src/my_str.cc ./src/my_str.h)
 
 add_executable(main_http ./src/main_http.cc)
-target_link_libraries(main_http MyStr Crow::Crow fmt::fmt)
+target_link_libraries(main_http PRIVATE MyStr Crow::Crow fmt::fmt)
