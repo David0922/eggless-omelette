@@ -158,8 +158,10 @@ install_rust() {
 install_vcpkg() {
   cd $BIN
   $INSTALL pkg-config
-  git clone --branch 2025.12.12 --depth 1 https://github.com/microsoft/vcpkg.git
+  git clone --branch 2025.01.13 --depth 1 https://github.com/microsoft/vcpkg.git
   cd vcpkg
+  git fetch origin tag 2025.12.12
+  git checkout 2025.12.12
   ./bootstrap-vcpkg.sh -disableMetrics
   cd $WORK_DIR/downloads
 }
