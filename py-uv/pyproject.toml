@@ -1,0 +1,28 @@
+[project]
+name = "dummy"
+version = "0.0.0"
+requires-python = ">=3.12"
+dependencies = [
+  "flask>=3.1.2",
+]
+
+[dependency-groups]
+dev = [
+  "isort>=7.0.0",
+  "yapf>=0.43.0",
+]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.yapf]
+based_on_style = "pep8"
+column_limit = 100
+continuation_indent_width = 2
+indent_width = 2
+
+[tool.yapfignore]
+ignore_patterns = [
+  ".venv",
+]
