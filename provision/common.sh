@@ -51,7 +51,7 @@ export PATH=$PATH:$BIN/go/bin:$GOPATH/bin
 
 export RUSTUP_HOME=$BIN/rust/.rustup
 export CARGO_HOME=$BIN/rust/.cargo
-export PATH=$PATH:$BIN/rust/.cargo/bin
+export PATH=$PATH:$CARGO_HOME/bin
 
 # vcpkg
 
@@ -96,6 +96,24 @@ unset __mamba_setup
 # <<< mamba initialize <<<
 
 # micromamba activate $BIN/py3.11
+
+# uv
+
+export UV_PYTHON_BIN_DIR=$BIN/uv/python_bin
+export UV_PYTHON_INSTALL_DIR=$BIN/uv/python_install
+export UV_TOOL_BIN_DIR=$BIN/uv/tool_bin
+export UV_TOOL_DIR=$BIN/uv/tool
+
+export PATH=$PATH:$UV_PYTHON_BIN_DIR
+export PATH=$PATH:$UV_TOOL_BIN_DIR
+
+if command -v uv &> /dev/null; then
+  eval "$(uv generate-shell-completion zsh)"
+fi
+
+if command -v uvx &> /dev/null; then
+  eval "$(uvx --generate-shell-completion zsh)"
+fi
 
 # node.js
 

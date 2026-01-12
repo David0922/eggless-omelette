@@ -157,7 +157,6 @@ install_python_virtualenv() {
   pip install \
     ipython \
     jupyter
-    # conan \
     # diagrams \
     # grpcio \
     # grpcio-tools \
@@ -171,6 +170,48 @@ install_python_virtualenv() {
     # PyYAML \
     # requests \
     # yapf \
+}
+
+install_rust() {
+  mkdir -p $BIN/rust
+
+  export RUSTUP_HOME=$BIN/rust/.rustup
+  export CARGO_HOME=$BIN/rust/.cargo
+
+  export PATH=$PATH:$CARGO_HOME/bin
+
+  curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path
+}
+
+install_uv() {
+  # https://docs.astral.sh/uv/getting-started/installation/#cargo
+  # requires rust
+
+  export UV_PYTHON_BIN_DIR=$BIN/uv/python_bin
+  export UV_PYTHON_INSTALL_DIR=$BIN/uv/python_install
+  export UV_TOOL_BIN_DIR=$BIN/uv/tool_bin
+  export UV_TOOL_DIR=$BIN/uv/tool
+
+  export PATH=$PATH:$UV_PYTHON_BIN_DIR
+  export PATH=$PATH:$UV_TOOL_BIN_DIR
+
+  cargo install --locked uv
+}
+
+install_conan() {
+  # requires uv
+  uv tool install conan
+}
+
+install_vcpkg() {
+  cd $BIN
+  $INSTALL pkg-config
+  git clone --branch 2025.01.13 --depth 1 https://github.com/microsoft/vcpkg.git
+  cd vcpkg
+  git fetch origin tag 2025.12.12
+  git checkout 2025.12.12
+  ./bootstrap-vcpkg.sh -disableMetrics
+  cd $WORK_DIR/downloads
 }
 
 install_zsh() {
@@ -215,9 +256,13 @@ install_essentials
 install_clang
 install_git
 install_go
-# install_bazel # requires go
-# install_nodejs
+install_bazel # requires go
+install_nodejs
 install_python_virtualenv
+install_rust
+install_uv # requires rust
+install_conan # requires uv
+install_vcpkg
 install_zsh
 
 clean_up

@@ -330,7 +330,6 @@ install_python_venv() {
   source $PY_ENV_PREFIX/bin/activate
 
   pip install \
-    conan \
     diagrams \
     ipython \
     isort \
@@ -432,9 +431,24 @@ install_rust() {
   export RUSTUP_HOME=$BIN/rust/.rustup
   export CARGO_HOME=$BIN/rust/.cargo
 
-  export PATH=$PATH:$BIN/rust/.cargo/bin
+  export PATH=$PATH:$CARGO_HOME/bin
 
   curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path
+}
+
+install_uv() {
+  # https://docs.astral.sh/uv/getting-started/installation/#cargo
+  # requires rust
+
+  export UV_PYTHON_BIN_DIR=$BIN/uv/python_bin
+  export UV_PYTHON_INSTALL_DIR=$BIN/uv/python_install
+  export UV_TOOL_BIN_DIR=$BIN/uv/tool_bin
+  export UV_TOOL_DIR=$BIN/uv/tool
+
+  export PATH=$PATH:$UV_PYTHON_BIN_DIR
+  export PATH=$PATH:$UV_TOOL_BIN_DIR
+
+  cargo install --locked uv
 }
 
 install_mongodb() {
@@ -490,6 +504,11 @@ install_postgresql() {
   # sudo systemctl restart postgresql.service
   sudo systemctl stop postgresql.service
   sudo systemctl disable postgresql.service
+}
+
+install_conan() {
+  # requires uv
+  uv tool install conan
 }
 
 install_vcpkg() {
@@ -565,8 +584,10 @@ install_nodejs
 install_python_virtualenv
 # install_gcloud # requires python
 # install_ruby
-# install_rust
-# install_vcpkg
+install_rust
+install_uv # requires rust
+install_conan # requires uv
+install_vcpkg
 install_zsh
 
 clean_up
