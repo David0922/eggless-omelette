@@ -33,6 +33,8 @@ reset_dir() {
 }
 
 enable_ssh_pw_auth() {
+  # todo: set configs in /etc/ssh/sshd_config.d/*.conf instead of modifying /etc/ssh/sshd_config
+
   $INSTALL openssh-server
 
   sed -i 's/^#\?AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config

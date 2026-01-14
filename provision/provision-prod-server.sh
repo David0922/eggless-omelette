@@ -36,6 +36,8 @@ reset_dir() {
 }
 
 secure_ssh() {
+  # todo: set configs in /etc/ssh/sshd_config.d/*.conf instead of modifying /etc/ssh/sshd_config
+
   $INSTALL fail2ban
   sudo systemctl enable fail2ban
 
