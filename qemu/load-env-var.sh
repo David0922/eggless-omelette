@@ -2,7 +2,8 @@
 
 set -e -x
 
-export CLOUD_IMG=/work-dir/tmp/noble-server-cloudimg-arm64.img
+# export CLOUD_IMG=/work-dir/tmp/noble-server-cloudimg-arm64.img
+export CLOUD_IMG=/work-dir/tmp/noble-server-cloudimg-amd64.img
 
 export ID=00
 export VM_ID=devbox-$ID

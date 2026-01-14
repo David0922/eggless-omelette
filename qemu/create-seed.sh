@@ -4,6 +4,21 @@ set -e -x
 
 source load-env-var.sh
 
+if [ -z "$VM_ID" ]; then
+  echo 'VM_ID is empty or not set'
+  exit 1
+fi
+
+if [ -z "$DEFAULT_USER" ]; then
+  echo 'DEFAULT_USER is empty or not set'
+  exit 1
+fi
+
+if [ -z "$DEFAULT_PW" ]; then
+  echo 'DEFAULT_PW is empty or not set'
+  exit 1
+fi
+
 ssh-keygen -t rsa -b 4096 -C '' -f ./id_rsa -N ''
 
 cat << EOF > user-data

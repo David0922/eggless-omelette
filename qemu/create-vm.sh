@@ -9,6 +9,11 @@ if [ ! -f "$CLOUD_IMG" ]; then
   exit 1
 fi
 
+if [ -z "$DISK_SIZE" ]; then
+  echo 'DISK_SIZE is empty or not set'
+  exit 1
+fi
+
 source create-seed.sh
 
 qemu-img create -f qcow2 -o backing_file=$CLOUD_IMG,backing_fmt=qcow2 $VM_ID.qcow2 $DISK_SIZE
