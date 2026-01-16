@@ -206,6 +206,7 @@ install_conan() {
 
 install_vcpkg() {
   cd $BIN
+  $INSTALL curl tar unzip zip
   $INSTALL pkg-config
   git clone --branch 2025.01.13 --depth 1 https://github.com/microsoft/vcpkg.git
   cd vcpkg
