@@ -38,12 +38,11 @@ reset_dir() {
 }
 
 enable_ssh_pw_auth() {
-  # todo: set configs in /etc/ssh/sshd_config.d/*.conf instead of modifying /etc/ssh/sshd_config
-
-  sudo sed -i 's/^#\?AllowTcpForwarding.*/AllowTcpForwarding yes/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?GatewayPorts.*/GatewayPorts yes/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+  printf '%s\n' \
+    'AllowTcpForwarding yes' \
+    'GatewayPorts yes' \
+    'PasswordAuthentication yes' \
+    'PermitRootLogin yes' | sudo tee /etc/ssh/sshd_config.d/devbox.conf
 
   # sudo systemctl reload ssh.service
 }

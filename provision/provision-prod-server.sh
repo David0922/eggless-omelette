@@ -36,17 +36,16 @@ reset_dir() {
 }
 
 secure_ssh() {
-  # todo: set configs in /etc/ssh/sshd_config.d/*.conf instead of modifying /etc/ssh/sshd_config
-
   $INSTALL fail2ban
   sudo systemctl enable fail2ban
 
-  sudo sed -i 's/^#\?ChallengeResponseAuthentication.*/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?GatewayPorts.*/GatewayPorts clientspecified/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?PermitEmptyPasswords.*/PermitEmptyPasswords no/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
-  sudo sed -i 's/^#\?UsePAM.*/UsePAM no/' /etc/ssh/sshd_config
+  printf '%s\n' \
+    'ChallengeResponseAuthentication no' \
+    'GatewayPorts clientspecified' \
+    'PasswordAuthentication no' \
+    'PermitEmptyPasswords no' \
+    'PermitRootLogin no' | sudo tee /etc/ssh/sshd_config.d/prod.conf
+    # 'UsePAM no'
 
   # sudo systemctl reload ssh.service
 }
