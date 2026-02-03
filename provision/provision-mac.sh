@@ -103,17 +103,22 @@ install_nodejs() {
   npm install --global pnpm@latest-10 yarn
 }
 
-install_python() {
-  PY_VER=3.12
+install_python_micromamba() {
+  PY_VER=3.14
+  PY_ENV_PREFIX=$BIN/py$PY_VER
+  MICROMAMBA_URL=https://micro.mamba.pm/api/micromamba/osx-arm64/latest
 
-  $INSTALL python@$PY_VER virtualenv
+  curl -Ls $MICROMAMBA_URL | tar -xvj bin/micromamba
+  mv ./bin/micromamba $BIN/micromamba
+  rm -rf ./bin
 
-  virtualenv -p $(which python$PY_VER) $BIN/py${PY_VER}_env
+  export MAMBA_ROOT_PREFIX=$BIN/micromamba_root
+  eval "$(micromamba shell hook --shell zsh)"
 
-  source $BIN/py${PY_VER}_env/bin/activate
+  printf "channels:\n  - conda-forge\n" | tee $HOME/.condarc
 
-  pip install \
-    diagrams \
+  micromamba --yes create --prefix $PY_ENV_PREFIX \
+    python=$PY_VER \
     ipython \
     isort \
     jupyter \
@@ -125,9 +130,41 @@ install_python() {
     PyYAML \
     requests \
     yapf
+    # diagrams \
     # grpcio \
     # grpcio-tools \
     # pyspark \
+
+  # micromamba activate $PY_ENV_PREFIX
+}
+
+install_python_virtualenv() {
+  PY_VER=3.12
+
+  $INSTALL python@$PY_VER virtualenv
+
+  virtualenv -p $(which python$PY_VER) $BIN/py${PY_VER}_env
+
+  source $BIN/py${PY_VER}_env/bin/activate
+
+  pip install \
+    ipython \
+    isort \
+    jupyter \
+    matplotlib \
+    numpy \
+    pandas \
+    plotly \
+    pytest \
+    PyYAML \
+    requests \
+    yapf
+    # diagrams \
+    # grpcio \
+    # grpcio-tools \
+    # pyspark \
+
+  deactivate
 }
 
 install_gcloud() {
@@ -230,7 +267,8 @@ install_go
 install_bazel # requires go
 # install_jdk
 install_nodejs
-install_python
+install_python_micromamba
+install_python_virtualenv
 # install_gcloud # requires python
 install_rust
 install_uv # requires rust

@@ -171,6 +171,8 @@ install_python_virtualenv() {
     # PyYAML \
     # requests \
     # yapf \
+
+  deactivate
 }
 
 install_rust() {

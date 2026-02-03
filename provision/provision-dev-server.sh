@@ -274,15 +274,24 @@ install_nodejs() {
 }
 
 install_python_micromamba() {
-  PY_VER=3.11  # grpcio-tools hasn't supported python 3.12
+  PY_VER=3.14
   PY_ENV_PREFIX=$BIN/py$PY_VER
 
-  curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+  if [[ "$ARCH" == 'amd64' ]]; then
+    MICROMAMBA_URL='https://micro.mamba.pm/api/micromamba/linux-64/latest'
+  elif [[ "$ARCH" == 'arm64' ]]; then
+    MICROMAMBA_URL='https://micro.mamba.pm/api/micromamba/linux-aarch64/latest'
+  else
+    echo "unsupported architecture: $ARCH"
+    exit 1
+  fi
+
+  curl -Ls $MICROMAMBA_URL | tar -xvj bin/micromamba
   mv ./bin/micromamba $BIN/micromamba
   rm -rf ./bin
 
   export MAMBA_ROOT_PREFIX=$BIN/micromamba_root
-  eval "$(micromamba shell hook -s posix)"
+  eval "$(micromamba shell hook --shell posix)"
 
   printf "channels:\n  - conda-forge\n" | tee $HOME/.condarc
 
@@ -304,7 +313,7 @@ install_python_micromamba() {
     # grpcio-tools \
     # pyspark \
 
-  micromamba activate $PY_ENV_PREFIX
+  # micromamba activate $PY_ENV_PREFIX
 }
 
 install_python_venv() {
@@ -346,6 +355,8 @@ install_python_venv() {
     # grpcio \
     # grpcio-tools \
     # pyspark \
+
+  deactivate
 }
 
 install_python_virtualenv() {
@@ -389,6 +400,8 @@ install_python_virtualenv() {
     # grpcio \
     # grpcio-tools \
     # pyspark \
+
+  deactivate
 }
 
 install_gcloud() {
@@ -581,7 +594,7 @@ install_bazel # requires go
 # install_nginx
 install_nodejs
 # install_postgresql
-# install_python_micromamba
+install_python_micromamba
 # install_python_venv
 install_python_virtualenv
 # install_gcloud # requires python

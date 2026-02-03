@@ -126,15 +126,26 @@ install_microk8s() {
 }
 
 install_python_micromamba() {
-  PY_VER=3.11
+  PY_VER=3.14
   PY_ENV_PREFIX=$BIN/py$PY_VER
 
-  curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+  if [[ "$ARCH" == 'amd64' ]]; then
+    MICROMAMBA_URL='https://micro.mamba.pm/api/micromamba/linux-64/latest'
+  elif [[ "$ARCH" == 'arm64' ]]; then
+    MICROMAMBA_URL='https://micro.mamba.pm/api/micromamba/linux-aarch64/latest'
+  else
+    echo "unsupported architecture: $ARCH"
+    exit 1
+  fi
+
+  curl -Ls $MICROMAMBA_URL | tar -xvj bin/micromamba
   mv ./bin/micromamba $BIN/micromamba
   rm -rf ./bin
 
   export MAMBA_ROOT_PREFIX=$BIN/micromamba_root
-  eval "$(micromamba shell hook -s posix)"
+  eval "$(micromamba shell hook --shell posix)"
+
+  printf "channels:\n  - conda-forge\n" | tee $HOME/.condarc
 
   micromamba --yes create --prefix $PY_ENV_PREFIX \
     python=$PY_VER \
@@ -142,7 +153,7 @@ install_python_micromamba() {
     jupyter \
     -c conda-forge
 
-  micromamba activate $PY_ENV_PREFIX
+  # micromamba activate $PY_ENV_PREFIX
 }
 
 install_python_virtualenv() {
@@ -171,6 +182,8 @@ install_python_virtualenv() {
   source $PY_ENV_PREFIX/bin/activate
 
   pip install ipython jupyter
+
+  deactivate
 }
 
 install_nginx() {
