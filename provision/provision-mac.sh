@@ -129,6 +129,8 @@ install_python_micromamba() {
     pytest \
     PyYAML \
     requests \
+    scikit-learn \
+    scipy \
     yapf
     # diagrams \
     # grpcio \
@@ -158,6 +160,8 @@ install_python_virtualenv() {
     pytest \
     PyYAML \
     requests \
+    scikit-learn \
+    scipy \
     yapf
     # diagrams \
     # grpcio \

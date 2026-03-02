@@ -308,6 +308,8 @@ install_python_micromamba() {
     pytest \
     PyYAML \
     requests \
+    scikit-learn \
+    scipy \
     yapf
     # grpcio \
     # grpcio-tools \
@@ -351,6 +353,8 @@ install_python_venv() {
     pytest \
     PyYAML \
     requests \
+    scikit-learn \
+    scipy \
     yapf
     # grpcio \
     # grpcio-tools \
@@ -396,6 +400,8 @@ install_python_virtualenv() {
     pytest \
     PyYAML \
     requests \
+    scikit-learn \
+    scipy \
     yapf
     # grpcio \
     # grpcio-tools \
