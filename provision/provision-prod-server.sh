@@ -211,7 +211,6 @@ clean_up() {
   $UPGRADE
 
   sudo apt-get clean -qq
-  sudo apt-get autoclean -qq
   sudo apt-get autoremove -qq
 
   sudo rm -rf /var/lib/apt/lists/*
