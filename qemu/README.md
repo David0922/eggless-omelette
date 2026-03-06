@@ -56,7 +56,7 @@ mac: `control-a c`
 (qemu) system_powerdown
 
 # terminate qemu process immediately
-(qemu) system_powerdown
+(qemu) quit
 ```
 
 ## manually resize disk
