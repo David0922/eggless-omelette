@@ -2,6 +2,7 @@ FROM tensorflow/tensorflow:latest-gpu-jupyter
 RUN mkdir /app
 WORKDIR /app
 
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq
 RUN apt-get install -qq git vim zsh
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended

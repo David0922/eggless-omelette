@@ -1,0 +1,31 @@
+services:
+  jupyterlab:
+    build:
+      context: ./jupyterlab
+      dockerfile: Dockerfile
+    volumes:
+      - ${DATA_DIR}:/app/data
+      - ${NOTEBOOK_DIR}:/app/notebooks
+    ports:
+      - ${HOST_PORT}:80
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+      - SHELL=/usr/bin/zsh
+
+  # tensorflow_cuda:
+  #   build: ./tensorflow_cuda.dockerfile
+  #   volumes:
+  #     - ${DATA_DIR}:/app/data
+  #     - ${NOTEBOOK_DIR}:/app/notebooks
+  #   ports:
+  #     - ${HOST_PORT}:80
+  #   environment:
+  #     - DEBIAN_FRONTEND=noninteractive
+  #     - SHELL=/usr/bin/zsh
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: all
+  #             capabilities: [gpu]
