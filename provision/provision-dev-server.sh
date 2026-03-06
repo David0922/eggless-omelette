@@ -557,14 +557,14 @@ install_zsh() {
 }
 
 clean_up() {
-  sudo ufw status
-
   $UPDATE
   $UPGRADE
 
   sudo apt-get clean -qq
   sudo apt-get autoclean -qq
   sudo apt-get autoremove -qq
+
+  sudo rm -rf /var/lib/apt/lists/*
 }
 
 # -------------------------------------------------- #

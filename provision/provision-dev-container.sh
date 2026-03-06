@@ -238,6 +238,8 @@ clean_up() {
   apt-get clean -qq
   apt-get autoclean -qq
   apt-get autoremove -qq
+
+  rm -rf /var/lib/apt/lists/*
 }
 
 # -------------------------------------------------- #
