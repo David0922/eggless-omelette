@@ -2,12 +2,13 @@
 
 set -e -x
 
-# export CLOUD_IMG=/work-dir/tmp/noble-server-cloudimg-arm64.img
-export CLOUD_IMG=/work-dir/tmp/noble-server-cloudimg-amd64.img
+export CLOUD_IMG=/work-dir/tmp/noble-server-cloudimg-arm64.img
+# export CLOUD_IMG=/work-dir/tmp/noble-server-cloudimg-amd64.img
 
 export ID=1
 export ID_2=$(printf '%02d' $ID)
 export VM_ID="devbox-$ID_2"
+export MAC="52:54:00:00:00:$ID_2"
 
 export DISK_IMG=$VM_ID.qcow2
 export SEED_IMG=$VM_ID-seed.img

@@ -44,7 +44,7 @@ if [[ "$os" == 'Linux' && "$arch" == 'x86_64' ]]; then
     -nic user,model=virtio-net-pci,ipv6=off,hostfwd=tcp::22$ID_2-:22,hostfwd=tcp::30$ID_2-:3000,hostfwd=tcp::80$ID_2-:8080 \
     -nographic
 elif [[ "$os" == 'Darwin' && ( "$arch" == 'aarch64' || "$arch" == 'arm64' ) ]]; then
-  qemu-system-aarch64 \
+  sudo qemu-system-aarch64 \
     -name $VM_ID \
     -machine type=virt,accel=hvf \
     -cpu host \
@@ -53,7 +53,7 @@ elif [[ "$os" == 'Darwin' && ( "$arch" == 'aarch64' || "$arch" == 'arm64' ) ]]; 
     -bios QEMU_EFI.fd \
     -drive if=virtio,format=qcow2,file=$DISK_IMG \
     -drive if=virtio,format=raw,file=$SEED_IMG \
-    -nic user,model=virtio-net-pci,ipv6=off,hostfwd=tcp::22$ID_2-:22,hostfwd=tcp::30$ID_2-:3000,hostfwd=tcp::80$ID_2-:8080 \
+    -nic vmnet-shared,model=virtio-net-pci,mac=$MAC \
     -nographic
 else
     echo "unsupported platform: $os $arch"

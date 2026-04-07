@@ -35,6 +35,20 @@ users:
     ssh_authorized_keys:
       - $(cat id_rsa.pub)
 ssh_pwauth: true
+packages:
+  - avahi-daemon
+runcmd:
+  - systemctl enable avahi-daemon
+  - systemctl start avahi-daemon
+EOF
+
+cat << EOF > network-config
+version: 2
+ethernets:
+  enp0s1:
+    match:
+      macaddress: '$MAC'
+    dhcp4: true
 EOF
 
 cat << EOF > meta-data
@@ -42,4 +56,4 @@ instance-id: $VM_ID
 local-hostname: $VM_ID
 EOF
 
-mkisofs -output $VM_ID-seed.img -volid cidata -rational-rock -joliet user-data meta-data
+mkisofs -output $VM_ID-seed.img -volid cidata -rational-rock -joliet user-data network-config meta-data
