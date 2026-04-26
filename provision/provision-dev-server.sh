@@ -304,7 +304,6 @@ install_python_micromamba() {
     matplotlib \
     numpy \
     pandas \
-    plotly \
     pytest \
     PyYAML \
     requests \
@@ -313,6 +312,7 @@ install_python_micromamba() {
     yapf
     # grpcio \
     # grpcio-tools \
+    # plotly \
     # pyspark \
 
   # micromamba activate $PY_ENV_PREFIX
@@ -349,7 +349,6 @@ install_python_venv() {
     matplotlib \
     numpy \
     pandas \
-    plotly \
     pytest \
     PyYAML \
     requests \
@@ -358,6 +357,7 @@ install_python_venv() {
     yapf
     # grpcio \
     # grpcio-tools \
+    # plotly \
     # pyspark \
 
   deactivate
@@ -396,7 +396,6 @@ install_python_virtualenv() {
     matplotlib \
     numpy \
     pandas \
-    plotly \
     pytest \
     PyYAML \
     requests \
@@ -405,6 +404,7 @@ install_python_virtualenv() {
     yapf
     # grpcio \
     # grpcio-tools \
+    # plotly \
     # pyspark \
 
   deactivate
