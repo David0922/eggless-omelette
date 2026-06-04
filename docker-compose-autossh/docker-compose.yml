@@ -1,0 +1,39 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:lts
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./v/portainer_data:/data
+    restart: unless-stopped
+
+  tunnel:
+    image: alpine:3.22.4
+    network_mode: host
+    command: |
+      sh -c '
+        apk add --no-cache autossh openssh-client &&
+        mkdir -p /root/.ssh &&
+        cp -r /ssh_host/. /root/.ssh &&
+        chown -R root:root /root/.ssh &&
+        chmod 700 /root/.ssh &&
+        find /root/.ssh -type f -exec chmod 600 {} + &&
+        autossh -M 20000 -N \
+          -R 0.0.0.0:8081:localhost:8080 \
+          gcp-tunnel
+      '
+    volumes:
+      - ~/.ssh:/ssh_host:ro
+    restart: unless-stopped
+
+  web:
+    image: busybox:1.38.0-musl
+    network_mode: host
+    command: |
+      sh -c '
+        mkdir -p /www &&
+        echo "goodbye world" > /www/index.html &&
+        httpd -f -h /www -p 8080 -v
+      '
+    restart: unless-stopped
