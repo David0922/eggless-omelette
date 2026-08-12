@@ -1,4 +1,4 @@
-from flask import Flask, make_response
+from flask import Flask, Response, make_response
 
 from lib.my_str import MyStr
 
@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['GET'])
-def goodbye_world():
+def goodbye_world() -> Response:
   return make_response('goodbye world\n', 200)
 
 

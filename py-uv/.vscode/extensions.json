@@ -1,7 +1,3 @@
 {
-  "recommendations": [
-    "eeyore.yapf",
-    "ms-python.isort",
-    "ms-python.python"
-  ]
+  "recommendations": ["astral-sh.ty", "charliermarsh.ruff", "ms-python.python"]
 }

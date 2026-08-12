@@ -1,10 +1,15 @@
 {
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[python]": {
-    "editor.defaultFormatter": "eeyore.yapf"
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
+    "source.organizeImports": "always"
   },
-  "editor.formatOnSave": true,
-  "python.analysis.typeCheckingMode": "standard"
+  "editor.formatOnSave": true
 }

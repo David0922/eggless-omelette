@@ -8,21 +8,21 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-  "isort>=7.0.0",
-  "yapf>=0.43.0",
+  "ruff>=0.16.2",
+  "ty>=0.0.70",
 ]
 
-[tool.isort]
-profile = "black"
-line_length = 100
+[tool.ruff]
+indent-width = 2
+line-length = 100
 
-[tool.yapf]
-based_on_style = "pep8"
-column_limit = 100
-continuation_indent_width = 2
-indent_width = 2
+[tool.ruff.format]
+quote-style = "single"
 
-[tool.yapfignore]
-ignore_patterns = [
-  ".venv",
+[tool.ruff.lint]
+select = [
+  "ANN", # flake8-annotations
 ]
+
+[tool.ty.rules]
+all = "error"

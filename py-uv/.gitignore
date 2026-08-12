@@ -1,7 +1,9 @@
 __pycache__
+.ruff_cache
 .venv
 *.egg-info
 *.py[oc]
 build
 dist
+uv.lock
 wheels

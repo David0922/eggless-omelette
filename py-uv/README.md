@@ -20,11 +20,22 @@ uv add --dev PACKAGES
 uv add --requirements requirements.txt
 ```
 
+## lint
+
+```bash
+uv run ruff check
+```
+
 ## format
 
 ```bash
-uv run isort .
-uv run yapf --in-place --recursive . --parallel
+uv run ruff format
+```
+
+## check type errors
+
+```bash
+un run ty check
 ```
 
 ## run
