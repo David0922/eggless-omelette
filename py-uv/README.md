@@ -35,7 +35,7 @@ uv run ruff format
 ## check type errors
 
 ```bash
-un run ty check
+uv run ty check
 ```
 
 ## run
