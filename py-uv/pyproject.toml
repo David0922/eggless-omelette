@@ -21,7 +21,8 @@ quote-style = "single"
 
 [tool.ruff.lint]
 select = [
-  "ANN", # flake8-annotations
+  "ANN",  # flake8-annotations
+  "F401", # unused-import
 ]
 
 [tool.ty.rules]
