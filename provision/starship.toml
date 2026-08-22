@@ -1,0 +1,50 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+format = """
+${custom.py_env}\
+$username$hostname \
+$time \
+$directory \
+$git_branch$git_status
+[-> % ](blue)
+"""
+
+[custom.py_env]
+command = '''
+if [ -n "$VIRTUAL_ENV" ]; then
+  basename "$VIRTUAL_ENV"
+elif [ -n "$CONDA_PREFIX" ]; then
+  basename "$CONDA_PREFIX"
+fi
+'''
+when = '''
+test -n "$VIRTUAL_ENV" || test -n "$CONDA_PREFIX"
+'''
+format = '\($output\) '
+
+[username]
+show_always = true
+format = '[$user](green)'
+
+[hostname]
+ssh_only = false
+format = '[@$hostname](green)'
+
+[time]
+disabled = false
+format = '[\[$time\]](blue)'
+time_format = '%H:%M:%S'
+
+[directory]
+format = '\[$path\]'
+truncate_to_repo = false
+truncation_length = 0
+
+[git_branch]
+format = '[\[$branch](green)'
+
+[git_status]
+modified = ' *'
+format = '[$modified](red)[\]](green)'

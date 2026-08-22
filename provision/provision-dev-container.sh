@@ -15,20 +15,21 @@ UPGRADE='apt-get upgrade -qq'
 
 WORK_DIR=/work-dir
 BIN=$WORK_DIR/bin
+SETTINGS_DIR=$WORK_DIR/settings
 
 export PATH=$PATH:$BIN
 
 # -------------------------------------------------- #
 
 reset_dir() {
-  rm -rf $WORK_DIR $HOME/.oh-my-zsh || true
+  rm -rf $WORK_DIR || true
 
   mkdir $WORK_DIR
 
   mkdir \
     $BIN \
+    $SETTINGS_DIR \
     $WORK_DIR/downloads \
-    $WORK_DIR/settings \
     $WORK_DIR/tmp
 }
 
@@ -91,11 +92,11 @@ install_git() {
 }
 
 install_go() {
-  GO_VER=1.24.2
+  GO_VER=1.26.7
   OS=linux
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 
-  curl -O https://dl.google.com/go/$GO_TAR
+  curl -fsSL -O https://dl.google.com/go/$GO_TAR
   tar -xzf $GO_TAR -C $BIN --no-same-owner
 
   export GOPATH=$BIN/gopath
@@ -132,17 +133,11 @@ install_nodejs() {
 
 install_python_virtualenv() {
   case $(lsb_release -a | grep -i release | awk '{print $2}') in
-    20.04)
-      PY_VER=3.9
-      ;;
-    22.04)
-      PY_VER=3.10
-      ;;
-    24.04)
-      PY_VER=3.12
+    26.04)
+      PY_VER=3.14
       ;;
     *)
-      echo 'this script is expected to be run in ubuntu 20.04 / 22.04 / 24.04'
+      echo 'this script is expected to be run in ubuntu 26.04'
       exit 1
       ;;
   esac
@@ -218,17 +213,35 @@ install_vcpkg() {
   cd $WORK_DIR/downloads
 }
 
+install_zsh_plugin() {
+  local plugin_dir="$SETTINGS_DIR/zsh_plugins"
+  local plugin_path="$plugin_dir/${2}"
+  local plugin_url="https://github.com/${1}/${2}"
+
+  if [[ ! -d "$plugin_path" ]]; then
+    mkdir -p "$plugin_dir"
+    echo "installing ${2}..."
+    git clone --depth=1 "$plugin_url" "$plugin_path" \
+      || { echo "ERROR: failed to install ${2}" >&2; return 1; }
+  fi
+}
+
 install_zsh() {
+  # requires ubuntu 26.04 lts
+  $INSTALL starship
+
   $INSTALL zsh
 
+  curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/.zshrc \
+    -o $HOME/.zshrc
+
+  curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/starship.toml \
+    -o $SETTINGS_DIR/starship.toml
+
+  install_zsh_plugin zsh-users zsh-autosuggestions
+
   sed -i 's/auth\(.*\)pam_shells.so/auth sufficient pam_shells.so/' /etc/pam.d/chsh
-
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-  sed -i 's/ZSH_THEME="\(.*\)"/ZSH_THEME="candy"/' $HOME/.zshrc
-
   chsh -s $(which zsh)
-
-  printf "\nsource $WORK_DIR/settings/common.sh\n" | tee -a $HOME/.zshrc
 }
 
 clean_up() {
@@ -252,16 +265,15 @@ set_pw
 
 cd $WORK_DIR/downloads
 
-curl https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/common.sh -o $WORK_DIR/settings/common.sh
-
-curl https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/tmux.conf -o $WORK_DIR/settings/tmux.conf
+curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/tmux.conf \
+  -o $SETTINGS_DIR/tmux.conf
 
 install_essentials
 
 install_clang
 install_git
 install_go
-install_bazel # requires go
+# install_bazel # requires go
 install_nodejs
 install_python_virtualenv
 install_rust

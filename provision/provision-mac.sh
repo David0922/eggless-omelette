@@ -10,13 +10,14 @@ UPGRADE='brew upgrade --quiet'
 
 WORK_DIR=/Users/$USER/work-dir
 BIN=$WORK_DIR/bin
+SETTINGS_DIR=$WORK_DIR/settings
 
 export PATH=$PATH:$BIN
 
 # -------------------------------------------------- #
 
 reset_dir() {
-  sudo rm -rf $WORK_DIR $HOME/.oh-my-zsh || true
+  sudo rm -rf $WORK_DIR || true
 
   sudo touch /etc/synthetic.conf
   sudo sed -i '' "/work-dir/d" /etc/synthetic.conf
@@ -25,9 +26,9 @@ reset_dir() {
 
   mkdir \
     $BIN \
+    $SETTINGS_DIR \
     $WORK_DIR/downloads \
     $WORK_DIR/downloads/screenshots \
-    $WORK_DIR/settings \
     $WORK_DIR/tmp
 
   printf "$USER\t$WORK_DIR\n" | sudo tee -a /etc/synthetic.conf
@@ -67,12 +68,12 @@ install_boost() {
 }
 
 install_go() {
-  GO_VER=1.24.2
+  GO_VER=1.26.7
   OS=darwin
   ARCH=arm64
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 
-  curl -O https://dl.google.com/go/$GO_TAR
+  curl -fsSL -O https://dl.google.com/go/$GO_TAR
   tar -xzf $GO_TAR -C $BIN --no-same-owner
 
   export GOPATH=$BIN/gopath
@@ -120,7 +121,6 @@ install_python_micromamba() {
   micromamba --yes create --prefix $PY_ENV_PREFIX \
     python=$PY_VER \
     ipython \
-    isort \
     jupyter \
     matplotlib \
     numpy \
@@ -129,29 +129,29 @@ install_python_micromamba() {
     PyYAML \
     requests \
     scikit-learn \
-    scipy \
-    yapf
+    scipy
     # diagrams \
     # grpcio \
     # grpcio-tools \
+    # isort \
     # plotly \
     # pyspark \
+    # yapf \
 
   # micromamba activate $PY_ENV_PREFIX
 }
 
 install_python_virtualenv() {
-  PY_VER=3.12
+  PY_VER=3.14
 
   $INSTALL python@$PY_VER virtualenv
 
-  virtualenv -p $(which python$PY_VER) $BIN/py${PY_VER}_env
+  virtualenv -p $(which python$PY_VER) $BIN/py${PY_VER}
 
-  source $BIN/py${PY_VER}_env/bin/activate
+  source $BIN/py${PY_VER}/bin/activate
 
   pip install \
     ipython \
-    isort \
     jupyter \
     matplotlib \
     numpy \
@@ -160,13 +160,14 @@ install_python_virtualenv() {
     PyYAML \
     requests \
     scikit-learn \
-    scipy \
-    yapf
+    scipy
     # diagrams \
     # grpcio \
     # grpcio-tools \
+    # isort \
     # plotly \
     # pyspark \
+    # yapf \
 
   deactivate
 }
@@ -230,11 +231,31 @@ install_vlc() {
   $INSTALL --cask vlc
 }
 
+install_zsh_plugin() {
+  local plugin_dir="$SETTINGS_DIR/zsh_plugins"
+  local plugin_path="$plugin_dir/${2}"
+  local plugin_url="https://github.com/${1}/${2}"
+
+  if [[ ! -d "$plugin_path" ]]; then
+    mkdir -p "$plugin_dir"
+    echo "installing ${2}..."
+    git clone --depth=1 "$plugin_url" "$plugin_path" \
+      || { echo "ERROR: failed to install ${2}" >&2; return 1; }
+  fi
+}
+
 install_zsh() {
   # $INSTALL zsh
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-  sed -i '' 's/ZSH_THEME="\(.*\)"/ZSH_THEME="candy"/' $HOME/.zshrc
-  printf "\nsource $WORK_DIR/settings/common.sh\n" | tee -a $HOME/.zshrc
+
+  $INSTALL starship
+
+  curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/.zshrc \
+    -o $HOME/.zshrc
+
+  curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/starship.toml \
+    -o $SETTINGS_DIR/starship.toml
+
+  install_zsh_plugin zsh-users zsh-autosuggestions
 }
 
 clean_up() {
@@ -254,9 +275,8 @@ cd $WORK_DIR/downloads
 softwareupdate --agree-to-license --install-rosetta
 arch -x86_64 echo 'testing rosetta 2'
 
-curl https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/common-mac.sh -o $WORK_DIR/settings/common.sh
-
-curl https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/tmux.conf -o $WORK_DIR/settings/tmux.conf
+curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/tmux.conf \
+  -o $SETTINGS_DIR/tmux.conf
 
 bash -c "NONINTERACTIVE=1 $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -268,10 +288,10 @@ install_essentials
 
 # install_boost
 install_go
-install_bazel # requires go
+# install_bazel # requires go
 # install_jdk
 install_nodejs
-install_python_micromamba
+# install_python_micromamba
 install_python_virtualenv
 # install_gcloud # requires python
 install_rust
