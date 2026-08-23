@@ -274,6 +274,17 @@ install_nodejs() {
   sudo sysctl -p
 }
 
+install_pipx() {
+  export PIPX_HOME=$BIN/pipx_home
+  export PIPX_BIN_DIR=$BIN/pipx_bin
+
+  export PATH=$PATH:$PIPX_BIN_DIR
+
+  mkdir -p $PIPX_HOME $PIPX_BIN_DIR
+
+  $INSTALL pipx
+}
+
 install_python_micromamba() {
   PY_VER=3.14
   PY_ENV_PREFIX=$BIN/py$PY_VER
@@ -414,26 +425,6 @@ install_gcloud() {
   # ln -s $BIN/google-cloud-sdk/bin/kubectl $BIN/kubectl
 }
 
-install_ruby() {
-  RB_ENV=$BIN/rbenv
-
-  $INSTALL libssl-dev zlib1g-dev
-
-  git clone https://github.com/rbenv/rbenv.git $RB_ENV
-  git clone https://github.com/rbenv/ruby-build.git $RB_ENV/plugins/ruby-build
-
-  export PATH=$PATH:$RB_ENV/bin:$RB_ENV/plugins/ruby-build/bin
-
-  eval "$(rbenv init -)"
-
-  rbenv install 3.0.0
-  rbenv global 3.0.0
-
-  gem install rails
-
-  rbenv rehash
-}
-
 install_rust() {
   mkdir -p $BIN/rust
 
@@ -446,8 +437,7 @@ install_rust() {
 }
 
 install_uv() {
-  # https://docs.astral.sh/uv/getting-started/installation/#cargo
-  # requires rust
+  # requires pipx
 
   export UV_PYTHON_BIN_DIR=$BIN/uv/python_bin
   export UV_PYTHON_INSTALL_DIR=$BIN/uv/python_install
@@ -457,7 +447,7 @@ install_uv() {
   export PATH=$PATH:$UV_PYTHON_BIN_DIR
   export PATH=$PATH:$UV_TOOL_BIN_DIR
 
-  cargo install --locked uv
+  pipx install uv
 }
 
 install_mongodb() {
@@ -516,8 +506,8 @@ install_postgresql() {
 }
 
 install_conan() {
-  # requires uv
-  uv tool install conan
+  # requires pipx
+  pipx install conan
 }
 
 install_vcpkg() {
@@ -605,14 +595,14 @@ install_go
 # install_nginx
 install_nodejs
 # install_postgresql
+install_pipx
 # install_python_micromamba
 # install_python_venv
 install_python_virtualenv
 # install_gcloud # requires python
-# install_ruby
-install_rust
-install_uv # requires rust
-install_conan # requires uv
+# install_rust
+install_uv # requires pipx
+install_conan # requires pipx
 install_vcpkg
 install_zsh
 

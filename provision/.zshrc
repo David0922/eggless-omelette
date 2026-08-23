@@ -94,6 +94,11 @@ export PATH=$PATH:$VCPKG_ROOT
 
 # virtual env
 
+export PIPX_HOME=$BIN/pipx_home
+export PIPX_BIN_DIR=$BIN/pipx_bin
+
+export PATH=$PATH:$PIPX_BIN_DIR
+
 src_py() {
   if [[ "$(uname -s)" == 'Darwin' ]]; then
     source $BIN/py3.14/bin/activate

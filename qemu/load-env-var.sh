@@ -2,8 +2,8 @@
 
 set -e -x
 
-export CLOUD_IMG=/work-dir/tmp/noble-server-cloudimg-arm64.img
-# export CLOUD_IMG=/work-dir/tmp/noble-server-cloudimg-amd64.img
+export CLOUD_IMG=/work-dir/tmp/resolute-server-cloudimg-arm64.img
+# export CLOUD_IMG=/work-dir/tmp/resolute-server-cloudimg-amd64.img
 
 export ID=1
 export ID_2=$(printf '%02d' $ID)

@@ -46,5 +46,4 @@ truncation_length = 0
 format = '[\[$branch](green)'
 
 [git_status]
-modified = ' *'
-format = '[$modified](red)[\]](green)'
+format = ' [$all_status](red)[\]](green)'

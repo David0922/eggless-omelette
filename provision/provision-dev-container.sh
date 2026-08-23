@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # usage: bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-dev-container.sh)"
 
 set -e -x
@@ -131,6 +132,17 @@ install_nodejs() {
   sysctl -p
 }
 
+install_pipx() {
+  export PIPX_HOME=$BIN/pipx_home
+  export PIPX_BIN_DIR=$BIN/pipx_bin
+
+  export PATH=$PATH:$PIPX_BIN_DIR
+
+  mkdir -p $PIPX_HOME $PIPX_BIN_DIR
+
+  $INSTALL pipx
+}
+
 install_python_virtualenv() {
   case $(lsb_release -a | grep -i release | awk '{print $2}') in
     26.04)
@@ -182,8 +194,7 @@ install_rust() {
 }
 
 install_uv() {
-  # https://docs.astral.sh/uv/getting-started/installation/#cargo
-  # requires rust
+  # requires pipx
 
   export UV_PYTHON_BIN_DIR=$BIN/uv/python_bin
   export UV_PYTHON_INSTALL_DIR=$BIN/uv/python_install
@@ -193,12 +204,12 @@ install_uv() {
   export PATH=$PATH:$UV_PYTHON_BIN_DIR
   export PATH=$PATH:$UV_TOOL_BIN_DIR
 
-  cargo install --locked uv
+  pipx install uv
 }
 
 install_conan() {
-  # requires uv
-  uv tool install conan
+  # requires pipx
+  pipx install conan
 }
 
 install_vcpkg() {
@@ -275,10 +286,11 @@ install_git
 install_go
 # install_bazel # requires go
 install_nodejs
+install_pipx
 install_python_virtualenv
-install_rust
-install_uv # requires rust
-install_conan # requires uv
+# install_rust
+install_uv # requires pipx
+install_conan # requires pipx
 install_vcpkg
 install_zsh
 
