@@ -6,6 +6,16 @@ export PATH=$PATH:$BIN
 
 export EDITOR=/usr/bin/vim
 
+# powerlevel10k
+
+# enable powerlevel10k instant prompt
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source $SETTINGS_DIR/powerlevel10k/powerlevel10k.zsh-theme
+source $SETTINGS_DIR/.p10k.zsh
+
 # brew
 
 if [[ "$(uname -s)" == 'Darwin' ]]; then
@@ -19,12 +29,21 @@ setopt AUTOCD
 setopt HIST_IGNORE_SPACE
 setopt NOBEEP
 
-autoload -Uz compinit && compinit
+typeset -U path fpath PATH FPATH
+autoload -Uz compinit
+() {
+  emulate -L zsh -o extended_glob
+  if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+48) ]]; then
+    # dump is >48h old: full rescan, picks up new tools
+    compinit
+    touch ${ZDOTDIR:-$HOME}/.zcompdump
+  else
+    # recent: trust it, skip all checks
+    compinit -C
+  fi
+}
 
-bindkey '^[b' backward-word
-bindkey '^[F' end-of-line
-bindkey '^[f' forward-word
-bindkey '^[H' beginning-of-line
+bindkey -e
 
 WORDCHARS=''
 
@@ -147,23 +166,19 @@ export UV_TOOL_DIR=$BIN/uv/tool
 export PATH=$PATH:$UV_PYTHON_BIN_DIR
 export PATH=$PATH:$UV_TOOL_BIN_DIR
 
-# 0.07 sec
+if command -v uv &> /dev/null; then
+  eval "$(uv generate-shell-completion zsh)"
+fi
 
-# if command -v uv &> /dev/null; then
-#   eval "$(uv generate-shell-completion zsh)"
-# fi
-
-# if command -v uvx &> /dev/null; then
-#   eval "$(uvx --generate-shell-completion zsh)"
-# fi
+if command -v uvx &> /dev/null; then
+  eval "$(uvx --generate-shell-completion zsh)"
+fi
 
 # node.js
 
 export NPM_CONFIG_PREFIX=$BIN/npm-global
 export PATH=$PATH:$NPM_CONFIG_PREFIX/bin
 
-# starfish
-
-export STARSHIP_CONFIG=$SETTINGS_DIR/starship.toml
-
-eval "$(starship init zsh)"
+# # starfish
+# export STARSHIP_CONFIG=$SETTINGS_DIR/starship.toml
+# eval "$(starship init zsh)"

@@ -257,13 +257,16 @@ install_zsh_plugin() {
 install_zsh() {
   # $INSTALL zsh
 
-  $INSTALL starship
-
   curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/.zshrc \
     -o $HOME/.zshrc
 
-  curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/starship.toml \
-    -o $SETTINGS_DIR/starship.toml
+  # $INSTALL starship
+  # curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/starship.toml \
+  #   -o $SETTINGS_DIR/starship.toml
+
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $SETTINGS_DIR/powerlevel10k
+  curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/.p10k.zsh \
+    -o $SETTINGS_DIR/.p10k.zsh
 
   install_zsh_plugin zsh-users zsh-autosuggestions
 }
