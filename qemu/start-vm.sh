@@ -33,7 +33,9 @@ os="$(uname -s)"
 arch="$(uname -m)"
 
 if [[ "$os" == 'Linux' && "$arch" == 'x86_64' ]]; then
-  qemu-system-x86_64 \
+  ./create-bridge.sh
+
+  sudo qemu-system-x86_64 \
     -name $VM_ID \
     -machine type=q35,accel=kvm \
     -cpu host \
@@ -41,7 +43,7 @@ if [[ "$os" == 'Linux' && "$arch" == 'x86_64' ]]; then
     -m $MEMORY \
     -drive if=virtio,format=qcow2,file=$DISK_IMG \
     -drive if=virtio,format=raw,file=$SEED_IMG \
-    -nic user,model=virtio-net-pci,ipv6=off,hostfwd=tcp::22$ID_2-:22,hostfwd=tcp::30$ID_2-:3000,hostfwd=tcp::80$ID_2-:8080 \
+    -nic bridge,br=devbox-br-0,model=virtio-net-pci,mac=$MAC \
     -nographic
 elif [[ "$os" == 'Darwin' && ( "$arch" == 'aarch64' || "$arch" == 'arm64' ) ]]; then
   sudo qemu-system-aarch64 \
@@ -53,7 +55,7 @@ elif [[ "$os" == 'Darwin' && ( "$arch" == 'aarch64' || "$arch" == 'arm64' ) ]]; 
     -bios QEMU_EFI.fd \
     -drive if=virtio,format=qcow2,file=$DISK_IMG \
     -drive if=virtio,format=raw,file=$SEED_IMG \
-    -nic vmnet-shared,model=virtio-net-pci,mac=$MAC \
+    -nic vmnet-shared,model=virtio-net-pci,mac=$MAC,start-address=10.0.2.2,end-address=10.0.2.254,subnet-mask=255.255.255.0 \
     -nographic
 else
     echo "unsupported platform: $os $arch"

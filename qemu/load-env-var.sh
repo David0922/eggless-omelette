@@ -9,8 +9,9 @@ export CLOUD_IMG=/work-dir/tmp/ubuntu-26.04-minimal-cloudimg-arm64.img
 
 export ID=1
 export ID_2=$(printf '%02d' $ID)
-export VM_ID="devbox-$ID_2"
+export VM_ID="devbox-$ID_2" # also used as hostname
 export MAC="52:54:00:00:00:$ID_2"
+export VM_IP="10.0.2.$((ID + 100))" # static IP on the devbox-br-0 subnet, gateway is 10.0.2.1
 
 export DISK_IMG=$VM_ID.qcow2
 export SEED_IMG=$VM_ID-seed.img
