@@ -183,19 +183,6 @@ install_python_virtualenv() {
   deactivate
 }
 
-install_gcloud() {
-  # https://cloud.google.com/sdk/docs/downloads-interactive
-  # requires python
-
-  curl https://sdk.cloud.google.com > install.sh
-  bash install.sh --disable-prompts --install-dir=$BIN
-
-  ln -s $BIN/google-cloud-sdk/bin/gcloud $BIN/gcloud
-
-  # gcloud -q components install kubectl
-  # ln -s $BIN/google-cloud-sdk/bin/kubectl $BIN/kubectl
-}
-
 install_rust() {
   mkdir -p $BIN/rust
 
@@ -307,7 +294,6 @@ install_nodejs
 install_pipx
 # install_python_micromamba
 install_python_virtualenv
-# install_gcloud # requires python
 # install_rust
 install_uv # requires pipx
 install_conan # requires pipx

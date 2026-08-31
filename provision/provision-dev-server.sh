@@ -83,7 +83,6 @@ install_essentials() {
     curl \
     htop \
     jq \
-    sshfs \
     tmux \
     tree \
     vim \
@@ -102,36 +101,42 @@ install_essentials() {
     # protobuf-compiler \
     # screenfetch \
     # sipcalc \
+    # sshfs \
     # unzip \
     # zip \
+}
+
+install_clang() {
+  CLANG_VER=22
+
+  $INSTALL clang-$CLANG_VER clang-format-$CLANG_VER
+
+  sudo ln -s $(realpath /usr/bin/clang-$CLANG_VER) /usr/bin/clang
+  sudo ln -s $(realpath /usr/bin/clang++-$CLANG_VER) /usr/bin/clang++
+
+  sudo ln -s $(realpath /usr/bin/clang-format-$CLANG_VER) /usr/bin/clang-format
 }
 
 install_clang_latest() {
   # https://apt.llvm.org/
 
-  CLANG_VER=20
+  CLANG_VER=22
+
+  sudo mv /usr/bin/clang /usr/bin/clang_old || true
+  sudo mv /usr/bin/clang-format /usr/bin/clang-format_old || true
+  sudo mv /usr/bin/clang++ /usr/bin/clang++_old || true
+  sudo mv /usr/bin/ld.lld /usr/bin/ld.lld_old || true
+  sudo mv /usr/bin/llc /usr/bin/llc_old || true
+  sudo mv /usr/bin/lld /usr/bin/lld_old || true
+  sudo mv /usr/bin/readelf /usr/bin/readelf_old || true
 
   $INSTALL gnupg lsb-release software-properties-common
-
-  $UPDATE
 
   wget https://apt.llvm.org/llvm.sh
   chmod +x llvm.sh
   sudo ./llvm.sh $CLANG_VER
 
   $INSTALL clang-format-$CLANG_VER
-
-  sudo mv /usr/bin/readelf /usr/bin/readelf_old || true
-
-  sudo rm -rf \
-    /usr/bin/clang \
-    /usr/bin/clang-format \
-    /usr/bin/clang++ \
-    /usr/bin/ld.lld \
-    /usr/bin/llc \
-    /usr/bin/readelf \
-    /usr/bin/lld \
-  || true
 
   sudo ln -s /usr/bin/clang-$CLANG_VER /usr/bin/clang
   sudo ln -s /usr/bin/clang-format-$CLANG_VER /usr/bin/clang-format
@@ -142,27 +147,29 @@ install_clang_latest() {
   sudo ln -s /usr/lib/llvm-$CLANG_VER/bin/llvm-readelf /usr/bin/readelf
 }
 
-install_clang() {
-  CLANG_VER=19
+install_clickhouse() {
+  CLICKHOUSE_VER=26.8.1.2041
+  CLICKHOUSE_DIR=clickhouse-common-static-$CLICKHOUSE_VER
+  CLICKHOUSE_TAR=$CLICKHOUSE_DIR-$ARCH.tgz
 
-  $INSTALL clang-$CLANG_VER clang-format-$CLANG_VER
+  curl -fsSL -O https://github.com/ClickHouse/ClickHouse/releases/download/v$CLICKHOUSE_VER-lts/$CLICKHOUSE_TAR
+  tar -xzf $CLICKHOUSE_TAR
 
-  sudo ln -s $(realpath /usr/bin/clang-$CLANG_VER) /usr/bin/clang
-  sudo ln -s $(realpath /usr/bin/clang++-$CLANG_VER) /usr/bin/clang++
-
-  sudo ln -s $(realpath /usr/bin/clang-format-$CLANG_VER) /usr/bin/clang-format
+  mv ./$CLICKHOUSE_DIR/usr/bin/clickhouse $BIN
+  rm -rf ./$CLICKHOUSE_DIR
 }
 
 install_cmake() {
-  CMAKE_VER=v4.2.1
+  CMAKE_VER=4.4.3
+  CMAKE_DIR=cmake-$CMAKE_VER-linux-$(uname -m)
+  CMAKE_TAR=$CMAKE_DIR.tar.gz
 
-  $INSTALL libssl-dev openssl
+  curl -fsSL -O https://github.com/Kitware/CMake/releases/download/v$CMAKE_VER/$CMAKE_TAR
+  tar -xzf $CMAKE_TAR -C $BIN --no-same-owner
 
-  git clone --branch $CMAKE_VER --depth 1 https://github.com/Kitware/CMake.git
-  cd CMake
-  ./bootstrap && make && sudo make install
+  mv $BIN/$CMAKE_DIR $BIN/cmake
 
-  cd ..
+  export PATH=$PATH:$BIN/cmake/bin
 }
 
 install_docker() {
@@ -188,25 +195,6 @@ install_docker() {
   # sudo systemctl disable --now docker.service docker.socket
   # sudo rm -rf /var/run/docker.sock
   # dockerd-rootless-setuptool.sh install
-}
-
-setup_ebpf_dev() {
-  $INSTALL \
-    bpfcc-tools \
-    build-essential \
-    gcc-multilib \
-    libelf-dev \
-    linux-headers-$(uname -r) \
-    strace
-
-  git clone --depth 1 git://kernel.ubuntu.com/ubuntu/ubuntu-focal.git
-
-  sudo mv ubuntu-focal /kernel-src
-
-  cd /kernel-src/tools/lib/bpf
-  make && make install prefix=/usr/local
-
-  cd $WORK_DIR/downloads
 }
 
 install_git() {
@@ -235,17 +223,6 @@ install_bazel() {
   go install github.com/bazelbuild/buildtools/buildifier@latest
 }
 
-install_julia() {
-  JULIA_VER=1.6.7
-  OS=linux
-  JULIA_TAR=julia-$JULIA_VER-$OS-x86_64.tar.gz
-
-  curl -fsSL -O https://julialang-s3.julialang.org/bin/linux/x64/1.6/$JULIA_TAR
-  tar -xzf $JULIA_TAR -C $BIN --no-same-owner
-
-  export PATH=$PATH:$BIN/julia-$JULIA_VER/bin
-}
-
 install_microk8s() {
   sudo snap install microk8s --classic
 
@@ -259,19 +236,36 @@ install_nodejs() {
   export NPM_CONFIG_PREFIX=$BIN/npm-global
   export PATH=$PATH:$NPM_CONFIG_PREFIX/bin
 
-  NODE_VER=22
+  NODE_VER=24
 
-  # https://github.com/nodesource/distributions?tab=readme-ov-file#using-ubuntu-nodejs-22
+  # https://nodesource.com/products/distributions
   $INSTALL curl
-  curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh
-  sudo -E bash nodesource_setup.sh
+  curl -fsSL https://deb.nodesource.com/setup_$NODE_VER.x | sudo -E bash -
   $UPDATE
   $INSTALL nodejs
 
-  npm install --global pnpm@latest-10 yarn
+  # printf "fs.inotify.max_user_watches = 1048576\n" | sudo tee -a /etc/sysctl.conf
+  # sudo sysctl -p
 
-  printf "fs.inotify.max_user_watches = 1048576\n" | sudo tee -a /etc/sysctl.conf
-  sudo sysctl -p
+  # npm install --global pnpm@latest-10
+
+  PNPM_VER=v11.25.0
+
+  if [[ "$ARCH" == 'amd64' ]]; then
+    PNPM_TAR=pnpm-linux-x64-musl.tar.gz
+  elif [[ "$ARCH" == 'arm64' ]]; then
+    PNPM_TAR=pnpm-linux-arm64-musl.tar.gz
+  else
+    echo "unsupported architecture: $ARCH"
+    exit 1
+  fi
+
+  mkdir -p $BIN/pnpm
+
+  curl -fsSL -O https://github.com/pnpm/pnpm/releases/download/$PNPM_VER/$PNPM_TAR
+  tar -xzf $PNPM_TAR -C $BIN/pnpm --no-same-owner
+
+  export PATH=$PATH:$BIN/pnpm
 }
 
 install_pipx() {
@@ -283,6 +277,48 @@ install_pipx() {
   mkdir -p $PIPX_HOME $PIPX_BIN_DIR
 
   $INSTALL pipx
+}
+
+install_conan() {
+  # requires pipx
+  pipx install conan
+}
+
+install_uv() {
+  # requires pipx
+
+  export UV_PYTHON_BIN_DIR=$BIN/uv/python_bin
+  export UV_PYTHON_INSTALL_DIR=$BIN/uv/python_install
+  export UV_TOOL_BIN_DIR=$BIN/uv/tool_bin
+  export UV_TOOL_DIR=$BIN/uv/tool
+
+  export PATH=$PATH:$UV_PYTHON_BIN_DIR
+  export PATH=$PATH:$UV_TOOL_BIN_DIR
+
+  pipx install uv
+}
+
+install_postgresql() {
+  sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+  $UPDATE
+
+  $INSTALL postgresql-13
+
+  printf "listen_addresses = '*'\n" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
+
+  printf "ALTER USER postgres with encrypted password '$PW';\n\\q" | sudo -u postgres psql
+
+  printf 'host all all 0.0.0.0/0 md5\n' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
+
+  sudo ufw allow 5432
+
+  # sudo systemctl enable postgresql.service
+  # sudo systemctl restart postgresql.service
+  sudo systemctl stop postgresql.service
+  sudo systemctl disable postgresql.service
 }
 
 install_python_micromamba() {
@@ -410,19 +446,17 @@ install_python_virtualenv() {
   deactivate
 }
 
-install_gcloud() {
-  # https://cloud.google.com/sdk/docs/downloads-interactive
-  # requires python
+install_redis() {
+  git clone --branch 8.10.1 --depth 1 https://github.com/redis/redis.git $BIN/redis
 
-  curl https://sdk.cloud.google.com > install.sh
-  bash install.sh --disable-prompts --install-dir=$BIN
+  pushd $BIN/redis
 
-  ln -s $BIN/google-cloud-sdk/bin/gcloud $BIN/gcloud
+  git submodule update --init --recursive --depth 1
+  make
+  ln -s $(realpath ./src/redis-cli) $BIN/redis-cli
+  ln -s $(realpath ./src/redis-server) $BIN/redis-server
 
-  gcloud config set disable_usage_reporting false
-
-  # gcloud -q components install kubectl
-  # ln -s $BIN/google-cloud-sdk/bin/kubectl $BIN/kubectl
+  popd
 }
 
 install_rust() {
@@ -436,90 +470,15 @@ install_rust() {
   curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path
 }
 
-install_uv() {
-  # requires pipx
-
-  export UV_PYTHON_BIN_DIR=$BIN/uv/python_bin
-  export UV_PYTHON_INSTALL_DIR=$BIN/uv/python_install
-  export UV_TOOL_BIN_DIR=$BIN/uv/tool_bin
-  export UV_TOOL_DIR=$BIN/uv/tool
-
-  export PATH=$PATH:$UV_PYTHON_BIN_DIR
-  export PATH=$PATH:$UV_TOOL_BIN_DIR
-
-  pipx install uv
-}
-
-install_mongodb() {
-  MONGO_VER=6.0
-
-  $INSTALL gnupg
-
-  wget -qO - https://www.mongodb.org/static/pgp/server-$MONGO_VER.asc | sudo apt-key add -
-
-  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/$MONGO_VER multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-$MONGO_VER.list
-
-  $UPDATE
-
-  $INSTALL mongodb-org
-
-  sudo systemctl start mongod
-
-  sudo sed -i 's/bindIp: \(.*\)/bindIp: 0.0.0.0/' /etc/mongod.conf
-
-  sudo ufw allow 27017
-
-  # sudo systemctl enable mongod
-  # sudo systemctl restart mongod
-  sudo systemctl stop mongod
-  sudo systemctl disable mongod
-}
-
-install_nginx() {
-  $INSTALL nginx
-
-  sudo systemctl stop nginx
-  sudo systemctl disable nginx
-}
-
-install_postgresql() {
-  sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-
-  $UPDATE
-
-  $INSTALL postgresql-13
-
-  printf "listen_addresses = '*'\n" | sudo tee -a /etc/postgresql/13/main/postgresql.conf
-
-  printf "ALTER USER postgres with encrypted password '$PW';\n\\q" | sudo -u postgres psql
-
-  printf 'host all all 0.0.0.0/0 md5\n' | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
-
-  sudo ufw allow 5432
-
-  # sudo systemctl enable postgresql.service
-  # sudo systemctl restart postgresql.service
-  sudo systemctl stop postgresql.service
-  sudo systemctl disable postgresql.service
-}
-
-install_conan() {
-  # requires pipx
-  pipx install conan
-}
-
 install_vcpkg() {
-  cd $BIN
+  export VCPKG_DISABLE_METRICS=1
+  export VCPKG_ROOT=$BIN/vcpkg
+  export PATH=$PATH:$VCPKG_ROOT
+
   $INSTALL curl tar unzip zip
   $INSTALL pkg-config
-  git clone --branch 2025.01.13 --depth 1 https://github.com/microsoft/vcpkg.git
-  cd vcpkg
-  git fetch origin tag 2025.12.12
-  git checkout 2025.12.12
-  ./bootstrap-vcpkg.sh -disableMetrics
-  cd $WORK_DIR/downloads
+  git clone --branch 2026.07.29 --depth 1 https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
+  bootstrap-vcpkg.sh -disableMetrics
 }
 
 install_zsh_plugin() {
@@ -586,26 +545,23 @@ install_essentials
 
 install_clang
 # install_clang_latest
-# setup_ebpf_dev
-# install_cmake
+# install_clickhouse
+install_cmake
 install_docker
 install_git
 install_go
 # install_bazel # requires go
-# install_julia
 # install_microk8s
-# install_mongodb
-# install_nginx
 install_nodejs
-# install_postgresql
 install_pipx
+install_conan # requires pipx
+install_uv # requires pipx
+# install_postgresql
 # install_python_micromamba
 # install_python_venv
 install_python_virtualenv
-# install_gcloud # requires python
+# install_redis
 # install_rust
-install_uv # requires pipx
-install_conan # requires pipx
 install_vcpkg
 install_zsh
 

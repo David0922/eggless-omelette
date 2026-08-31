@@ -54,15 +54,15 @@ source "$SETTINGS_DIR/zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.plugin
 
 # alias
 
-alias c='clang -Wall -Wextra -Werror -std=c17 -pedantic'
+# alias c='clang -Wall -Wextra -Werror -std=c17 -pedantic'
+# alias cpp='clang++ -Wall -Wextra -Werror -std=c++20 -pedantic'
+# alias cpp2='clang++ -O2 -std=c++20'
 alias cls=clear
-alias cpp='clang++ -Wall -Wextra -Werror -std=c++20 -pedantic'
-alias cpp2='clang++ -O2 -std=c++20'
 alias diff=colordiff
 alias grep='grep --color=always'
-alias less='less -r'
 alias l='ls -aFhl --color=always'
 alias ll='ls -aFhl --color=always'
+alias less='less -r'
 alias shutdown='sudo shutdown now'
 
 alias g='git --no-pager'
@@ -87,9 +87,9 @@ function dt() {
   echo "taipei       $(TZ='Asia/Taipei' date '+%z    %Y-%m-%d    %H:%M:%S')"
 }
 
-# clickhouse
+# cmake
 
-export PATH=$PATH:/david/bin/clickhouse
+export PATH=$PATH:$BIN/cmake/bin
 
 # go
 
@@ -166,18 +166,20 @@ export UV_TOOL_DIR=$BIN/uv/tool
 export PATH=$PATH:$UV_PYTHON_BIN_DIR
 export PATH=$PATH:$UV_TOOL_BIN_DIR
 
-if command -v uv &> /dev/null; then
-  eval "$(uv generate-shell-completion zsh)"
-fi
+# if command -v uv &> /dev/null; then
+#   eval "$(uv generate-shell-completion zsh)"
+# fi
 
-if command -v uvx &> /dev/null; then
-  eval "$(uvx --generate-shell-completion zsh)"
-fi
+# if command -v uvx &> /dev/null; then
+#   eval "$(uvx --generate-shell-completion zsh)"
+# fi
 
 # node.js
 
 export NPM_CONFIG_PREFIX=$BIN/npm-global
 export PATH=$PATH:$NPM_CONFIG_PREFIX/bin
+
+export PATH=$PATH:$BIN/pnpm
 
 # # starfish
 # export STARSHIP_CONFIG=$SETTINGS_DIR/starship.toml

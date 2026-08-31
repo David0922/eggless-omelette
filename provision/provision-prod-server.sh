@@ -181,13 +181,6 @@ install_python_virtualenv() {
   deactivate
 }
 
-install_nginx() {
-  $INSTALL nginx
-
-  sudo systemctl stop nginx
-  sudo systemctl disable nginx
-}
-
 install_zsh_plugin() {
   local plugin_dir="$SETTINGS_DIR/zsh_plugins"
   local plugin_path="$plugin_dir/${2}"
@@ -252,7 +245,6 @@ install_essentials
 install_docker
 install_git
 # install_microk8s
-# install_nginx
 # install_python_micromamba
 install_python_virtualenv
 install_zsh

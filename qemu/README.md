@@ -3,13 +3,15 @@
 ```bash
 # mac
 brew install qemu
-wget https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-arm64.img
+wget https://cloud-images.ubuntu.com/minimal/releases/resolute/release/ubuntu-26.04-minimal-cloudimg-arm64.img
+# wget https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-arm64.img
 
 # ubuntu
 sudo apt install cloud-image-utils qemu-kvm
 kvm-ok # make sure that `INFO: /dev/kvm exists` and `KVM acceleration can be used`
 sudo usermod -a -G kvm $USER # log out and log back in for this to take effect
-wget https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img
+wget https://cloud-images.ubuntu.com/minimal/releases/resolute/release/ubuntu-26.04-minimal-cloudimg-amd64.img
+# wget https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img
 ```
 
 UEFI for arm: `/usr/share/qemu-efi-aarch64/QEMU_EFI.fd`

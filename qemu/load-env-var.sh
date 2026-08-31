@@ -2,8 +2,10 @@
 
 set -e -x
 
-export CLOUD_IMG=/work-dir/tmp/resolute-server-cloudimg-arm64.img
 # export CLOUD_IMG=/work-dir/tmp/resolute-server-cloudimg-amd64.img
+# export CLOUD_IMG=/work-dir/tmp/resolute-server-cloudimg-arm64.img
+# export CLOUD_IMG=/work-dir/tmp/ubuntu-26.04-minimal-cloudimg-amd64.img
+export CLOUD_IMG=/work-dir/tmp/ubuntu-26.04-minimal-cloudimg-arm64.img
 
 export ID=1
 export ID_2=$(printf '%02d' $ID)
