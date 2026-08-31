@@ -252,9 +252,9 @@ install_nodejs() {
   PNPM_VER=v11.25.0
 
   if [[ "$ARCH" == 'amd64' ]]; then
-    PNPM_TAR=pnpm-linux-x64-musl.tar.gz
+    PNPM_TAR=pnpm-linux-x64.tar.gz
   elif [[ "$ARCH" == 'arm64' ]]; then
-    PNPM_TAR=pnpm-linux-arm64-musl.tar.gz
+    PNPM_TAR=pnpm-linux-arm64.tar.gz
   else
     echo "unsupported architecture: $ARCH"
     exit 1
