@@ -48,7 +48,11 @@ ethernets:
   enp0s1:
     match:
       macaddress: '$MAC'
-    dhcp4: true
+    addresses:
+      - $VM_IP/24
+    gateway4: 10.0.2.1
+    nameservers:
+      addresses: [1.1.1.1, 8.8.8.8]
 EOF
 
 cat << EOF > meta-data
