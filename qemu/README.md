@@ -29,6 +29,9 @@ UEFI for arm: `/usr/share/qemu-efi-aarch64/QEMU_EFI.fd`
 ## start vm
 
 ```bash
+# linux only: create the shared bridge (does NOT persist across reboots)
+./create-bridge.sh
+
 ./start-vm.sh
 ```
 

@@ -42,7 +42,8 @@ runcmd:
   - systemctl start avahi-daemon
 EOF
 
-cat << EOF > network-config
+if [ "$ENABLE_IPV6" = true ]; then
+  cat << EOF > network-config
 version: 2
 ethernets:
   enp0s1:
@@ -50,10 +51,26 @@ ethernets:
       macaddress: '$MAC'
     addresses:
       - $VM_IP/24
-    gateway4: 10.0.2.1
+      - $VM_IP6/64
+    gateway4: $BRIDGE_IP
+    gateway6: $BRIDGE_IP6
+    nameservers:
+      addresses: [1.1.1.1, 8.8.8.8, 2606:4700:4700::1111, 2001:4860:4860::8888]
+EOF
+else
+  cat << EOF > network-config
+version: 2
+ethernets:
+  enp0s1:
+    match:
+      macaddress: '$MAC'
+    addresses:
+      - $VM_IP/24
+    gateway4: $BRIDGE_IP
     nameservers:
       addresses: [1.1.1.1, 8.8.8.8]
 EOF
+fi
 
 cat << EOF > meta-data
 instance-id: $VM_ID

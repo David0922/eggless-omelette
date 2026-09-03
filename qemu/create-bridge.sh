@@ -8,10 +8,8 @@ if [[ "$os" != 'Linux' ]]; then
   exit 1
 fi
 
-BRIDGE=devbox-br-0
-BRIDGE_IP=10.0.2.1
-BRIDGE_CIDR=24
-BRIDGE_NET=10.0.2.0/24
+source load-env-var.sh
+
 UPLINK_IF="$(ip route show default | awk '/default/ {print $5; exit}')"
 
 if ! ip link show "$BRIDGE" &>/dev/null; then
@@ -32,4 +30,30 @@ fi
 
 if ! sudo iptables -C FORWARD -i "$UPLINK_IF" -o "$BRIDGE" -m state --state RELATED,ESTABLISHED -j ACCEPT 2>/dev/null; then
   sudo iptables -A FORWARD -i "$UPLINK_IF" -o "$BRIDGE" -m state --state RELATED,ESTABLISHED -j ACCEPT
+fi
+
+if [ "$ENABLE_IPV6" = true ]; then
+  UPLINK_IF6="$(ip -6 route show default | awk '/default/ {print $5; exit}')"
+  if [ -z "$UPLINK_IF6" ]; then
+    echo 'ENABLE_IPV6 is true but the host has no IPv6 default route; cannot determine uplink interface for NAT66'
+    exit 1
+  fi
+
+  if ! ip -6 addr show dev "$BRIDGE" | grep -q "$BRIDGE_IP6/$BRIDGE_CIDR6"; then
+    sudo ip -6 addr add "$BRIDGE_IP6/$BRIDGE_CIDR6" dev "$BRIDGE"
+  fi
+
+  sudo sysctl -w net.ipv6.conf.all.forwarding=1
+
+  if ! sudo ip6tables -t nat -C POSTROUTING -s "$BRIDGE_NET6" -o "$UPLINK_IF6" -j MASQUERADE 2>/dev/null; then
+    sudo ip6tables -t nat -A POSTROUTING -s "$BRIDGE_NET6" -o "$UPLINK_IF6" -j MASQUERADE
+  fi
+
+  if ! sudo ip6tables -C FORWARD -i "$BRIDGE" -o "$UPLINK_IF6" -j ACCEPT 2>/dev/null; then
+    sudo ip6tables -A FORWARD -i "$BRIDGE" -o "$UPLINK_IF6" -j ACCEPT
+  fi
+
+  if ! sudo ip6tables -C FORWARD -i "$UPLINK_IF6" -o "$BRIDGE" -m state --state RELATED,ESTABLISHED -j ACCEPT 2>/dev/null; then
+    sudo ip6tables -A FORWARD -i "$UPLINK_IF6" -o "$BRIDGE" -m state --state RELATED,ESTABLISHED -j ACCEPT
+  fi
 fi

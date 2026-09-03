@@ -33,7 +33,10 @@ os="$(uname -s)"
 arch="$(uname -m)"
 
 if [[ "$os" == 'Linux' && "$arch" == 'x86_64' ]]; then
-  ./create-bridge.sh
+  if ! ip link show "$BRIDGE" &>/dev/null; then
+    echo "bridge $BRIDGE doesn't exist, run ./create-bridge.sh first"
+    exit 1
+  fi
 
   sudo qemu-system-x86_64 \
     -name $VM_ID \
@@ -43,7 +46,7 @@ if [[ "$os" == 'Linux' && "$arch" == 'x86_64' ]]; then
     -m $MEMORY \
     -drive if=virtio,format=qcow2,file=$DISK_IMG \
     -drive if=virtio,format=raw,file=$SEED_IMG \
-    -nic bridge,br=devbox-br-0,model=virtio-net-pci,mac=$MAC \
+    -nic bridge,br=$BRIDGE,model=virtio-net-pci,mac=$MAC \
     -nographic
 elif [[ "$os" == 'Darwin' && ( "$arch" == 'aarch64' || "$arch" == 'arm64' ) ]]; then
   sudo qemu-system-aarch64 \
