@@ -25,9 +25,18 @@ fi
 
 # zsh
 
+export HISTSIZE=5000
+export SAVEHIST=5000
+
 setopt AUTOCD
+setopt EXTENDED_HISTORY
+setopt HIST_FCNTL_LOCK
+setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt INC_APPEND_HISTORY_TIME
 setopt NOBEEP
+setopt SHARE_HISTORY
 
 typeset -U path fpath PATH FPATH
 autoload -Uz compinit
@@ -47,7 +56,7 @@ bindkey -e
 
 WORDCHARS=''
 
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' '+l:|=* r:|=*'
 zstyle ':completion:*' menu select
 
 source "$SETTINGS_DIR/zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
@@ -77,6 +86,10 @@ alias tmn='tmux new -s'
 if [[ "$(uname -s)" == 'Darwin' ]]; then
   alias brave='open -a "Brave Browser" -n --args --incognito --new-window'
   alias chrome='open -a "Google Chrome" -n --args --incognito --new-window'
+
+  function adb_find() {
+    adb shell find '/sdcard/david/ebooks' | grep -i $1
+  }
 fi
 
 function dt() {
