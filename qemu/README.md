@@ -76,3 +76,17 @@ qemu-img resize file.qcow2 50G
 # increase the disk size by 50 GB
 qemu-img resize file.qcow2 +50G
 ```
+
+## todo
+
+- networking modes
+  - mac
+    - user-mode networking
+    - vmnet-shared
+    -
+  - linux
+    - user-mode networking
+    - bridge
+- set root password with virt-customize (linux only)
+- merge into one script; wrap each .sh into a function
+- detect genisoimage or mkisofs in create-seed.sh
