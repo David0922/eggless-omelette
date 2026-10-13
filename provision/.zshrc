@@ -90,6 +90,10 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
   function adb_find() {
     adb shell find '/sdcard/david/ebooks' | grep -i $1
   }
+
+  function adb_rm() {
+    adb shell "rm '$1'"
+  }
 fi
 
 function dt() {
