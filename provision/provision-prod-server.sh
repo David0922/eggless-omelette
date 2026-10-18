@@ -8,7 +8,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 export ARCH=$(dpkg --print-architecture)
 
-INSTALL='sudo apt-get install -qq'
+INSTALL='sudo apt-get install -qq -y --no-install-recommends'
 UPDATE='sudo apt-get update -qq'
 UPGRADE='sudo apt-get upgrade -qq'
 
@@ -133,7 +133,9 @@ install_nerdctl() {
   NERDCTL_TAR_URL=https://github.com/containerd/nerdctl/releases/download/v$NERDCTL_VER/$NERDCTL_TAR
 
   curl -fsSL -O $NERDCTL_TAR_URL
-  tar -xzf $NERDCTL_TAR -C /usr/local --no-same-owner
+  sudo tar -xzf $NERDCTL_TAR -C /usr/local --no-same-owner
+
+  $INSTALL uidmap
 
   cat << EOT | sudo tee /etc/apparmor.d/usr.local.bin.rootlesskit
 abi <abi/4.0>,
@@ -248,6 +250,7 @@ clean_up() {
   $UPGRADE
 
   sudo apt-get clean -qq
+  sudo apt-get autoclean -qq
   sudo apt-get autoremove -qq
 
   sudo rm -rf /var/lib/apt/lists/*

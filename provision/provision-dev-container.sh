@@ -10,7 +10,7 @@ export ARCH=$(dpkg --print-architecture)
 
 PW=0000
 
-INSTALL='apt-get install -qq'
+INSTALL='apt-get install -qq -y --no-install-recommends'
 UPDATE='apt-get update -qq'
 UPGRADE='apt-get upgrade -qq'
 
@@ -77,9 +77,13 @@ install_essentials() {
 }
 
 install_clang() {
-  CLANG_VER=19
+  CLANG_VER=22
 
   $INSTALL clang-$CLANG_VER clang-format-$CLANG_VER
+
+  sudo mv /usr/bin/clang /usr/bin/clang_old || true
+  sudo mv /usr/bin/clang++ /usr/bin/clang++_old || true
+  sudo mv /usr/bin/clang-format /usr/bin/clang-format_old || true
 
   ln -s $(realpath /usr/bin/clang-$CLANG_VER) /usr/bin/clang
   ln -s $(realpath /usr/bin/clang++-$CLANG_VER) /usr/bin/clang++
@@ -263,6 +267,7 @@ clean_up() {
   $UPGRADE
 
   apt-get clean -qq
+  apt-get autoclean -qq
   apt-get autoremove -qq
 
   rm -rf /var/lib/apt/lists/*

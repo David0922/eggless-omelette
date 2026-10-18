@@ -1,7 +1,8 @@
 FROM ubuntu:26.04
 
-RUN apt-get update
-RUN apt-get install -y curl sudo
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -qq
+RUN apt-get install -qq -y --no-install-recommends curl sudo
 
 RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-dev-container.sh)"
 
