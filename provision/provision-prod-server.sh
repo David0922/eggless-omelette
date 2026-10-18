@@ -126,6 +126,34 @@ install_microk8s() {
   sudo microk8s stop
 }
 
+install_nerdctl() {
+  NERDCTL_VER=2.4.1
+  OS=linux
+  NERDCTL_TAR=nerdctl-full-$NERDCTL_VER-linux-$ARCH.tar.gz
+  NERDCTL_TAR_URL=https://github.com/containerd/nerdctl/releases/download/v$NERDCTL_VER/$NERDCTL_TAR
+
+  curl -fsSL -O $NERDCTL_TAR_URL
+  tar -xzf $NERDCTL_TAR -C /usr/local --no-same-owner
+
+  cat << EOT | sudo tee /etc/apparmor.d/usr.local.bin.rootlesskit
+abi <abi/4.0>,
+include <tunables/global>
+
+/usr/local/bin/rootlesskit flags=(unconfined) {
+  userns,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include if exists <local/usr.local.bin.rootlesskit>
+}
+EOT
+
+  sudo systemctl restart apparmor.service
+
+  containerd-rootless-setuptool.sh install
+  containerd-rootless-setuptool.sh install-buildkit
+  containerd-rootless-setuptool.sh install-stargz
+}
+
 install_python_micromamba() {
   PY_VER=3.14
   PY_ENV_PREFIX=$BIN/py$PY_VER
@@ -242,9 +270,10 @@ curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/pro
 
 install_essentials
 
-install_docker
+# install_docker
 install_git
 # install_microk8s
+install_nerdctl
 # install_python_micromamba
 install_python_virtualenv
 install_zsh
