@@ -164,7 +164,7 @@ install_clickhouse() {
 }
 
 install_cmake() {
-  CMAKE_VER=4.4.3
+  CMAKE_VER=4.4.5
   CMAKE_DIR=cmake-$CMAKE_VER-linux-$(uname -m)
   CMAKE_TAR=$CMAKE_DIR.tar.gz
 
@@ -207,7 +207,7 @@ install_git() {
 }
 
 install_go() {
-  GO_VER=1.26.7
+  GO_VER=1.27.4
   OS=linux
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 
@@ -270,7 +270,7 @@ install_nodejs() {
   export NPM_CONFIG_PREFIX=$BIN/npm-global
   export PATH=$PATH:$NPM_CONFIG_PREFIX/bin
 
-  NODE_VER=24
+  NODE_VER=26
 
   # https://nodesource.com/products/distributions
   $INSTALL curl
@@ -283,7 +283,7 @@ install_nodejs() {
 
   # npm install --global pnpm@latest-10
 
-  PNPM_VER=v11.25.0
+  PNPM_VER=v12.18.0
 
   if [[ "$ARCH" == 'amd64' ]]; then
     PNPM_TAR=pnpm-linux-x64.tar.gz

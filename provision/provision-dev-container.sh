@@ -10,9 +10,9 @@ export ARCH=$(dpkg --print-architecture)
 
 PW=0000
 
-INSTALL='apt-get install -qq -y --no-install-recommends'
-UPDATE='apt-get update -qq'
-UPGRADE='apt-get upgrade -qq'
+INSTALL='sudo apt-get install -qq -y --no-install-recommends'
+UPDATE='sudo apt-get update -qq'
+UPGRADE='sudo apt-get upgrade -qq'
 
 WORK_DIR=/work-dir
 BIN=$WORK_DIR/bin
@@ -23,9 +23,12 @@ export PATH=$PATH:$BIN
 # -------------------------------------------------- #
 
 reset_dir() {
-  rm -rf $WORK_DIR || true
+  sudo rm -rf $WORK_DIR || true
 
-  mkdir $WORK_DIR
+  sudo mkdir $WORK_DIR
+  sudo chown $USER $WORK_DIR
+
+  sudo ln -s $WORK_DIR /$USER
 
   mkdir \
     $BIN \
@@ -37,41 +40,42 @@ reset_dir() {
 enable_ssh_pw_auth() {
   $INSTALL openssh-server
 
+  sudo ssh-keygen -A
+
   printf '%s\n' \
     'AllowTcpForwarding yes' \
     'GatewayPorts yes' \
-    'PasswordAuthentication yes' \
-    'PermitRootLogin yes' | tee /etc/ssh/sshd_config.d/devbox.conf
-
-  # service ssh restart || true
-  # systemctl restart ssh.service || true
+    'PasswordAuthentication no' \
+    'PermitRootLogin yes' | sudo tee /etc/ssh/sshd_config.d/devbox.conf
 }
 
 set_pw() {
-  printf "$PW\n$PW\n" | passwd root
+  printf "$PW\n$PW\n" | sudo passwd root
+  printf "$PW\n$PW\n" | sudo passwd $USER
 }
 
 install_essentials() {
   $INSTALL \
     build-essential \
-    busybox \
-    cmake \
     colordiff \
     curl \
     htop \
     iputils-ping \
     jq \
-    make \
-    screenfetch \
+    lsb-release \
     tmux \
     tree \
     vim \
     wget
     # autossh \
+    # busybox \
+    # cmake \
     # libboost-all-dev \
+    # make \
     # openjdk-21-jdk \
     # openssl \
     # protobuf-compiler \
+    # screenfetch \
     # unzip \
     # zip \
 }
@@ -85,10 +89,23 @@ install_clang() {
   sudo mv /usr/bin/clang++ /usr/bin/clang++_old || true
   sudo mv /usr/bin/clang-format /usr/bin/clang-format_old || true
 
-  ln -s $(realpath /usr/bin/clang-$CLANG_VER) /usr/bin/clang
-  ln -s $(realpath /usr/bin/clang++-$CLANG_VER) /usr/bin/clang++
+  sudo ln -s $(realpath /usr/bin/clang-$CLANG_VER) /usr/bin/clang
+  sudo ln -s $(realpath /usr/bin/clang++-$CLANG_VER) /usr/bin/clang++
 
-  ln -s $(realpath /usr/bin/clang-format-$CLANG_VER) /usr/bin/clang-format
+  sudo ln -s $(realpath /usr/bin/clang-format-$CLANG_VER) /usr/bin/clang-format
+}
+
+install_cmake() {
+  CMAKE_VER=4.4.5
+  CMAKE_DIR=cmake-$CMAKE_VER-linux-$(uname -m)
+  CMAKE_TAR=$CMAKE_DIR.tar.gz
+
+  curl -fsSL -O https://github.com/Kitware/CMake/releases/download/v$CMAKE_VER/$CMAKE_TAR
+  tar -xzf $CMAKE_TAR -C $BIN --no-same-owner
+
+  mv $BIN/$CMAKE_DIR $BIN/cmake
+
+  export PATH=$PATH:$BIN/cmake/bin
 }
 
 install_git() {
@@ -97,7 +114,7 @@ install_git() {
 }
 
 install_go() {
-  GO_VER=1.26.7
+  GO_VER=1.27.4
   OS=linux
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
 
@@ -121,19 +138,31 @@ install_nodejs() {
   export NPM_CONFIG_PREFIX=$BIN/npm-global
   export PATH=$PATH:$NPM_CONFIG_PREFIX/bin
 
-  NODE_VER=22
+  NODE_VER=26
 
-  # https://github.com/nodesource/distributions?tab=readme-ov-file#using-ubuntu-nodejs-22
+  # https://nodesource.com/products/distributions
   $INSTALL curl
-  curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh
-  sudo -E bash nodesource_setup.sh
+  curl -fsSL https://deb.nodesource.com/setup_$NODE_VER.x | sudo -E bash -
   $UPDATE
   $INSTALL nodejs
 
-  npm install --global pnpm@latest-10 yarn
+  PNPM_VER=v12.18.0
 
-  printf "fs.inotify.max_user_watches = 1048576\n" | tee -a /etc/sysctl.conf
-  sysctl -p
+  if [[ "$ARCH" == 'amd64' ]]; then
+    PNPM_TAR=pnpm-linux-x64.tar.gz
+  elif [[ "$ARCH" == 'arm64' ]]; then
+    PNPM_TAR=pnpm-linux-arm64.tar.gz
+  else
+    echo "unsupported architecture: $ARCH"
+    exit 1
+  fi
+
+  mkdir -p $BIN/pnpm
+
+  curl -fsSL -O https://github.com/pnpm/pnpm/releases/download/$PNPM_VER/$PNPM_TAR
+  tar -xzf $PNPM_TAR -C $BIN/pnpm --no-same-owner
+
+  export PATH=$PATH:$BIN/pnpm
 }
 
 install_pipx() {
@@ -145,6 +174,25 @@ install_pipx() {
   mkdir -p $PIPX_HOME $PIPX_BIN_DIR
 
   $INSTALL pipx
+}
+
+install_conan() {
+  # requires pipx
+  pipx install conan
+}
+
+install_uv() {
+  # requires pipx
+
+  export UV_PYTHON_BIN_DIR=$BIN/uv/python_bin
+  export UV_PYTHON_INSTALL_DIR=$BIN/uv/python_install
+  export UV_TOOL_BIN_DIR=$BIN/uv/tool_bin
+  export UV_TOOL_DIR=$BIN/uv/tool
+
+  export PATH=$PATH:$UV_PYTHON_BIN_DIR
+  export PATH=$PATH:$UV_TOOL_BIN_DIR
+
+  pipx install uv
 }
 
 install_python_virtualenv() {
@@ -197,35 +245,15 @@ install_rust() {
   curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path
 }
 
-install_uv() {
-  # requires pipx
-
-  export UV_PYTHON_BIN_DIR=$BIN/uv/python_bin
-  export UV_PYTHON_INSTALL_DIR=$BIN/uv/python_install
-  export UV_TOOL_BIN_DIR=$BIN/uv/tool_bin
-  export UV_TOOL_DIR=$BIN/uv/tool
-
-  export PATH=$PATH:$UV_PYTHON_BIN_DIR
-  export PATH=$PATH:$UV_TOOL_BIN_DIR
-
-  pipx install uv
-}
-
-install_conan() {
-  # requires pipx
-  pipx install conan
-}
-
 install_vcpkg() {
-  cd $BIN
+  export VCPKG_DISABLE_METRICS=1
+  export VCPKG_ROOT=$BIN/vcpkg
+  export PATH=$PATH:$VCPKG_ROOT
+
   $INSTALL curl tar unzip zip
   $INSTALL pkg-config
-  git clone --branch 2025.01.13 --depth 1 https://github.com/microsoft/vcpkg.git
-  cd vcpkg
-  git fetch origin tag 2025.12.12
-  git checkout 2025.12.12
-  ./bootstrap-vcpkg.sh -disableMetrics
-  cd $WORK_DIR/downloads
+  git clone --branch 2026.07.29 --depth 1 https://github.com/microsoft/vcpkg.git $VCPKG_ROOT
+  bootstrap-vcpkg.sh -disableMetrics
 }
 
 install_zsh_plugin() {
@@ -258,7 +286,7 @@ install_zsh() {
 
   install_zsh_plugin zsh-users zsh-autosuggestions
 
-  sed -i 's/auth\(.*\)pam_shells.so/auth sufficient pam_shells.so/' /etc/pam.d/chsh
+  sudo sed -i 's/auth\(.*\)pam_shells.so/auth sufficient pam_shells.so/' /etc/pam.d/chsh
   chsh -s $(which zsh)
 }
 
@@ -266,11 +294,11 @@ clean_up() {
   $UPDATE
   $UPGRADE
 
-  apt-get clean -qq
-  apt-get autoclean -qq
-  apt-get autoremove -qq
+  sudo apt-get clean -qq
+  sudo apt-get autoclean -qq
+  sudo apt-get autoremove -qq
 
-  rm -rf /var/lib/apt/lists/*
+  sudo rm -rf /var/lib/apt/lists/*
 }
 
 # -------------------------------------------------- #
@@ -290,15 +318,16 @@ curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/pro
 install_essentials
 
 install_clang
+install_cmake
 install_git
 install_go
 # install_bazel # requires go
 install_nodejs
 install_pipx
+install_conan # requires pipx
+install_uv # requires pipx
 install_python_virtualenv
 # install_rust
-install_uv # requires pipx
-install_conan # requires pipx
 install_vcpkg
 install_zsh
 

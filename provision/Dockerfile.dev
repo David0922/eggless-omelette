@@ -2,8 +2,17 @@ FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq
-RUN apt-get install -qq -y --no-install-recommends curl sudo
+RUN apt-get install -qq -y --no-install-recommends ca-certificates curl sudo
 
-RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-dev-container.sh)"
+RUN useradd -m david
+RUN echo "david ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/david
+RUN chmod 0440 /etc/sudoers.d/david
+USER david
 
-CMD ["/usr/sbin/sshd", "-D"]
+RUN USER=david bash -c "$(curl -fsSL https://raw.githubusercontent.com/David0922/eggless-omelette/main/provision/provision-dev-container.sh)"
+
+# COPY --chown=david --chmod=700 provision-dev-container.sh .
+# RUN chmod +x provision-dev-container.sh
+# RUN USER=david ./provision-dev-container.sh
+
+CMD ["sudo", "/usr/sbin/sshd", "-D", "-e", "-p", "2222"]
