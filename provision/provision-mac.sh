@@ -68,7 +68,7 @@ install_boost() {
 }
 
 install_go() {
-  GO_VER=1.26.7
+  GO_VER=1.27.4
   OS=darwin
   ARCH=arm64
   GO_TAR=go$GO_VER.$OS-$ARCH.tar.gz
